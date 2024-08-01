@@ -49,6 +49,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -68,5 +69,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     // Retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter)
+//    implementation(libs.converter)
 }
