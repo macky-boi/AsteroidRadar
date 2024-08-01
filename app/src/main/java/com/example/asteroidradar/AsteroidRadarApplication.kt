@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 const val TAG = "AsteroidRadarApplication"
 
@@ -22,8 +23,9 @@ class AsteroidRadarApplication: Application() {
         super.onCreate()
         container = DefaultAppContainer()
         appScope.launch {
-            val nearEarthObjects = container.asteroidRadarRepository.getNearEarthObjects()
-            Log.i(TAG, nearEarthObjects)
+            val response = container.asteroidRadarRepository.getNearEarthObjects() // Get the raw response as a string
+            Log.d("AsteroidRadarApplication", response)
+
         }
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.jetbrainsKotlinSerialization)
 }
 
 android {
@@ -69,5 +70,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     // Retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.serialization.converter)
+    implementation(libs.squareup.okhttp)
+
 }
