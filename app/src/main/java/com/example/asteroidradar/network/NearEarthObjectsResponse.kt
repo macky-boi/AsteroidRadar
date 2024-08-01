@@ -6,29 +6,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NeoFeedResponse(
-    val links: Links,
-    val page: Page,
     @SerialName("near_earth_objects") val nearEarthObjects: Map<String, List<NearEarthObject>>
-)
-
-@Serializable
-data class Links(
-    val self: String
-)
-
-@Serializable
-data class Page(
-    val size: Int,
-    @SerialName("total_elements") val totalElements: Int,
-    @SerialName("total_pages") val totalPages: Int,
-    val number: Int
 )
 
 @Serializable
 data class NearEarthObject(
     val id: String,
     val name: String,
-    @SerialName("nasa_jpl_url") val nasaJplUrl: String,
+    @SerialName("is_potentially_hazardous_asteroid") val isHazardous: Boolean,
+    @SerialName("absolute_magnitude_h") val absoluteMagnitude: Double,
     @SerialName("close_approach_data") val closeApproachData: List<CloseApproachData>
 )
 
@@ -41,15 +27,11 @@ data class CloseApproachData(
 
 @Serializable
 data class MissDistance(
-    val astronomical: String,
-    val kilometers: String,
-    val lunar: String,
-    val miles: String
+    val astronomical: String
 )
+
 
 @Serializable
 data class RelativeVelocity(
-    @SerialName("kilometers_per_second") val kilometersPerSecond: String,
-    @SerialName("kilometers_per_hour") val kilometersPerHour: String,
-    @SerialName("miles_per_hour") val milesPerHour: String
+    @SerialName("kilometers_per_second") val kilometersPerSecond: String
 )

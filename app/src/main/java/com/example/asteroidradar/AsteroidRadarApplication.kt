@@ -24,8 +24,7 @@ class AsteroidRadarApplication: Application() {
         container = DefaultAppContainer()
         appScope.launch {
             val response = container.asteroidRadarRepository.getNearEarthObjects() // Get the raw response as a string
-            Log.d("AsteroidRadarApplication", response)
-
+            Log.d("AsteroidRadarApplication", response.toString())
         }
     }
 }
