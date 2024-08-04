@@ -10,4 +10,10 @@ interface NeoApiService {
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String = "DEMO_KEY"
     ): NeoFeedResponse
+
+    @GET("/planetary/apod")
+    suspend fun getPictureOfTheDay(
+        @Query("thumbs") thumbs: Boolean = true,
+        @Query("api_key") apiKey: String = "DEMO_KEY"
+    ): AstronomyPictureOfTheDay
 }
