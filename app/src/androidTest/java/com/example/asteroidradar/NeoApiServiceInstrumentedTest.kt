@@ -17,11 +17,10 @@ class NeoApiServiceInstrumentedTest {
     @Test
     fun testGetNearEarthObjects() = runBlocking {
         val container = DefaultAppContainer()
-        val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
         try {
-            val response = container.asteroidRadarRepository.getNearEarthObjects() // Get the raw response as a string
-            Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects | response: ${response.toString()}")
+            val response = container.asteroidRadarRepository.getNearEarthObjects()
+            Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
             assert(response.nearEarthObjects.isNotEmpty())
         } catch (e: HttpException) {
             fail("HTTP error: ${e.message}")
@@ -30,19 +29,18 @@ class NeoApiServiceInstrumentedTest {
         }
     }
 
-    fun getNearEarthObjectsNetworkRequest() {
+    @Test
+    fun testGetNearEarthObjectsNetworkRequest() = runBlocking {
         val container = DefaultAppContainer()
-        val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-        appScope.launch {
-            var networkRequest_success = false
-            try {
-                val response = container.asteroidRadarRepository.getNearEarthObjects() // Get the raw response as a string
-                println("getNearEarthObjects | response: ${response.toString()}")
-                networkRequest_success = true
-            } catch (e: Exception) {
-                println("getNearEarthObjects | Unexpected error: ${e.message}")
-            }
-            assert(networkRequest_success)
+
+        try {
+            val response = container.asteroidRadarRepository.getPictureOfTheDay()
+            Log.i("NeoApiServiceInstrumentedTest", "getPictureOfTheDay(): $response")
+            assert(response.title.isNotEmpty())
+        } catch (e: HttpException) {
+            fail("HTTP error: ${e.message}")
+        } catch (e: Exception) {
+            fail("Unexpected error: ${e.message}")
         }
     }
 }
