@@ -1,13 +1,8 @@
 package com.example.asteroidradar
 
 import android.util.Log
-import androidx.test.platform.app.InstrumentationRegistry
 import com.example.asteroidradar.data.DefaultAppContainer
 import junit.framework.TestCase.fail
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import retrofit2.HttpException
@@ -21,7 +16,7 @@ class NeoApiServiceInstrumentedTest {
         try {
             val response = container.asteroidRadarRepository.getNearEarthObjects()
             Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
-            assert(response.nearEarthObjects.isNotEmpty())
+            assert(response.asteroids.isNotEmpty())
         } catch (e: HttpException) {
             fail("HTTP error: ${e.message}")
         } catch (e: Exception) {

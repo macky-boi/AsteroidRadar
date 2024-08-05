@@ -2,17 +2,17 @@ package com.example.asteroidradar.data.repository
 
 import com.example.asteroidradar.network.AstronomyPictureOfTheDay
 import com.example.asteroidradar.network.NeoApiService
-import com.example.asteroidradar.network.NeoFeedResponse
+import com.example.asteroidradar.network.Asteroids
 
 interface AsteroidsRadarRepository {
-    suspend fun getNearEarthObjects(): NeoFeedResponse
+    suspend fun getNearEarthObjects(): Asteroids
     suspend fun getPictureOfTheDay(): AstronomyPictureOfTheDay
 }
 
 class AsteroidRadarRepositoryImpl (
     private val neoApiService: NeoApiService
 ): AsteroidsRadarRepository {
-    override suspend fun getNearEarthObjects(): NeoFeedResponse {
+    override suspend fun getNearEarthObjects(): Asteroids {
         return neoApiService.getNearEarthObjects("2024-08-01", "2024-08-01")
     }
 

@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class NeoFeedResponse(
-    @SerialName("near_earth_objects") val nearEarthObjects: Map<String, List<NearEarthObject>>
+data class Asteroids(
+    @SerialName("asteroids") val asteroids: Map<String, List<NearEarthObject>>
 )
 
 @Serializable

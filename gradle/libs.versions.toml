@@ -13,7 +13,7 @@ retrofitSerialization = "1.0.0"
 squareup = "4.11.0"
 kotlinxSerializationJson = "1.5.1"
 room = "2.6.1"
-ksp = "2.0.0-1.0.24"
+ksp = "1.9.0-1.0.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
