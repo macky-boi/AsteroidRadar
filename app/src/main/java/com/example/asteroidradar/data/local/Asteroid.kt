@@ -3,13 +3,9 @@ package com.example.asteroidradar.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.asteroidradar.data.remote.CloseApproachData
-import com.example.asteroidradar.data.remote.MissDistance
-import com.example.asteroidradar.data.remote.RelativeVelocity
-import kotlinx.serialization.SerialName
 
 @Entity
-data class AsteroidEntity (
+data class Asteroid (
     @PrimaryKey val id: String,
     val name: String,
     @ColumnInfo("is_potentially") val isHazardous: Boolean,

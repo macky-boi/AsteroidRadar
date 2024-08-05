@@ -1,6 +1,6 @@
 package com.example.asteroidradar.data.remote
 
-import com.example.asteroidradar.data.local.AsteroidEntity
+import com.example.asteroidradar.data.local.Asteroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,8 +18,8 @@ data class Asteroid(
     @SerialName("absolute_magnitude_h") val absoluteMagnitude: Double,
     @SerialName("close_approach_data") val closeApproachData: List<CloseApproachData>
 ) {
-    fun toEntity(): AsteroidEntity {
-        return AsteroidEntity(
+    fun toEntity(): Asteroid {
+        return Asteroid(
             id = id,
             name = name,
             isHazardous = isHazardous,
