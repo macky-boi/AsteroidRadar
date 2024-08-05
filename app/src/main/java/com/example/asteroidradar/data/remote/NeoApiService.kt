@@ -1,4 +1,4 @@
-package com.example.asteroidradar.network
+package com.example.asteroidradar.data.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,11 +9,11 @@ interface NeoApiService {
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String = "DEMO_KEY"
-    ): Asteroids
+    ): AsteroidsNetwork
 
     @GET("/planetary/apod")
     suspend fun getPictureOfTheDay(
         @Query("thumbs") thumbs: Boolean = true,
         @Query("api_key") apiKey: String = "DEMO_KEY"
-    ): AstronomyPictureOfTheDay
+    ): AstronomyPictureOfTheDayNetwork
 }

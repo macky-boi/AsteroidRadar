@@ -1,10 +1,10 @@
-package com.example.asteroidradar.network
+package com.example.asteroidradar.data.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AstronomyPictureOfTheDay(
+data class AstronomyPictureOfTheDayNetwork(
     val date: String,
     val explanation: String,
     @SerialName("media_type") val mediaType: String,

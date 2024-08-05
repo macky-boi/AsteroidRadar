@@ -1,22 +1,35 @@
-package com.example.asteroidradar.network
+package com.example.asteroidradar.data.remote
 
+import com.example.asteroidradar.data.local.AsteroidEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class Asteroids(
-    @SerialName("asteroids") val asteroids: Map<String, List<NearEarthObject>>
+data class AsteroidsNetwork(
+    @SerialName("near_earth_objects") val asteroids: Map<String, List<Asteroid>>
 )
 
 @Serializable
-data class NearEarthObject(
+data class Asteroid(
     val id: String,
     val name: String,
     @SerialName("is_potentially_hazardous_asteroid") val isHazardous: Boolean,
     @SerialName("absolute_magnitude_h") val absoluteMagnitude: Double,
     @SerialName("close_approach_data") val closeApproachData: List<CloseApproachData>
-)
+) {
+    fun toEntity(): AsteroidEntity {
+        return AsteroidEntity(
+            id = id,
+            name = name,
+            isHazardous = isHazardous,
+            absoluteMagnitude = absoluteMagnitude,
+            closeApproachDate = closeApproachData[0].closeApproachDate,
+            missDistanceAstronomical = closeApproachData[0].missDistance.astronomical,
+            relativeVelocityKilometersPerSecond = closeApproachData[0].relativeVelocity.kilometersPerSecond
+        )
+    }
+}
 
 @Serializable
 data class CloseApproachData(
@@ -35,3 +48,4 @@ data class MissDistance(
 data class RelativeVelocity(
     @SerialName("kilometers_per_second") val kilometersPerSecond: String
 )
+

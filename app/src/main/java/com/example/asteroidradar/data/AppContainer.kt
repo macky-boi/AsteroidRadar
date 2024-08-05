@@ -2,7 +2,7 @@ package com.example.asteroidradar.data
 
 import com.example.asteroidradar.data.repository.AsteroidRadarRepositoryImpl
 import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
-import com.example.asteroidradar.network.NeoApiService
+import com.example.asteroidradar.data.remote.NeoApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
