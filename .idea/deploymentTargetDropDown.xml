@@ -5,10 +5,19 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="getNearEarthObjectsNetworkRequest()">
+      <entry key="testDeleteAsteroids()">
+        <State />
+      </entry>
+      <entry key="testGetAllAsteroids()">
+        <State />
+      </entry>
+      <entry key="testGetAsteroid()">
         <State />
       </entry>
       <entry key="testGetNearEarthObjects()">
+        <State />
+      </entry>
+      <entry key="testInsertAsteroids()">
         <State />
       </entry>
     </value>

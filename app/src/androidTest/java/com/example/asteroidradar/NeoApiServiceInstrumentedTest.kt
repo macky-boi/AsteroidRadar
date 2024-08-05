@@ -1,6 +1,7 @@
 package com.example.asteroidradar
 
 import android.util.Log
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.asteroidradar.data.DefaultAppContainer
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.runBlocking
@@ -11,10 +12,11 @@ class NeoApiServiceInstrumentedTest {
 
     @Test
     fun testGetNearEarthObjects() = runBlocking {
-        val container = DefaultAppContainer()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val container = DefaultAppContainer(context)
 
         try {
-            val response = container.asteroidRadarRepository.getNearEarthObjects()
+            val response = container.asteroidRadarRepository.fetchNearEarthObjectsFromNetwork()
             Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
             assert(response.asteroids.isNotEmpty())
         } catch (e: HttpException) {
@@ -26,10 +28,11 @@ class NeoApiServiceInstrumentedTest {
 
     @Test
     fun testGetNearEarthObjectsNetworkRequest() = runBlocking {
-        val container = DefaultAppContainer()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val container = DefaultAppContainer(context)
 
         try {
-            val response = container.asteroidRadarRepository.getPictureOfTheDay()
+            val response = container.asteroidRadarRepository.fetchPictureOfTheDayFromNetwork()
             Log.i("NeoApiServiceInstrumentedTest", "getPictureOfTheDay(): $response")
             assert(response.title.isNotEmpty())
         } catch (e: HttpException) {

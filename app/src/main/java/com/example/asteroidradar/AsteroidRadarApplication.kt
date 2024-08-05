@@ -21,7 +21,7 @@ class AsteroidRadarApplication: Application() {
     override fun onCreate() {
         Log.i(TAG, "onCreate")
         super.onCreate()
-        container = DefaultAppContainer()
+        container = DefaultAppContainer(applicationContext)
     }
 }
 

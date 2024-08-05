@@ -1,5 +1,6 @@
 package com.example.asteroidradar.data.remote
 
+
 import com.example.asteroidradar.data.local.Asteroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -7,11 +8,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AsteroidsNetwork(
-    @SerialName("near_earth_objects") val asteroids: Map<String, List<Asteroid>>
+    @SerialName("near_earth_objects") val asteroids: Map<String, List<AsteroidNetwork>>
 )
 
 @Serializable
-data class Asteroid(
+data class AsteroidNetwork(
     val id: String,
     val name: String,
     @SerialName("is_potentially_hazardous_asteroid") val isHazardous: Boolean,
