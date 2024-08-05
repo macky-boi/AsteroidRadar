@@ -14,6 +14,7 @@ squareup = "4.11.0"
 kotlinxSerializationJson = "1.5.1"
 room = "2.6.1"
 ksp = "1.9.0-1.0.13"
+work = "2.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,9 @@ squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
+# WorkManager
+androidx-work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
