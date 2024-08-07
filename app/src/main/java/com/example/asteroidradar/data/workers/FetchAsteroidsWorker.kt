@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.example.asteroidradar.AsteroidRadarApplication
+import com.example.asteroidradar.KEY_FETCHED_ASTEROIDS
 import com.example.asteroidradar.data.remote.AsteroidNetwork
 import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
 import retrofit2.HttpException
@@ -24,8 +25,10 @@ class FetchAsteroidsWorker(
             val fetchedAsteroids = appContext.container
                 .asteroidRadarRepository
                 .fetchNearEarthObjectsFromNetwork()
+            Log.i(TAG,"fetchedAsteroids: $fetchedAsteroids")
 
-            val outputData = workDataOf("ASTEROIDS-NETWORK" to fetchedAsteroids.toJson())
+            val outputData = workDataOf(KEY_FETCHED_ASTEROIDS to fetchedAsteroids.toJson())
+            Log.i(TAG,"outputData: $outputData")
 
             Result.success(outputData)
         } catch (e: HttpException) {

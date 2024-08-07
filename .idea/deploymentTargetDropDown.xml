@@ -11,13 +11,13 @@
       <entry key="fetchAsteroidsWorker_doWork_resultSuccess()">
         <State />
       </entry>
+      <entry key="saveAsteroidsWorker_doWork_resultSuccess()">
+        <State />
+      </entry>
       <entry key="testDeleteAsteroids()">
         <State />
       </entry>
-      <entry key="testGetAllAsteroids()">
-        <State />
-      </entry>
-      <entry key="testGetAsteroid()">
+      <entry key="testInsertAsteroids()">
         <State />
       </entry>
     </value>

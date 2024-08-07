@@ -2,10 +2,21 @@ package com.example.asteroidradar
 
 import android.content.Context
 import android.util.Log
+import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.work.Data
 import androidx.work.ListenableWorker
 import androidx.work.testing.TestListenableWorkerBuilder
+import androidx.work.workDataOf
+import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.AsteroidDatabase
+import com.example.asteroidradar.data.remote.AsteroidNetwork
+import com.example.asteroidradar.data.remote.AsteroidsNetwork
+import com.example.asteroidradar.data.remote.CloseApproachData
+import com.example.asteroidradar.data.remote.MissDistance
+import com.example.asteroidradar.data.remote.RelativeVelocity
 import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
+import com.example.asteroidradar.data.workers.SaveAsteroidsWorker
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -14,6 +25,26 @@ import org.junit.Test
 
 class WorkerInstrumentatedTest {
     private lateinit var context: Context
+
+    val sampleAsteroidsNetwork = AsteroidsNetwork(
+        asteroids = mapOf(
+            "2024-08-01" to listOf(
+                AsteroidNetwork(
+                    id = "20240801A",
+                    name = "Asteroid A",
+                    isHazardous = true,
+                    absoluteMagnitude = 22.5,
+                    closeApproachData = listOf(
+                        CloseApproachData(
+                            closeApproachDate = "2024-08-01",
+                            missDistance = MissDistance(astronomical = "0.05"),
+                            relativeVelocity = RelativeVelocity(kilometersPerSecond = "20.5")
+                        )
+                    )
+                )
+            )
+        )
+    )
 
     @Before
     fun setUp() {
@@ -30,11 +61,32 @@ class WorkerInstrumentatedTest {
                 val result = worker.doWork()
                 assert(result is ListenableWorker.Result.Success)
 
-                val fetchedData = result.outputData.getString("ASTEROIDS-NETWORK")
+                val fetchedData = result.outputData.getString(KEY_FETCHED_ASTEROIDS)
                 assert(!fetchedData.isNullOrEmpty())
             } catch (e: Exception) {
                 fail("Unexpected exception: $e")
             }
+        }
+    }
+
+    @Test
+    fun saveAsteroidsWorker_doWork_resultSuccess() {
+
+        // create database
+        val asteroidDatabase = Room.inMemoryDatabaseBuilder(context, AsteroidDatabase::class.java)
+            // Allowing main thread queries, just for testing.
+            .allowMainThreadQueries()
+            .build()
+
+        val asteroidDao = asteroidDatabase.asteroidDao()
+
+        val worker = TestListenableWorkerBuilder<SaveAsteroidsWorker>(context)
+            .setInputData(workDataOf(KEY_FETCHED_ASTEROIDS to sampleAsteroidsNetwork.toJson()))
+            .build()
+
+        runBlocking {
+            val result = worker.doWork()
+            assert(result is ListenableWorker.Result.Success)
         }
     }
 }

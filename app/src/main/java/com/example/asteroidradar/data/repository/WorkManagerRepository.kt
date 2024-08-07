@@ -9,6 +9,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.asteroidradar.FETCH_ASTEROIDS_WORK_NAME
 import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
 import java.util.concurrent.TimeUnit
 
@@ -35,7 +36,7 @@ class WorkManagerRepositoryImpl(context: Context): WorkManagerRepository {
             ).build()
 
         workManager.enqueueUniquePeriodicWork(
-            "unique_fetch_asteroids_worker",
+            FETCH_ASTEROIDS_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )

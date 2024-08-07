@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class Asteroid (
     @PrimaryKey val id: String,
     val name: String,
+    val date: String,
     @ColumnInfo("is_potentially") val isHazardous: Boolean,
     @ColumnInfo("absolute_magnitude_h") val absoluteMagnitude: Double,
     @ColumnInfo("close_approach_date") val closeApproachDate: String,

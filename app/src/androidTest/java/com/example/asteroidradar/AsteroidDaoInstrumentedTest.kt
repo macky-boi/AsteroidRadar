@@ -29,6 +29,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024AB1",
             name = "Asteroid 2024AB1",
+            date = "2024-08-01",
             isHazardous = true,
             absoluteMagnitude = 17.5,
             closeApproachDate = "2024-08-01",
@@ -38,6 +39,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024CD2",
             name = "Asteroid 2024CD2",
+            date = "2024-08-01",
             isHazardous = false,
             absoluteMagnitude = 22.1,
             closeApproachDate = "2024-08-05",
@@ -47,6 +49,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024EF3",
             name = "Asteroid 2024EF3",
+            date = "2024-08-01",
             isHazardous = false,
             absoluteMagnitude = 19.8,
             closeApproachDate = "2024-08-10",
