@@ -1,6 +1,7 @@
 package com.example.asteroidradar.data
 
 import android.content.Context
+import com.example.asteroidradar.data.local.AsteroidDao
 import com.example.asteroidradar.data.local.AsteroidDatabase
 import com.example.asteroidradar.data.repository.AsteroidRadarRepositoryImpl
 import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
@@ -31,9 +32,9 @@ class DefaultAppContainer(context: Context): AppContainer {
         retrofit.create(NeoApiService::class.java)
     }
 
-    private val asteroidDatabase = AsteroidDatabase.getDatabase(context).asteroidDao()
+    private val asteroidDao = AsteroidDatabase.getDatabase(context).asteroidDao()
 
     override val asteroidRadarRepository: AsteroidsRadarRepository by lazy {
-        AsteroidRadarRepositoryImpl(service, asteroidDatabase)
+        AsteroidRadarRepositoryImpl(service, asteroidDao)
     }
 }

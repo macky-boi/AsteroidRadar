@@ -2,7 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="WorkerInstrumentatedTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="fetchAsteroidsWorker_doWork_resultSuccess()">
         <State />
       </entry>
       <entry key="testDeleteAsteroids()">
@@ -12,12 +18,6 @@
         <State />
       </entry>
       <entry key="testGetAsteroid()">
-        <State />
-      </entry>
-      <entry key="testGetNearEarthObjects()">
-        <State />
-      </entry>
-      <entry key="testInsertAsteroids()">
         <State />
       </entry>
     </value>

@@ -4,12 +4,22 @@ package com.example.asteroidradar.data.remote
 import com.example.asteroidradar.data.local.Asteroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Serializable
 data class AsteroidsNetwork(
     @SerialName("near_earth_objects") val asteroids: Map<String, List<AsteroidNetwork>>
-)
+) {
+    fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    fun String.toAsteroidsNetwork(): AsteroidsNetwork {
+        return Json.decodeFromString(this)
+    }
+}
 
 @Serializable
 data class AsteroidNetwork(
