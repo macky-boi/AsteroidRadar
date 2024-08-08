@@ -16,8 +16,11 @@ import com.example.asteroidradar.data.remote.CloseApproachData
 import com.example.asteroidradar.data.remote.MissDistance
 import com.example.asteroidradar.data.remote.RelativeVelocity
 import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
+import com.example.asteroidradar.data.workers.FilterAsteroidsWorker
 import com.example.asteroidradar.data.workers.SaveAsteroidsWorker
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -89,4 +92,30 @@ class WorkerInstrumentatedTest {
             assert(result is ListenableWorker.Result.Success)
         }
     }
+
+    @Test
+    fun filterAsteroidWorker_doWork_resultSuccess() {
+        val appContext = context as AsteroidRadarApplication
+        val repository = appContext.container.asteroidRadarRepository
+
+        val saveAsteroidWorker = TestListenableWorkerBuilder<SaveAsteroidsWorker>(context)
+            .setInputData(workDataOf(KEY_FETCHED_ASTEROIDS to sampleAsteroidsNetwork.toJson()))
+            .build()
+
+        val filterAsteroidsWorker = TestListenableWorkerBuilder<FilterAsteroidsWorker>(context)
+            .setInputData(workDataOf(KEY_FETCHED_ASTEROIDS to sampleAsteroidsNetwork.toJson()))
+            .build()
+
+        runBlocking {
+            saveAsteroidWorker.doWork()
+            var allAsteroids = repository.getAllAsteroids()
+            assertEquals(1, allAsteroids.first().size)
+
+            filterAsteroidsWorker.doWork()
+
+            allAsteroids = repository.getAllAsteroids()
+            assertEquals(0, allAsteroids.first().size)
+        }
+    }
+
 }
