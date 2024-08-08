@@ -15,23 +15,21 @@ class SaveAsteroidsWorker(ctx: Context, params: WorkerParameters): CoroutineWork
         Log.e(TAG,"doWork")
 
         val appContext = applicationContext  as AsteroidRadarApplication
-        val repository = appContext.container.asteroidRadarRepository
+        val databaseRepository = appContext.container.asteroidDatabaseRepository
 
         // Retrieve the data passed from FetchDataWorker
         val data = inputData.getString(KEY_FETCHED_ASTEROIDS) ?: return Result.failure()
         val asteroidNetwork = data.toAsteroidsNetwork()
         val asteroids = asteroidNetwork.toEntity()
 
-        try {
-            Log.e(TAG,"saving asteroids")
+        return try {
             asteroids.forEach { (_, asteroid) ->
-                repository.insertAsteroids(asteroid)
+                databaseRepository.insertAsteroids(asteroid)
             }
-            Log.e(TAG,"asteroids saved")
-            return Result.success()
+            Result.success()
         } catch (e: Exception) {
             Log.e(TAG,"error saving asteroids: $e" )
-            return Result.failure()
+            Result.failure()
         }
     }
 }

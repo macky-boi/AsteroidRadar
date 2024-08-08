@@ -8,7 +8,6 @@ import androidx.work.workDataOf
 import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.KEY_FETCHED_ASTEROIDS
 import com.example.asteroidradar.data.remote.AsteroidNetwork
-import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
 import retrofit2.HttpException
 
 private const val TAG = "FetchAsteroidsWorker"
@@ -23,8 +22,9 @@ class FetchAsteroidsWorker(
             val appContext = applicationContext  as AsteroidRadarApplication
 
             val fetchedAsteroids = appContext.container
-                .asteroidRadarRepository
-                .fetchNearEarthObjectsFromNetwork()
+                .asteroidNetworkRepository
+                .fetchNearEarthObjects()
+
             Log.i(TAG,"fetchedAsteroids: $fetchedAsteroids")
 
             val outputData = workDataOf(KEY_FETCHED_ASTEROIDS to fetchedAsteroids.toJson())

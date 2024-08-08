@@ -13,10 +13,10 @@ class FilterAsteroidsWorker(
     override suspend fun doWork(): Result {
         val appContext = applicationContext  as AsteroidRadarApplication
 
-        val repository = appContext.container.asteroidRadarRepository
+        val databaseRepository = appContext.container.asteroidDatabaseRepository
 
         return try {
-            repository.deleteAllAsteroidsFromThePast()
+            databaseRepository.deleteAllAsteroidsFromThePast()
             Result.success()
         } catch(e: Exception) {
             Log.e("FilterAsteroidsWorker","deleteAllAsteroidsFromThePast error: $e")

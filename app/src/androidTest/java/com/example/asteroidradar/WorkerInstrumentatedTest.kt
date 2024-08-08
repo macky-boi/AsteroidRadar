@@ -15,7 +15,7 @@ import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import com.example.asteroidradar.data.remote.CloseApproachData
 import com.example.asteroidradar.data.remote.MissDistance
 import com.example.asteroidradar.data.remote.RelativeVelocity
-import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
+import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
 import com.example.asteroidradar.data.workers.FilterAsteroidsWorker
 import com.example.asteroidradar.data.workers.SaveAsteroidsWorker
@@ -30,7 +30,7 @@ import org.junit.Test
 
 class WorkerInstrumentatedTest {
     private lateinit var context: Context
-    private lateinit var repository: AsteroidsRadarRepository
+    private lateinit var repository: AsteroidDatabaseRepository
 
     val sampleAsteroidsNetwork = AsteroidsNetwork(
         asteroids = mapOf(
@@ -57,7 +57,7 @@ class WorkerInstrumentatedTest {
         context = ApplicationProvider.getApplicationContext()
 
         val appContext = context as AsteroidRadarApplication
-        repository = appContext.container.asteroidRadarRepository
+        repository = appContext.container.asteroidDatabaseRepository
     }
 
     @Test

@@ -3,9 +3,11 @@ package com.example.asteroidradar.data
 import android.content.Context
 import com.example.asteroidradar.data.local.AsteroidDao
 import com.example.asteroidradar.data.local.AsteroidDatabase
-import com.example.asteroidradar.data.repository.AsteroidRadarRepositoryImpl
-import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
 import com.example.asteroidradar.data.remote.NeoApiService
+import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
+import com.example.asteroidradar.data.repository.AsteroidDatabaseRepositoryImpl
+import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import com.example.asteroidradar.data.repository.AsteroidNetworkRepositoryImpl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,7 +15,8 @@ import org.jetbrains.annotations.VisibleForTesting
 import retrofit2.Retrofit
 
 interface AppContainer {
-    val asteroidRadarRepository: AsteroidsRadarRepository
+    val asteroidDatabaseRepository: AsteroidDatabaseRepository
+    val asteroidNetworkRepository: AsteroidNetworkRepository
 }
 
 class DefaultAppContainer(context: Context): AppContainer {
@@ -34,7 +37,11 @@ class DefaultAppContainer(context: Context): AppContainer {
 
     private val asteroidDao = AsteroidDatabase.getDatabase(context).asteroidDao()
 
-    override val asteroidRadarRepository: AsteroidsRadarRepository by lazy {
-        AsteroidRadarRepositoryImpl(service, asteroidDao)
+    override val asteroidDatabaseRepository: AsteroidDatabaseRepository by lazy {
+        AsteroidDatabaseRepositoryImpl(asteroidDao)
+    }
+
+    override val asteroidNetworkRepository: AsteroidNetworkRepository by lazy {
+        AsteroidNetworkRepositoryImpl(service)
     }
 }

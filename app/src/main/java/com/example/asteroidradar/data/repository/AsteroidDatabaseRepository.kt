@@ -2,33 +2,19 @@ package com.example.asteroidradar.data.repository
 
 import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.data.local.AsteroidDao
-import com.example.asteroidradar.data.remote.AstronomyPictureOfTheDayNetwork
-import com.example.asteroidradar.data.remote.NeoApiService
-import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
-interface AsteroidsRadarRepository {
-    suspend fun fetchNearEarthObjectsFromNetwork(): AsteroidsNetwork
-    suspend fun fetchPictureOfTheDayFromNetwork(): AstronomyPictureOfTheDayNetwork
+interface AsteroidDatabaseRepository  {
     fun getAsteroid(id: String): Flow<Asteroid>
     fun getAllAsteroids(): Flow<List<Asteroid>>
     suspend fun insertAsteroids(asteroids: List<Asteroid>)
     suspend fun deleteAllAsteroidsFromThePast()
 }
 
-class AsteroidRadarRepositoryImpl (
-    private val neoApiService: NeoApiService,
+class AsteroidDatabaseRepositoryImpl  (
     private val asteroidDao: AsteroidDao
-): AsteroidsRadarRepository {
-
-    override suspend fun fetchNearEarthObjectsFromNetwork(): AsteroidsNetwork {
-        return neoApiService.getNearEarthObjects("2024-08-01", "2024-08-01")
-    }
-
-    override suspend fun fetchPictureOfTheDayFromNetwork(): AstronomyPictureOfTheDayNetwork {
-        return neoApiService.getPictureOfTheDay()
-    }
+): AsteroidDatabaseRepository {
 
     override fun getAsteroid(id: String): Flow<Asteroid> {
         return asteroidDao.getAsteroid(id)
