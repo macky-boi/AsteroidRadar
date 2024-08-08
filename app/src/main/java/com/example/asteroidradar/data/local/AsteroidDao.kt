@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 @Dao
 interface AsteroidDao {
@@ -18,6 +19,6 @@ interface AsteroidDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAsteroids(asteroids: List<Asteroid>)
 
-    @Delete
-    suspend fun deleteAsteroids(asteroids: List<Asteroid>)
+    @Query("DELETE from asteroid WHERE date < :dateToday")
+    suspend fun deleteAsteroidsFromThePast(dateToday: Date)
 }

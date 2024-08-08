@@ -12,9 +12,22 @@
         <State />
       </entry>
       <entry key="saveAsteroidsWorker_doWork_resultSuccess()">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\pecon\.android\avd\Resizable_Experimental_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-08-07T17:07:54.434581900Z" />
+        </State>
       </entry>
-      <entry key="testDeleteAsteroids()">
+      <entry key="testDeleteAsteroidsFromThePast()">
         <State />
       </entry>
       <entry key="testInsertAsteroids()">

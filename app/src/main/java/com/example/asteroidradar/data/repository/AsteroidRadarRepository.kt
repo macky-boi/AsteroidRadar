@@ -8,6 +8,7 @@ import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.Date
 
 interface AsteroidsRadarRepository {
     suspend fun fetchNearEarthObjectsFromNetwork(): AsteroidsNetwork
@@ -44,6 +45,7 @@ class AsteroidRadarRepositoryImpl (
     }
 
     override suspend fun deleteAsteroids(asteroids: List<Asteroid>) {
-        asteroidDao.deleteAsteroids(asteroids)
+        val currentDate = Date()
+        asteroidDao.deleteAsteroidsFromThePast(currentDate)
     }
 }
