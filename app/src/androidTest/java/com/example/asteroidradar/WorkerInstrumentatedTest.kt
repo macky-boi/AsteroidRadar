@@ -15,9 +15,11 @@ import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import com.example.asteroidradar.data.remote.CloseApproachData
 import com.example.asteroidradar.data.remote.MissDistance
 import com.example.asteroidradar.data.remote.RelativeVelocity
+import com.example.asteroidradar.data.repository.AsteroidsRadarRepository
 import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
 import com.example.asteroidradar.data.workers.FilterAsteroidsWorker
 import com.example.asteroidradar.data.workers.SaveAsteroidsWorker
+import com.example.asteroidradar.data.workers.UpdateAsteroidsWorker
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.flow.first
@@ -28,6 +30,7 @@ import org.junit.Test
 
 class WorkerInstrumentatedTest {
     private lateinit var context: Context
+    private lateinit var repository: AsteroidsRadarRepository
 
     val sampleAsteroidsNetwork = AsteroidsNetwork(
         asteroids = mapOf(
@@ -52,6 +55,9 @@ class WorkerInstrumentatedTest {
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
+
+        val appContext = context as AsteroidRadarApplication
+        repository = appContext.container.asteroidRadarRepository
     }
 
     @Test
@@ -95,8 +101,6 @@ class WorkerInstrumentatedTest {
 
     @Test
     fun filterAsteroidWorker_doWork_resultSuccess() {
-        val appContext = context as AsteroidRadarApplication
-        val repository = appContext.container.asteroidRadarRepository
 
         val saveAsteroidWorker = TestListenableWorkerBuilder<SaveAsteroidsWorker>(context)
             .setInputData(workDataOf(KEY_FETCHED_ASTEROIDS to sampleAsteroidsNetwork.toJson()))
@@ -111,11 +115,30 @@ class WorkerInstrumentatedTest {
             var allAsteroids = repository.getAllAsteroids()
             assertEquals(1, allAsteroids.first().size)
 
-            filterAsteroidsWorker.doWork()
+            val result = filterAsteroidsWorker.doWork()
+            assert(result is ListenableWorker.Result.Success)
 
             allAsteroids = repository.getAllAsteroids()
             assertEquals(0, allAsteroids.first().size)
         }
+
     }
 
+    @Test
+    fun updateAsteroidsWorker_doWork_resultSuccess() {
+
+        val saveAsteroidsWorker = TestListenableWorkerBuilder<SaveAsteroidsWorker>(context)
+            .setInputData(workDataOf(KEY_FETCHED_ASTEROIDS to sampleAsteroidsNetwork.toJson()))
+            .build()
+
+        val updateAsteroidsWorker = TestListenableWorkerBuilder<UpdateAsteroidsWorker>(context)
+            .build()
+
+        runBlocking {
+            saveAsteroidsWorker.doWork()
+
+            val result = updateAsteroidsWorker.doWork()
+            assert(result is ListenableWorker.Result.Success)
+        }
+    }
 }

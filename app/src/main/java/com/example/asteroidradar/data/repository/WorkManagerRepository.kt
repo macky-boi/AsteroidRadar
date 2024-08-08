@@ -4,43 +4,40 @@ import android.content.Context
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.asteroidradar.FETCH_ASTEROIDS_WORK_NAME
-import com.example.asteroidradar.data.workers.FetchAsteroidsWorker
+import com.example.asteroidradar.UPDATE_ASTEROIDS_WORK_NAME
+import com.example.asteroidradar.data.workers.UpdateAsteroidsWorker
 import java.util.concurrent.TimeUnit
 
 interface WorkManagerRepository {
-    fun periodically_fetch_asterpoids()
+    fun periodicallyUpdateAsteroids()
 }
 
 class WorkManagerRepositoryImpl(context: Context): WorkManagerRepository {
     private val workManager = WorkManager.getInstance(context)
 
-    override fun periodically_fetch_asterpoids() {
+    override fun periodicallyUpdateAsteroids() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresCharging(true)
             .build()
 
-        val workRequest = PeriodicWorkRequestBuilder<FetchAsteroidsWorker>(
-            repeatInterval = 24,
-            repeatIntervalTimeUnit = TimeUnit.HOURS)
+        val workRequest = PeriodicWorkRequestBuilder<UpdateAsteroidsWorker>(
+            repeatInterval = 1,
+            repeatIntervalTimeUnit = TimeUnit.DAYS)
             .setConstraints(constraints)
             .setBackoffCriteria(
                 BackoffPolicy.EXPONENTIAL,
                 10, TimeUnit.MINUTES
             ).build()
 
+
         workManager.enqueueUniquePeriodicWork(
-            FETCH_ASTEROIDS_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            UPDATE_ASTEROIDS_WORK_NAME,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }
-
-
 }
