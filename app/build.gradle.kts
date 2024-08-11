@@ -82,4 +82,6 @@ dependencies {
     // WorkManager
     implementation(libs.androidx.work.ktx)
     androidTestImplementation(libs.androidx.work.testing)
+    // coroutines-test
+    testImplementation(libs.kotlinx.coroutines.test)
 }

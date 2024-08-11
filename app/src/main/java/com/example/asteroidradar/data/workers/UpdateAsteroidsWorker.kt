@@ -1,6 +1,7 @@
 package com.example.asteroidradar.data.workers
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -9,6 +10,7 @@ import com.example.asteroidradar.AsteroidRadarApplication
 
 class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
+        Log.i("UpdateAsteroidsWorker", "doWork")
         val appContext = applicationContext as AsteroidRadarApplication
         val workManager = WorkManager.getInstance(appContext)
 
