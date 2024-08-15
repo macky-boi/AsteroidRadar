@@ -3,6 +3,7 @@ package com.example.asteroidradar
 import android.content.Context
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.work.testing.WorkManagerTestInitHelper
 import com.example.asteroidradar.data.DefaultAppContainer
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
 import junit.framework.TestCase.fail
@@ -20,6 +21,7 @@ class NeoApiServiceInstrumentedTest {
     fun setUp() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         container = DefaultAppContainer(context)
+        WorkManagerTestInitHelper.initializeTestWorkManager(context)
     }
 
     @Test

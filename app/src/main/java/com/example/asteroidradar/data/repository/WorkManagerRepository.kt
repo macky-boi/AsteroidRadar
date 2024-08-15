@@ -33,7 +33,6 @@ class WorkManagerRepositoryImpl(context: Context): WorkManagerRepository {
                 10, TimeUnit.MINUTES
             ).build()
 
-
         workManager.enqueueUniquePeriodicWork(
             UPDATE_ASTEROIDS_WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,

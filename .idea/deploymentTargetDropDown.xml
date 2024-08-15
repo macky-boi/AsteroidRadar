@@ -11,6 +11,9 @@
       <entry key="filterAsteroidWorker_doWork_resultSuccess()">
         <State />
       </entry>
+      <entry key="testGetNearEarthObjects()">
+        <State />
+      </entry>
       <entry key="testPeriodicallyUpdateAsteroids()">
         <State />
       </entry>
