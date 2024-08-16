@@ -4,12 +4,30 @@ package com.example.asteroidradar.data.remote
 import com.example.asteroidradar.data.local.Asteroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Serializable
 data class AsteroidsNetwork(
     @SerialName("near_earth_objects") val asteroids: Map<String, List<AsteroidNetwork>>
-)
+) {
+    fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    fun toEntity(): Map<String, List<Asteroid>> {
+        return this.asteroids.mapValues { (date, networkList) ->
+            networkList.map { it.toEntity(date) }
+        }
+    }
+}
+
+fun String.toAsteroidsNetwork(): AsteroidsNetwork {
+    return Json.decodeFromString(this)
+}
+
+
 
 @Serializable
 data class AsteroidNetwork(
@@ -19,10 +37,11 @@ data class AsteroidNetwork(
     @SerialName("absolute_magnitude_h") val absoluteMagnitude: Double,
     @SerialName("close_approach_data") val closeApproachData: List<CloseApproachData>
 ) {
-    fun toEntity(): Asteroid {
+    fun toEntity(date: String): Asteroid {
         return Asteroid(
             id = id,
             name = name,
+            date = date,
             isHazardous = isHazardous,
             absoluteMagnitude = absoluteMagnitude,
             closeApproachDate = closeApproachData[0].closeApproachDate,

@@ -19,6 +19,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
+import java.util.Date
 
 class AsteroidDaoInstrumentedTest {
 
@@ -29,6 +30,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024AB1",
             name = "Asteroid 2024AB1",
+            date = "2024-08-08",
             isHazardous = true,
             absoluteMagnitude = 17.5,
             closeApproachDate = "2024-08-01",
@@ -38,6 +40,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024CD2",
             name = "Asteroid 2024CD2",
+            date = "2024-08-01",
             isHazardous = false,
             absoluteMagnitude = 22.1,
             closeApproachDate = "2024-08-05",
@@ -47,6 +50,7 @@ class AsteroidDaoInstrumentedTest {
         Asteroid(
             id = "2024EF3",
             name = "Asteroid 2024EF3",
+            date = "2024-08-07",
             isHazardous = false,
             absoluteMagnitude = 19.8,
             closeApproachDate = "2024-08-10",
@@ -98,11 +102,14 @@ class AsteroidDaoInstrumentedTest {
     }
 
     @Test
-    fun testDeleteAsteroids() = runBlocking {
+    fun testDeleteAsteroidsFromThePast() = runBlocking {
         asteroidDao.insertAsteroids(asteroids)
-        asteroidDao.deleteAsteroids(asteroids)
+
+        val currentDate = Date()
+        asteroidDao.deleteAsteroidsFromThePast(currentDate)
+
         val allAsteroids = asteroidDao.getAllAsteroids().first()
-        assertEquals(allAsteroids.size, 0)
+        assertEquals(1, allAsteroids.size)
     }
 
 }

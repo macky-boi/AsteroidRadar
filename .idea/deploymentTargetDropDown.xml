@@ -2,22 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AsteroidDaoInstrumentedTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testDeleteAsteroids()">
-        <State />
-      </entry>
-      <entry key="testGetAllAsteroids()">
-        <State />
-      </entry>
-      <entry key="testGetAsteroid()">
+      <entry key="filterAsteroidWorker_doWork_resultSuccess()">
         <State />
       </entry>
       <entry key="testGetNearEarthObjects()">
         <State />
       </entry>
-      <entry key="testInsertAsteroids()">
+      <entry key="testPeriodicallyUpdateAsteroids()">
+        <State />
+      </entry>
+      <entry key="testPeriodicallyUpdateAsteroids() (1)">
         <State />
       </entry>
     </value>
