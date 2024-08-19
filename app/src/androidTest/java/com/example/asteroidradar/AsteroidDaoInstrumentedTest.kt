@@ -112,4 +112,9 @@ class AsteroidDaoInstrumentedTest {
         assertEquals(1, allAsteroids.size)
     }
 
+    @Test
+    fun testGetCount(): Unit = runBlocking {
+        assertEquals(0, asteroidDao.getCount())
+    }
+
 }

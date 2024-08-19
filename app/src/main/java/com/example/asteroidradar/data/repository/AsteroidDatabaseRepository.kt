@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.data.local.AsteroidDao
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import java.util.Date
 
 interface AsteroidDatabaseRepository  {
@@ -11,6 +12,7 @@ interface AsteroidDatabaseRepository  {
     fun getAllAsteroids(): Flow<List<Asteroid>>
     suspend fun insertAsteroids(asteroids: List<Asteroid>)
     suspend fun deleteAllAsteroidsFromThePast()
+    suspend fun isDatabaseEmpty(): Boolean
 }
 
 private const val TAG = "AsteroidDatabaseRepositoryImpl"
@@ -36,5 +38,9 @@ class AsteroidDatabaseRepositoryImpl  (
         val currentDate = Date()
         asteroidDao.deleteAsteroidsFromThePast(currentDate)
         Log.i(TAG,"(finished) deleteAllAsteroidsFromThePast")
+    }
+
+    override suspend fun isDatabaseEmpty(): Boolean {
+        return asteroidDao.getCount() == 0
     }
 }
