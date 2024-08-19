@@ -1,22 +1,31 @@
 package com.example.asteroidradar.data.repository
 
+import com.example.asteroidradar.data.local.AsteroidEntity
+import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
+import kotlinx.coroutines.flow.Flow
+
 class AsteroidRepository(
-    private val asteroidDatabaseRepository: AsteroidDatabaseRepository,
-    private val asteroidNetworkRepository: AsteroidNetworkRepository,
+    private val databaseRepository: AsteroidDatabaseRepository,
+    private val networkRepository: AsteroidNetworkRepository,
     private val workManagerRepository: WorkManagerRepository
 ) {
 
-    suspend fun getAsteroids(): List<Asteroid> {
-        // Fetch from database first
-        val cachedAsteroids = asteroidDatabaseRepository.getAsteroids()
-        return if (cachedAsteroids.isNotEmpty()) {
-            cachedAsteroids
+    suspend fun getAsteroids(): Flow<List<AsteroidEntity>> {
+        return if (databaseRepository.isDatabaseEmpty()) {
+            databaseRepository.getAllAsteroids()
         } else {
-            // If the database is empty, fetch from the network
-            val networkAsteroids = asteroidNetworkRepository.fetchAsteroids()
-            asteroidDatabaseRepository.saveAsteroids(networkAsteroids)
-            networkAsteroids
+            val asteroids = networkRepository.fetchNearEarthObjects()
+            val asteroidsEntity = asteroids.toEntity()
+
+            asteroidsEntity.forEach { (_, asteroid) ->
+                databaseRepository.insertAsteroids(asteroid)
+            }
+            databaseRepository.getAllAsteroids()
         }
+    }
+
+    suspend fun getPictureOfTheDay(): AstronomyPictureOfTheDay {
+        return networkRepository.fetchPictureOfTheDay().toModel()
     }
 
     fun schedulePeriodicUpdates() {

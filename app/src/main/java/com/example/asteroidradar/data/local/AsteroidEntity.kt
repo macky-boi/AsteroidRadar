@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Asteroid (
+data class AsteroidEntity (
     @PrimaryKey val id: String,
     val name: String,
     val date: String,

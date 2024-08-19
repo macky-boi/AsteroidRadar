@@ -9,15 +9,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.AsteroidEntity
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 sealed interface AsteroidsUiState {
-    data class Success(val asteroids: List<Asteroid>) : AsteroidsUiState
+    data class Success(val asteroidEntities: List<AsteroidEntity>) : AsteroidsUiState
     data object Error : AsteroidsUiState
     data object Loading : AsteroidsUiState
 }
