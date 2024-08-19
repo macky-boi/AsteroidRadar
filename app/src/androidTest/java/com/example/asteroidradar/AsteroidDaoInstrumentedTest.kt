@@ -1,19 +1,13 @@
 package com.example.asteroidradar
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
-import com.example.asteroidradar.data.DefaultAppContainer
 import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.data.local.AsteroidDao
 import com.example.asteroidradar.data.local.AsteroidDatabase
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.fail
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -106,7 +100,7 @@ class AsteroidDaoInstrumentedTest {
         asteroidDao.insertAsteroids(asteroids)
 
         val currentDate = Date()
-        asteroidDao.deleteAsteroidsFromThePast(currentDate)
+        asteroidDao.deleteAsteroidsFrom(currentDate)
 
         val allAsteroids = asteroidDao.getAllAsteroids().first()
         assertEquals(1, allAsteroids.size)

@@ -1,10 +1,8 @@
 package com.example.asteroidradar.data.repository
 
-import android.util.Log
 import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.data.local.AsteroidDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import java.util.Date
 
 interface AsteroidDatabaseRepository  {
@@ -21,26 +19,19 @@ class AsteroidDatabaseRepositoryImpl  (
     private val asteroidDao: AsteroidDao
 ): AsteroidDatabaseRepository {
 
-    override fun getAsteroid(id: String): Flow<Asteroid> {
-        return asteroidDao.getAsteroid(id)
-    }
+    override fun getAsteroid(id: String): Flow<Asteroid> = asteroidDao.getAsteroid(id)
 
-    override fun getAllAsteroids(): Flow<List<Asteroid>> {
-        return asteroidDao.getAllAsteroids()
-    }
 
-    override suspend fun insertAsteroids(asteroids: List<Asteroid>) {
-        asteroidDao.insertAsteroids(asteroids)
-    }
+    override fun getAllAsteroids(): Flow<List<Asteroid>> = asteroidDao.getAllAsteroids()
+
+
+    override suspend fun insertAsteroids(asteroids: List<Asteroid>) = asteroidDao.insertAsteroids(asteroids)
+
 
     override suspend fun deleteAllAsteroidsFromThePast() {
-        Log.i(TAG,"(started) deleteAllAsteroidsFromThePast")
-        val currentDate = Date()
-        asteroidDao.deleteAsteroidsFromThePast(currentDate)
-        Log.i(TAG,"(finished) deleteAllAsteroidsFromThePast")
+        asteroidDao.deleteAsteroidsFrom(Date())
     }
 
-    override suspend fun isDatabaseEmpty(): Boolean {
-        return asteroidDao.getCount() == 0
-    }
+    override suspend fun isDatabaseEmpty(): Boolean = asteroidDao.getCount() == 0
+
 }

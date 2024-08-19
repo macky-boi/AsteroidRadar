@@ -1,7 +1,6 @@
 package com.example.asteroidradar.data.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -20,7 +19,7 @@ interface AsteroidDao {
     suspend fun insertAsteroids(asteroids: List<Asteroid>)
 
     @Query("DELETE from asteroid WHERE date < :dateToday")
-    suspend fun deleteAsteroidsFromThePast(dateToday: Date)
+    suspend fun deleteAsteroidsFrom(dateToday: Date)
 
     @Query("SELECT COUNT(*) FROM asteroid")
     suspend fun getCount(): Int
