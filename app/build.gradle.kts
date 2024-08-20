@@ -84,4 +84,6 @@ dependencies {
     androidTestImplementation(libs.androidx.work.testing)
     // coroutines-test
     testImplementation(libs.kotlinx.coroutines.test)
+    // lifecycle-viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel)
 }

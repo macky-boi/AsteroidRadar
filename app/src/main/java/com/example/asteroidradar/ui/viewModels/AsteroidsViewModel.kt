@@ -19,7 +19,7 @@ data class AsteroidsUiState (
     val asteroids: List<AsteroidEntity> = listOf()
 )
 
-class AsteroidViewModel(
+class AsteroidsViewModel(
     private val networkRepository: AsteroidNetworkRepository,
     private val databaseRepository: AsteroidDatabaseRepository
 ) : ViewModel() {
@@ -57,7 +57,7 @@ class AsteroidViewModel(
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
                 val networkRepository = application.container.asteroidNetworkRepository
                 val databaseRepository = application.container.asteroidDatabaseRepository
-                AsteroidViewModel(networkRepository, databaseRepository)
+                AsteroidsViewModel(networkRepository, databaseRepository)
             }
         }
     }
