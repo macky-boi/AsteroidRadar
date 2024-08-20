@@ -6,9 +6,12 @@ import com.example.asteroidradar.data.remote.NeoApiService
 import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 interface AsteroidNetworkRepository {
-    suspend fun fetchNearEarthObjects(): Result<AsteroidsNetwork>
+    suspend fun fetchNearEarthObjects(startDate: String, endDate: String): Result<AsteroidsNetwork>
     suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDay
 }
 
@@ -16,9 +19,9 @@ class AsteroidNetworkRepositoryImpl(
     private val neoApiService: NeoApiService
 ): AsteroidNetworkRepository {
 
-    override suspend fun fetchNearEarthObjects(): Result<AsteroidsNetwork> {
+    override suspend fun fetchNearEarthObjects(startDate: String, endDate: String): Result<AsteroidsNetwork> {
         return try {
-            val response = neoApiService.getNearEarthObjects("2024-08-01", "2024-08-01")
+            val response = neoApiService.getNearEarthObjects(startDate, endDate)
             Result.success(response)
         } catch (e: HttpException) {
             Result.failure(e)
@@ -30,4 +33,5 @@ class AsteroidNetworkRepositoryImpl(
     override suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDay {
         return neoApiService.getPictureOfTheDay().toModel()
     }
+
 }

@@ -1,7 +1,9 @@
 package com.example.asteroidradar.data.workers
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequestBuilder
@@ -23,8 +25,9 @@ private const val TAG = "UpdateAsteroidsWorker"
 class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     private val appContext = applicationContext as AsteroidRadarApplication
     private val databaseRepository = appContext.container.asteroidDatabaseRepository
-    private val networkRepository = appContext.container.asteroidNetworkRepository
+    private val fetchAsteroidsUseCase = appContext.container.fetchAsteroidsUseCase
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun doWork(): Result {
         Log.i("UpdateAsteroidsWorker", "doWork")
 
@@ -32,7 +35,7 @@ class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineW
 
         lateinit var result: Result
 
-        val fetchedDataResponse = networkRepository.fetchNearEarthObjects()
+        val fetchedDataResponse = fetchAsteroidsUseCase()
         fetchedDataResponse.onSuccess { asteroidsNetwork ->
             val asteroidsEntity = asteroidsNetwork.toEntity()
             asteroidsEntity.forEach { (_, asteroid) ->

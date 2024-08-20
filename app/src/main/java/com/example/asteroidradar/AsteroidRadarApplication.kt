@@ -7,8 +7,7 @@ import com.example.asteroidradar.data.DefaultAppContainer
 
 const val TAG = "AsteroidRadarApplication"
 
-class AsteroidRadarApplication: Application()
-{
+class AsteroidRadarApplication: Application() {
     lateinit var container: AppContainer
 
     override fun onCreate() {

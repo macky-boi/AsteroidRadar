@@ -1,6 +1,8 @@
-package com.example.asteroidradar.ui.viewModels
+package com.example.asteroidradar.ui.asteroids
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,6 +12,7 @@ import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.AsteroidEntity
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import com.example.asteroidradar.domain.usecase.FetchAsteroidsUseCase
 import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,9 +28,11 @@ data class AsteroidsUiState (
 
 private const val TAG = "AsteroidsViewModel"
 
+@RequiresApi(Build.VERSION_CODES.O)
 class AsteroidsViewModel(
     private val databaseRepository: AsteroidDatabaseRepository,
-    private val networkRepository: AsteroidNetworkRepository
+    private val networkRepository: AsteroidNetworkRepository,
+    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AsteroidsUiState())
@@ -60,7 +65,7 @@ class AsteroidsViewModel(
 
     private suspend fun fetchAsteroidsIfDatabaseIsEmpty() {
         if (databaseRepository.isDatabaseEmpty()) {
-            val networkAsteroidsResponse = networkRepository.fetchNearEarthObjects()
+            val networkAsteroidsResponse = fetchAsteroidsUseCase()
             networkAsteroidsResponse.onSuccess { asteroids ->
                 asteroids.toEntity().forEach { (_, asteroid) ->
                     databaseRepository.insertAsteroids(asteroid)
@@ -79,7 +84,8 @@ class AsteroidsViewModel(
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
                 val networkRepository = application.container.asteroidNetworkRepository
                 val databaseRepository = application.container.asteroidDatabaseRepository
-                AsteroidsViewModel(databaseRepository, networkRepository)
+                val fetchAsteroidsUseCase = application.container.fetchAsteroidsUseCase
+                AsteroidsViewModel(databaseRepository, networkRepository, fetchAsteroidsUseCase)
             }
         }
     }
