@@ -28,21 +28,22 @@ class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineW
     override suspend fun doWork(): Result {
         Log.i("UpdateAsteroidsWorker", "doWork")
 
-        return try {
-            databaseRepository.deleteAllAsteroidsFromThePast()
-            val fetchedData = networkRepository.fetchNearEarthObjects()
-            val asteroidsEntity = fetchedData.toEntity()
+        databaseRepository.deleteAllAsteroidsFromThePast()
+
+        lateinit var result: Result
+
+        val fetchedDataResponse = networkRepository.fetchNearEarthObjects()
+        fetchedDataResponse.onSuccess { asteroidsNetwork ->
+            val asteroidsEntity = asteroidsNetwork.toEntity()
             asteroidsEntity.forEach { (_, asteroid) ->
                 databaseRepository.insertAsteroids(asteroid)
             }
-            Result.success()
-        } catch (httpException: HttpException) {
-            Log.e(TAG, "HTTP error: ${httpException.message}")
-            Result.failure()
-        } catch (e: Exception) {
-            Log.e(TAG, "unexpected exception: ${e.message}")
-            Result.failure()
+            result = Result.success()
+        }.onFailure {
+            result = Result.failure()
         }
+
+        return result
     }
 
 

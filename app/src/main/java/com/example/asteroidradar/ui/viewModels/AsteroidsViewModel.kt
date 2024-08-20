@@ -1,5 +1,6 @@
 package com.example.asteroidradar.ui.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,23 +10,27 @@ import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.AsteroidEntity
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import com.example.asteroidradar.data.repository.AsteroidRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class AsteroidsUiState (
     val asteroids: List<AsteroidEntity> = listOf()
 )
 
+private const val TAG = "AsteroidsViewModel"
+
 class AsteroidsViewModel(
-    private val networkRepository: AsteroidNetworkRepository,
-    private val databaseRepository: AsteroidDatabaseRepository
+    private val asteroidRepository: AsteroidRepository
 ) : ViewModel() {
 
     val uiState: StateFlow<AsteroidsUiState> =
-        databaseRepository.getAllAsteroids().map { AsteroidsUiState(it) }
+        asteroidRepository.getAsteroids().map { AsteroidsUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
@@ -33,19 +38,17 @@ class AsteroidsViewModel(
             )
 
     init {
+        Log.i(TAG, "init")
         initializeData()
     }
 
     private fun initializeData() {
-        viewModelScope.launch {
-            if (databaseRepository.isDatabaseEmpty()) {
-                val networkAsteroids = networkRepository.fetchNearEarthObjects()
-                val asteroidsEntity = networkAsteroids.toEntity()
-                asteroidsEntity.forEach { (_, asteroid) ->
-                    databaseRepository.insertAsteroids(asteroid)
-                }
-            }
+        Log.i(TAG, "initializeData")
 
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                asteroidRepository.fetchAndSaveAsteroidsIfDatabaseIsEmpty()
+            }
         }
     }
 
@@ -57,7 +60,8 @@ class AsteroidsViewModel(
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
                 val networkRepository = application.container.asteroidNetworkRepository
                 val databaseRepository = application.container.asteroidDatabaseRepository
-                AsteroidsViewModel(networkRepository, databaseRepository)
+                val asteroidRepository = AsteroidRepository(databaseRepository, networkRepository)
+                AsteroidsViewModel(asteroidRepository)
             }
         }
     }

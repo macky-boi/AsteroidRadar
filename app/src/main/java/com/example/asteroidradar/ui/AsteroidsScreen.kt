@@ -1,5 +1,6 @@
 package com.example.asteroidradar.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,4 +15,5 @@ fun AsteroidsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    Log.i("AsteroidsScreen", "uiState: $uiState")
 }
