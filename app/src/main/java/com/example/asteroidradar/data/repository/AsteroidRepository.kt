@@ -20,8 +20,7 @@ class AsteroidRepository(
         if (databaseRepository.isDatabaseEmpty()) {
             val networkAsteroidsResponse = networkRepository.fetchNearEarthObjects()
             networkAsteroidsResponse.onSuccess {
-                val networkAsteroids = it
-                val asteroidsEntity = networkAsteroids.toEntity()
+                val asteroidsEntity = it.toEntity()
                 asteroidsEntity.forEach { (_, asteroid) ->
                     databaseRepository.insertAsteroids(asteroid)
                 }

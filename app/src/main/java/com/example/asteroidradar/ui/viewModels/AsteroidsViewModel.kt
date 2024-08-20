@@ -11,16 +11,21 @@ import com.example.asteroidradar.data.local.AsteroidEntity
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
 import com.example.asteroidradar.data.repository.AsteroidRepository
+import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 data class AsteroidsUiState (
-    val asteroids: List<AsteroidEntity> = listOf()
+    val asteroids: List<AsteroidEntity> = listOf(),
+    val pictureOfTheDay: AstronomyPictureOfTheDay? = null
 )
 
 private const val TAG = "AsteroidsViewModel"
@@ -29,13 +34,8 @@ class AsteroidsViewModel(
     private val asteroidRepository: AsteroidRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<AsteroidsUiState> =
-        asteroidRepository.getAsteroids().map { AsteroidsUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = AsteroidsUiState()
-            )
+    private val _uiState = MutableStateFlow(AsteroidsUiState())
+    val uiState: StateFlow<AsteroidsUiState> = _uiState.asStateFlow()
 
     init {
         Log.i(TAG, "init")
@@ -48,6 +48,16 @@ class AsteroidsViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 asteroidRepository.fetchAndSaveAsteroidsIfDatabaseIsEmpty()
+
+                val pictureOfTheDayDeferred = async { asteroidRepository.getPictureOfTheDay() }
+
+                val pictureOfTheDay = pictureOfTheDayDeferred.await()
+                asteroidRepository.getAsteroids().collect { asteroids ->
+                    _uiState.value = AsteroidsUiState(
+                        asteroids = asteroids,
+                        pictureOfTheDay = pictureOfTheDay
+                    )
+                }
             }
         }
     }

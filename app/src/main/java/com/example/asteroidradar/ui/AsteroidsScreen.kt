@@ -15,5 +15,5 @@ fun AsteroidsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Log.i("AsteroidsScreen", "uiState: $uiState")
+    Log.i("AsteroidsScreen", "asteroids: ${uiState.asteroids} \n pictureOfTheDay: ${uiState.pictureOfTheDay}")
 }
