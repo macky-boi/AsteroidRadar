@@ -34,4 +34,6 @@ class AsteroidRepository(
     suspend fun getPictureOfTheDay(): AstronomyPictureOfTheDay =
         networkRepository.fetchPictureOfTheDay().toModel()
 
+
+    suspend fun deleteAsteroidsFromThePast() = databaseRepository.deleteAllAsteroidsFromThePast()
 }

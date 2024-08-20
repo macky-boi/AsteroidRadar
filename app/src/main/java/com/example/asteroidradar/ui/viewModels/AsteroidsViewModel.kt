@@ -47,6 +47,7 @@ class AsteroidsViewModel(
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                asteroidRepository.deleteAsteroidsFromThePast()
                 asteroidRepository.fetchAndSaveAsteroidsIfDatabaseIsEmpty()
 
                 val pictureOfTheDayDeferred = async { asteroidRepository.getPictureOfTheDay() }
