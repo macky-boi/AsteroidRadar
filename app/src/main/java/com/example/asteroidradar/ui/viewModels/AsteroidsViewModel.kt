@@ -1,8 +1,5 @@
 package com.example.asteroidradar.ui.viewModels
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -12,30 +9,36 @@ import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.AsteroidEntity
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-sealed interface AsteroidsUiState {
-    data class Success(val asteroidEntities: List<AsteroidEntity>) : AsteroidsUiState
-    data object Error : AsteroidsUiState
-    data object Loading : AsteroidsUiState
-}
+data class AsteroidsUiState (
+    val asteroids: List<AsteroidEntity> = listOf()
+)
 
 class AsteroidViewModel(
     private val networkRepository: AsteroidNetworkRepository,
     private val databaseRepository: AsteroidDatabaseRepository
 ) : ViewModel() {
 
-    var asteroidUiState: AsteroidsUiState by mutableStateOf(AsteroidsUiState.Loading)
-        private set
+    val uiState: StateFlow<AsteroidsUiState> =
+        databaseRepository.getAllAsteroids().map { AsteroidsUiState(it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                initialValue = AsteroidsUiState()
+            )
 
     init {
-
+        initializeData()
     }
 
-    fun initializeData() {
+    private fun initializeData() {
         viewModelScope.launch {
             if (databaseRepository.isDatabaseEmpty()) {
-                // If the database is empty, fetch from the network
                 val networkAsteroids = networkRepository.fetchNearEarthObjects()
                 val asteroidsEntity = networkAsteroids.toEntity()
                 asteroidsEntity.forEach { (_, asteroid) ->
@@ -47,6 +50,8 @@ class AsteroidViewModel(
     }
 
     companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
+
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
