@@ -8,6 +8,8 @@ import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepositoryImpl
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepositoryImpl
+import com.example.asteroidradar.data.repository.WorkManagerRepository
+import com.example.asteroidradar.data.repository.WorkManagerRepositoryImpl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -17,6 +19,7 @@ import retrofit2.Retrofit
 interface AppContainer {
     val asteroidDatabaseRepository: AsteroidDatabaseRepository
     val asteroidNetworkRepository: AsteroidNetworkRepository
+    val workManagerRepository: WorkManagerRepository
 }
 
 class DefaultAppContainer(context: Context): AppContainer {
@@ -43,5 +46,9 @@ class DefaultAppContainer(context: Context): AppContainer {
 
     override val asteroidNetworkRepository: AsteroidNetworkRepository by lazy {
         AsteroidNetworkRepositoryImpl(service)
+    }
+
+    override val workManagerRepository: WorkManagerRepository by lazy {
+        WorkManagerRepositoryImpl(context)
     }
 }

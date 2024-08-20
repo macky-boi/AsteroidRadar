@@ -3,12 +3,13 @@ package com.example.asteroidradar.data.repository
 import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import com.example.asteroidradar.data.remote.AstronomyPictureOfTheDayNetwork
 import com.example.asteroidradar.data.remote.NeoApiService
+import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import retrofit2.HttpException
 import java.io.IOException
 
 interface AsteroidNetworkRepository {
     suspend fun fetchNearEarthObjects(): Result<AsteroidsNetwork>
-    suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDayNetwork
+    suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDay
 }
 
 class AsteroidNetworkRepositoryImpl(
@@ -26,7 +27,7 @@ class AsteroidNetworkRepositoryImpl(
         }
     }
 
-    override suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDayNetwork {
-        return neoApiService.getPictureOfTheDay()
+    override suspend fun fetchPictureOfTheDay(): AstronomyPictureOfTheDay {
+        return neoApiService.getPictureOfTheDay().toModel()
     }
 }

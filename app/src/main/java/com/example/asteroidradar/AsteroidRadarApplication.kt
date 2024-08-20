@@ -14,7 +14,10 @@ class AsteroidRadarApplication: Application()
     override fun onCreate() {
         Log.i(TAG, "onCreate")
         super.onCreate()
+
         container = DefaultAppContainer(this)
+
+        container.workManagerRepository.periodicallyUpdateAsteroids()
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.asteroidradar
+package com.example.asteroidradar.ui
 
 import androidx.compose.runtime.Composable
 import com.example.asteroidradar.ui.AsteroidsScreen
