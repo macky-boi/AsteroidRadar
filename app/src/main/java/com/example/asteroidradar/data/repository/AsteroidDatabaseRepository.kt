@@ -11,6 +11,8 @@ interface AsteroidDatabaseRepository  {
     suspend fun insertAsteroids(asteroidEntities: List<AsteroidEntity>)
     suspend fun deleteAllAsteroidsFromThePast()
     suspend fun isDatabaseEmpty(): Boolean
+    suspend fun getCount(): Int
+    suspend fun getLatestDate(): Date?
 }
 
 private const val TAG = "AsteroidDatabaseRepositoryImpl"
@@ -34,4 +36,7 @@ class AsteroidDatabaseRepositoryImpl  (
 
     override suspend fun isDatabaseEmpty(): Boolean = asteroidDao.getCount() == 0
 
+    override suspend fun getCount(): Int  = asteroidDao.getCount()
+
+    override suspend fun getLatestDate(): Date? = asteroidDao.getLatestDate()
 }
