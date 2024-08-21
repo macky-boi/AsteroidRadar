@@ -6,13 +6,17 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.example.asteroidradar.data.DefaultAppContainer
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import com.example.asteroidradar.domain.usecase.FetchAsteroidsUseCase
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class NeoApiServiceInstrumentedTest {
+class ApiServiceInstrumentedTest {
     lateinit var context: Context
     lateinit var container: DefaultAppContainer
     lateinit var networkRepository: AsteroidNetworkRepository
@@ -25,15 +29,20 @@ class NeoApiServiceInstrumentedTest {
     }
 
     @Test
-    fun testGetNearEarthObjects() = runBlocking {
-        try {
-            val response = networkRepository.fetchNearEarthObjects()
-            Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
-            assert(response.asteroids.isNotEmpty())
-        } catch (e: HttpException) {
-            fail("HTTP error: ${e.message}")
-        } catch (e: Exception) {
-            fail("Unexpected error: ${e.message}")
+    fun testGetNearEarthObjects(): Unit = runBlocking {
+        val calendar = Calendar.getInstance()
+        val todayString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
+        calendar.add(Calendar.DAY_OF_YEAR, FetchAsteroidsUseCase.NUMBER_OF_DAYS)
+        val endDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
+        val response = networkRepository.fetchNearEarthObjects(todayString, endDateString)
+
+        Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
+        response.onSuccess { asteroidsNetwork ->
+            assert(asteroidsNetwork.asteroids.isNotEmpty())
+        }.onFailure {
+            fail("HTTP error: ${it.message}")
         }
     }
 

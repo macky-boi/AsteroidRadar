@@ -28,7 +28,6 @@ data class AsteroidsUiState (
 
 private const val TAG = "AsteroidsViewModel"
 
-@RequiresApi(Build.VERSION_CODES.O)
 class AsteroidsViewModel(
     private val databaseRepository: AsteroidDatabaseRepository,
     private val networkRepository: AsteroidNetworkRepository,
@@ -49,7 +48,7 @@ class AsteroidsViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 databaseRepository.deleteAllAsteroidsFromThePast()
-                fetchAsteroidsIfDatabaseIsEmpty()
+                fetchAndSaveAsteroidsIfDatabaseIsEmpty()
 
                 val pictureOfTheDay =  networkRepository.fetchPictureOfTheDay()
 
@@ -63,7 +62,7 @@ class AsteroidsViewModel(
         }
     }
 
-    private suspend fun fetchAsteroidsIfDatabaseIsEmpty() {
+    private suspend fun fetchAndSaveAsteroidsIfDatabaseIsEmpty() {
         if (databaseRepository.isDatabaseEmpty()) {
             val networkAsteroidsResponse = fetchAsteroidsUseCase()
             networkAsteroidsResponse.onSuccess { asteroids ->

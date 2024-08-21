@@ -21,6 +21,9 @@ interface AsteroidDao {
     @Query("DELETE from asteroid WHERE date < :dateToday")
     suspend fun deleteAsteroidsFrom(dateToday: Date)
 
+    @Query("SELECT MAX(date) FROM asteroid")
+    suspend fun getLatestDate(): Date?
+
     @Query("SELECT COUNT(*) FROM asteroid")
     suspend fun getCount(): Int
 }

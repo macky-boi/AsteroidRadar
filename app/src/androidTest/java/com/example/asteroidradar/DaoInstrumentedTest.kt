@@ -13,9 +13,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
-class AsteroidEntityDaoInstrumentedTest {
+class DaoInstrumentedTest {
 
     private lateinit var asteroidDao: AsteroidDao
     private lateinit var asteroidDatabase: AsteroidDatabase
@@ -109,6 +111,16 @@ class AsteroidEntityDaoInstrumentedTest {
     @Test
     fun testGetCount(): Unit = runBlocking {
         assertEquals(0, asteroidDao.getCount())
+    }
+
+    @Test
+    fun testGetLatestDate(): Unit = runBlocking {
+        asteroidDao.insertAsteroids(asteroidEntities)
+
+        val latestDate = asteroidDao.getLatestDate()!!
+        val latestDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestDate)
+
+        assertEquals(asteroidEntities[0].date,  latestDateString)
     }
 
 }
