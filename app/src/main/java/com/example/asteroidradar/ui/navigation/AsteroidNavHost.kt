@@ -6,8 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.asteroidradar.ui.asteroids.AsteroidScreenDestination
-import com.example.asteroidradar.ui.asteroids.AsteroidsScreen
+import com.example.asteroidradar.ui.screens.asteroids.AsteroidScreenDestination
+import com.example.asteroidradar.ui.screens.asteroids.AsteroidsScreen
 
 @Composable
 fun AsteroidNavHost(

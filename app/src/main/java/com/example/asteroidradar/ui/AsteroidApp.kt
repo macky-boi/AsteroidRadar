@@ -1,9 +1,39 @@
 package com.example.asteroidradar.ui
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import com.example.asteroidradar.ui.asteroids.AsteroidsScreen
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.asteroidradar.ui.screens.asteroids.AsteroidsScreen
+import com.example.asteroidradar.ui.navigation.AsteroidNavHost
 
 @Composable
-fun AsteroidApp() {
-    AsteroidsScreen()
+fun AsteroidApp(navController: NavHostController = rememberNavController()) {
+    AsteroidNavHost(navController = navController)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AsteroidTopAppBar(
+    modifier: Modifier = Modifier,
+    title: String,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit = {},
+) {
+    CenterAlignedTopAppBar(
+        title = { Text(text = title) },
+        modifier = modifier,
+        scrollBehavior = scrollBehavior
+    )
 }

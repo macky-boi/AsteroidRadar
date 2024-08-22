@@ -1,4 +1,4 @@
-package com.example.asteroidradar.ui.asteroids
+package com.example.asteroidradar.ui.screens.asteroids
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
