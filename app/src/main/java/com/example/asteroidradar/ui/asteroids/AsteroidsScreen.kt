@@ -1,10 +1,11 @@
 package com.example.asteroidradar.ui.asteroids
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,8 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -82,6 +86,10 @@ private fun AsteroidsListItem(
                 .fillMaxWidth()
                 .size(dimensionResource(id = R.dimen.card_height))
         ) {
+            AsteroidItemImage(
+                isHazardous = asteroid.isHazardous,
+                modifier = Modifier.size(dimensionResource(id = R.dimen.card_height))
+            )
             Column(
                 modifier = Modifier
                     .padding(
@@ -89,19 +97,60 @@ private fun AsteroidsListItem(
                         horizontal = dimensionResource(id = R.dimen.padding_medium)
                     )
             ) {
-                Text(
-                    text = asteroid.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
-                )
-                Text(
-                    text = asteroid.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
-                )
+                Row (
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(
+                        text = "name: ",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
+                    )
+                    Text(
+                        text = asteroid.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
+                    )
+                }
+                Row (
+                    verticalAlignment = Alignment.Bottom
+                ){
+                    Text(
+                        text = "distance: ",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
+                    )
+                    Text(
+                        text = asteroid.missDistanceAstronomical,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
+                    )
+                }
             }
         }
     }
+}
+
+@Composable
+private fun AsteroidItemImage(isHazardous: Boolean, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(
+                if (isHazardous)
+                    R.drawable.hazardout_comet_image else  R.drawable.safe_comet_image
+            ),
+            contentDescription = null,
+            alignment = Alignment.Center,
+            contentScale = ContentScale.FillWidth
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AndroidItemImagePreview() {
+    AsteroidItemImage(isHazardous = false)
 }
 
 @Preview
@@ -109,3 +158,4 @@ private fun AsteroidsListItem(
 private fun AsteroidsListItemPreview() {
     AsteroidsListItem(asteroid = sampleAsteroids[0], onItemClick = {})
 }
+
