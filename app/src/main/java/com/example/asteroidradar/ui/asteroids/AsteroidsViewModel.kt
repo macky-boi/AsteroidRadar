@@ -1,18 +1,16 @@
 package com.example.asteroidradar.ui.asteroids
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.data.local.AsteroidEntity
+import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import com.example.asteroidradar.domain.usecase.FetchAsteroidsUseCase
+import com.example.asteroidradar.domain.FetchAsteroidsUseCase
 import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 data class AsteroidsUiState (
-    val asteroids: List<AsteroidEntity> = listOf(),
+    val asteroids: List<Asteroid> = listOf(),
     val pictureOfTheDay: AstronomyPictureOfTheDay? = null
 )
 

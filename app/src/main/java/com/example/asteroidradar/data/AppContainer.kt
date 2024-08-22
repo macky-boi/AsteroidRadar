@@ -3,7 +3,6 @@ package com.example.asteroidradar.data
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.asteroidradar.data.local.AsteroidDao
 import com.example.asteroidradar.data.local.AsteroidDatabase
 import com.example.asteroidradar.data.remote.NeoApiService
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
@@ -12,11 +11,10 @@ import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepositoryImpl
 import com.example.asteroidradar.data.repository.WorkManagerRepository
 import com.example.asteroidradar.data.repository.WorkManagerRepositoryImpl
-import com.example.asteroidradar.domain.usecase.FetchAsteroidsUseCase
+import com.example.asteroidradar.domain.FetchAsteroidsUseCase
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
-import org.jetbrains.annotations.VisibleForTesting
 import retrofit2.Retrofit
 
 interface AppContainer {

@@ -18,6 +18,7 @@ work = "2.8.1"
 workTesting = "2.9.0"
 kotlinxCoroutinesTest = "1.6.4"
 lifecycleViewModel = "2.6.2"
+navigation = "2.7.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,9 +58,14 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 # lifecycle-viewmodel
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewModel"}
 
+# navigation
+androidx-navigation = { group = "androidx.navigation", name = "navigation-runtime", version.ref = "navigation"}
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 #Room
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}

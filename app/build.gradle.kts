@@ -86,4 +86,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     // lifecycle-viewmodel
     implementation(libs.androidx.lifecycle.viewmodel)
+    // navigation
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.compose)
 }

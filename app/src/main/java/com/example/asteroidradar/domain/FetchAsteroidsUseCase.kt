@@ -1,4 +1,4 @@
-package com.example.asteroidradar.domain.usecase
+package com.example.asteroidradar.domain
 
 import com.example.asteroidradar.data.remote.AsteroidsNetwork
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository

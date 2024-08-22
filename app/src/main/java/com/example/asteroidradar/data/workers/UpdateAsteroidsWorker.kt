@@ -27,7 +27,6 @@ class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineW
     private val databaseRepository = appContext.container.asteroidDatabaseRepository
     private val fetchAsteroidsUseCase = appContext.container.fetchAsteroidsUseCase
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun doWork(): Result {
         Log.i("UpdateAsteroidsWorker", "doWork")
 

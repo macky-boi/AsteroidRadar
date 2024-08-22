@@ -10,13 +10,13 @@ import java.util.Date
 @Dao
 interface AsteroidDao {
     @Query(value = "SELECT * from asteroid WHERE id = :id")
-    fun getAsteroid(id: String): Flow<AsteroidEntity>
+    fun getAsteroid(id: String): Flow<Asteroid>
 
     @Query("SELECT * from asteroid")
-    fun getAllAsteroids(): Flow<List<AsteroidEntity>>
+    fun getAllAsteroids(): Flow<List<Asteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAsteroids(asteroidEntities: List<AsteroidEntity>)
+    suspend fun insertAsteroids(asteroidEntities: List<Asteroid>)
 
     @Query("DELETE from asteroid WHERE date < :dateToday")
     suspend fun deleteAsteroidsFrom(dateToday: Date)

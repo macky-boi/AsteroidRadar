@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [AsteroidEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Asteroid::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AsteroidDatabase : RoomDatabase() {
 

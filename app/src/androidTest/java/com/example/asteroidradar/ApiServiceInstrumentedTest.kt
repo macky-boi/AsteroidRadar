@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.example.asteroidradar.data.DefaultAppContainer
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import com.example.asteroidradar.domain.usecase.FetchAsteroidsUseCase
+import com.example.asteroidradar.domain.FetchAsteroidsUseCase
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

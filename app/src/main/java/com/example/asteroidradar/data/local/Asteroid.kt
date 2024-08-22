@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "asteroid")
-data class AsteroidEntity (
+data class Asteroid (
     @PrimaryKey val id: String,
     val name: String,
     val date: String,
