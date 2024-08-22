@@ -56,6 +56,6 @@ class DefaultAppContainer(context: Context): AppContainer {
     }
 
     override val fetchAsteroidsUseCase: FetchAsteroidsUseCase by lazy {
-       FetchAsteroidsUseCase(asteroidNetworkRepository)
+       FetchAsteroidsUseCase(asteroidNetworkRepository, asteroidDatabaseRepository)
     }
 }

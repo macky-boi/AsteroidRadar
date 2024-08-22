@@ -17,15 +17,16 @@ import java.util.Calendar
 import java.util.Locale
 
 class ApiServiceInstrumentedTest {
-    lateinit var context: Context
-    lateinit var container: DefaultAppContainer
-    lateinit var networkRepository: AsteroidNetworkRepository
+    private lateinit var context: Context
+    private lateinit var container: DefaultAppContainer
+    private lateinit var networkRepository: AsteroidNetworkRepository
 
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         container = DefaultAppContainer(context)
         WorkManagerTestInitHelper.initializeTestWorkManager(context)
+        networkRepository = container.asteroidNetworkRepository
     }
 
     @Test

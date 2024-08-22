@@ -2,10 +2,11 @@ package com.example.asteroidradar.ui
 
 import com.example.asteroidradar.data.local.Asteroid
 
+
 val sampleAsteroids = listOf(
     Asteroid(
         id = "2024AB1",
-        name = "AsteroidEntity 2024AB1",
+        name = "10115 (1992 SK)",
         date = "2024-08-08",
         isHazardous = true,
         absoluteMagnitude = 17.5,
@@ -15,7 +16,7 @@ val sampleAsteroids = listOf(
     ),
     Asteroid(
         id = "2024CD2",
-        name = "AsteroidEntity 2024CD2",
+        name = "2005 QQ87",
         date = "2024-08-01",
         isHazardous = false,
         absoluteMagnitude = 22.1,
@@ -25,7 +26,7 @@ val sampleAsteroids = listOf(
     ),
     Asteroid(
         id = "2024EF3",
-        name = "AsteroidEntity 2024EF3",
+        name = "2009 EP2",
         date = "2024-08-07",
         isHazardous = false,
         absoluteMagnitude = 19.8,
