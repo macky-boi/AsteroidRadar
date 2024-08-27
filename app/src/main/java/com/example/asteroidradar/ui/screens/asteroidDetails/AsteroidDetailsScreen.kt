@@ -76,8 +76,8 @@ fun AsteroidDetailScreen(
 private fun AsteroidDetailImage(isHazardous: Boolean, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .size(dimensionResource(id = R.dimen.image_height))
-            .background(MaterialTheme.colorScheme.secondaryContainer, shape = CircleShape)
+            .size(dimensionResource(id = R.dimen.image_size_large))
+            .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
             .clip(CircleShape)
     ) {
         Image(
@@ -85,9 +85,10 @@ private fun AsteroidDetailImage(isHazardous: Boolean, modifier: Modifier = Modif
                 if (isHazardous)
                     R.mipmap.hazardous_comet_img_foreground else  R.mipmap.safe_comet_img_foreground
             ),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.image_size_large)),
             contentDescription = null,
             alignment = Alignment.Center,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillWidth
         )
     }
 }
@@ -110,12 +111,7 @@ fun AsteroidDetailsBody(
             isHazardous = asteroid.isHazardous,
             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium))
         )
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        ) {
+        Card {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,9 +160,9 @@ private fun AsteroidDetailsRow(
                 horizontal = dimensionResource(id = R.dimen.padding_small)
             )
     ) {
-        Text(text = stringResource(id = labelResId))
+        Text(text = stringResource(id = labelResId), style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = detail, fontWeight = FontWeight.Bold)
+        Text(text = detail, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
     }
 }
 
