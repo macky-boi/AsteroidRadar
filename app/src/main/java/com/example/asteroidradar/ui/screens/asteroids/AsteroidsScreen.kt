@@ -1,7 +1,7 @@
 package com.example.asteroidradar.ui.screens.asteroids
 
-import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,9 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,10 +35,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
 import com.example.asteroidradar.data.local.Asteroid
 import com.example.asteroidradar.ui.AsteroidTopAppBar
+import com.example.asteroidradar.ui.KeyValueText
 import com.example.asteroidradar.ui.navigation.NavigationDestination
 import com.example.asteroidradar.ui.sampleAsteroids
 
-object AsteroidScreenDestination: NavigationDestination {
+object AsteroidsScreenDestination: NavigationDestination {
     override val route = "asteroid_screen"
     override val titleRes = R.string.app_name
 }
@@ -49,6 +48,7 @@ object AsteroidScreenDestination: NavigationDestination {
 @Composable
 fun AsteroidsScreen(
     modifier: Modifier = Modifier,
+    navigateToAsteroidDetails: (String) -> Unit,
     viewModel: AsteroidsViewModel = viewModel(factory = AsteroidsViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -58,17 +58,17 @@ fun AsteroidsScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             AsteroidTopAppBar(
-                title = stringResource(id = AsteroidScreenDestination.titleRes),
+                title = stringResource(id = AsteroidsScreenDestination.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
             )
         }
     ) { innerPadding ->
         AsteroidsList(
+            onItemClick = { navigateToAsteroidDetails(it.id)},
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
-            asteroids = uiState.asteroids,
-            onClick = {}
+            asteroids = uiState.asteroids
         )
     }
 }
@@ -76,7 +76,7 @@ fun AsteroidsScreen(
 @Composable
 private fun AsteroidsList(
     asteroids: List<Asteroid>,
-    onClick: (Asteroid) -> Unit,
+    onItemClick: (Asteroid) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -87,7 +87,11 @@ private fun AsteroidsList(
         modifier = modifier
     ) {
         items(asteroids, key = { asteroid -> asteroid.id }) { asteroid ->
-            AsteroidsItem(asteroid = asteroid, onItemClick = {})
+            AsteroidsItem(
+                item = asteroid,
+                modifier = Modifier
+                    .clickable { onItemClick(asteroid) }
+            )
         }
     }
 }
@@ -95,24 +99,22 @@ private fun AsteroidsList(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AsteroidsItem(
-    asteroid: Asteroid,
-    onItemClick: (Asteroid) -> Unit,
+    item: Asteroid,
     modifier: Modifier = Modifier
 ) {
     Card(
         elevation = CardDefaults.cardElevation(),
         modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius)),
-        onClick = { onItemClick(asteroid) }
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .size(dimensionResource(id = R.dimen.card_height))
+                .size(dimensionResource(id = R.dimen.image_height))
         ) {
             AsteroidItemImage(
-                isHazardous = asteroid.isHazardous,
-                modifier = modifier.size(dimensionResource(id = R.dimen.card_height))
+                isHazardous = item.isHazardous,
+                modifier = modifier.size(dimensionResource(id = R.dimen.image_height))
             )
             Column(
                 modifier = Modifier
@@ -121,33 +123,10 @@ private fun AsteroidsItem(
                         horizontal = dimensionResource(id = R.dimen.padding_medium)
                     )
             ) {
-                KeyValueText(key = "name", value = asteroid.name)
-                KeyValueText(key = "distance", value = asteroid.missDistanceAstronomical)
+                KeyValueText(key = "name", value = item.name)
+                KeyValueText(key = "distance", value = item.missDistanceAstronomical)
             }
         }
-    }
-}
-
-@Composable
-private fun KeyValueText(
-    key: String,
-    value: String,
-    modifier: Modifier = Modifier
-) {
-    Row (
-        verticalAlignment = Alignment.Bottom,
-        modifier = modifier
-    ){
-        Text(
-            text = "$key: ",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
-        )
     }
 }
 
@@ -171,7 +150,7 @@ private fun AsteroidItemImage(isHazardous: Boolean, modifier: Modifier = Modifie
 @Preview
 @Composable
 private fun AsteroidsListPreview() {
-    AsteroidsList(asteroids = sampleAsteroids, onClick = {})
+    AsteroidsList(asteroids = sampleAsteroids, onItemClick = {})
 }
 
 @Preview
@@ -183,6 +162,6 @@ private fun AsteroidItemImagePreview() {
 @Preview
 @Composable
 private fun AsteroidsListItemPreview() {
-    AsteroidsItem(asteroid = sampleAsteroids[0], onItemClick = {})
+    AsteroidsItem(item = sampleAsteroids[0])
 }
 

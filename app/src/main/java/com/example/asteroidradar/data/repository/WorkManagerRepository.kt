@@ -35,7 +35,7 @@ class WorkManagerRepositoryImpl(context: Context): WorkManagerRepository {
 
         workManager.enqueueUniquePeriodicWork(
             UPDATE_ASTEROIDS_WORK_NAME,
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
     }

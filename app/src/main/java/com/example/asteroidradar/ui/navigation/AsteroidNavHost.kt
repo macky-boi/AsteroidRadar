@@ -2,11 +2,14 @@ package com.example.asteroidradar.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.asteroidradar.ui.screens.asteroids.AsteroidScreenDestination
+import androidx.navigation.navArgument
+import com.example.asteroidradar.ui.screens.asteroidDetails.AsteroidDetailScreen
+import com.example.asteroidradar.ui.screens.asteroidDetails.AsteroidDetailsDestination
+import com.example.asteroidradar.ui.screens.asteroids.AsteroidsScreenDestination
 import com.example.asteroidradar.ui.screens.asteroids.AsteroidsScreen
 
 @Composable
@@ -16,11 +19,25 @@ fun AsteroidNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AsteroidScreenDestination.route,
+        startDestination = AsteroidsScreenDestination.route,
         modifier = modifier
     ) {
-        composable(route = AsteroidScreenDestination.route) {
-            AsteroidsScreen()
+        composable(route = AsteroidsScreenDestination.route) {
+            AsteroidsScreen(
+                navigateToAsteroidDetails = {
+                    navController.navigate("${AsteroidDetailsDestination.route}/${it}")
+                }
+            )
+        }
+        composable(
+            route = AsteroidDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(AsteroidDetailsDestination.ASTEROID_ID_ARG) {
+                type = NavType.StringType
+            })
+        ) {
+            AsteroidDetailScreen(
+                navigateBack = { navController.navigateUp() }
+            )
         }
     }
 }

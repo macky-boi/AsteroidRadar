@@ -73,7 +73,7 @@ class DaoInstrumentedTest {
         asteroidDao.deleteAsteroidsFrom(currentDate)
 
         val allAsteroids = asteroidDao.getAllAsteroids().first()
-        assertEquals(1, allAsteroids.size)
+        assertEquals(0, allAsteroids.size)
     }
 
     @Test

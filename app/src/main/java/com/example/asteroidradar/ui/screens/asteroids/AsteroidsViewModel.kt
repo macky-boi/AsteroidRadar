@@ -14,8 +14,10 @@ import com.example.asteroidradar.domain.FetchAsteroidsUseCase
 import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -61,10 +63,14 @@ class AsteroidsViewModel(
     }
 
     private suspend fun fetchAndSaveAsteroidsIfDatabaseIsEmpty() {
+        Log.i(TAG, "fetchAndSaveAsteroidsIfDatabaseIsEmpty")
+
         if (databaseRepository.isDatabaseEmpty()) {
+            Log.i(TAG, "database is empty")
             val networkAsteroidsResponse = fetchAsteroidsUseCase()
-            networkAsteroidsResponse.onSuccess { asteroids ->
-                asteroids.toEntity().forEach { (_, asteroid) ->
+            networkAsteroidsResponse.onSuccess { asteroidsNetwork ->
+                Log.i(TAG, "asteroidsNetwork: $asteroidsNetwork")
+                asteroidsNetwork.toEntity().forEach { (_, asteroid) ->
                     databaseRepository.insertAsteroids(asteroid)
                 }
             }.onFailure { exception ->

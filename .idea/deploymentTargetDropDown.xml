@@ -5,16 +5,16 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="filterAsteroidWorker_doWork_resultSuccess()">
+      <entry key="testDeleteAsteroidsFromThePast()">
+        <State />
+      </entry>
+      <entry key="testGetCount()">
         <State />
       </entry>
       <entry key="testGetLatestDate()">
         <State />
       </entry>
       <entry key="testGetNearEarthObjects()">
-        <State />
-      </entry>
-      <entry key="testPeriodicallyUpdateAsteroids()">
         <State />
       </entry>
       <entry key="testPeriodicallyUpdateAsteroids() (1)">
