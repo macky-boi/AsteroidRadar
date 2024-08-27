@@ -50,13 +50,10 @@ class AsteroidsViewModel(
                 databaseRepository.deleteAllAsteroidsFromThePast()
                 fetchAndSaveAsteroidsIfDatabaseIsEmpty()
 
-                val pictureOfTheDay =  networkRepository.fetchPictureOfTheDay()
 
                 databaseRepository.getAllAsteroids().collect { asteroids ->
                     _uiState.value = AsteroidsUiState(
-                        asteroids = asteroids,
-                        pictureOfTheDay = pictureOfTheDay
-                    )
+                        asteroids = asteroids)
                 }
             }
         }
@@ -71,11 +68,14 @@ class AsteroidsViewModel(
             networkAsteroidsResponse.onSuccess { asteroidsNetwork ->
                 Log.i(TAG, "asteroidsNetwork: $asteroidsNetwork")
                 asteroidsNetwork.toEntity().forEach { (_, asteroid) ->
+                    Log.i(TAG, "inserting asteroids: ${asteroidsNetwork.asteroids}")
                     databaseRepository.insertAsteroids(asteroid)
                 }
             }.onFailure { exception ->
                 Log.e(TAG, exception.localizedMessage ?: "Failed to fetch asteroids")
             }
+        } else {
+            Log.i(TAG, "database IS NOT empty")
         }
     }
 
