@@ -13,7 +13,7 @@ interface PictureOfTheDayDao {
     suspend fun insertPicture(picture: PictureOfTheDay)
 
     @Query("SELECT * FROM pictureOfTheDay WHERE date = :date")
-    fun getPictureByDate(date: Date): Flow<PictureOfTheDay>
+    fun getPictureByDate(date: Date): Flow<PictureOfTheDay?>
 
     @Query("DELETE from pictureOfTheDay WHERE date < :dateToday")
     suspend fun deletePictureFrom(dateToday: Date)

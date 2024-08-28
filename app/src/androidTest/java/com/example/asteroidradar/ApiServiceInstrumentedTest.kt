@@ -1,59 +1,53 @@
 package com.example.asteroidradar
 
-import android.content.Context
-import android.util.Log
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.work.testing.WorkManagerTestInitHelper
-import com.example.asteroidradar.data.DefaultAppContainer
-import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import com.example.asteroidradar.domain.FetchAsteroidsUseCase
+import com.example.asteroidradar.data.remote.NeoApiService
+import com.example.asteroidradar.utils.DateUtils
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import org.junit.Before
 import org.junit.Test
-import retrofit2.HttpException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import retrofit2.Retrofit
 
 class ApiServiceInstrumentedTest {
-    private lateinit var context: Context
-    private lateinit var container: DefaultAppContainer
-    private lateinit var networkRepository: AsteroidNetworkRepository
+    private lateinit var service: NeoApiService
 
     @Before
     fun setUp() {
-        context = InstrumentationRegistry.getInstrumentation().targetContext
-        container = DefaultAppContainer(context)
-        WorkManagerTestInitHelper.initializeTestWorkManager(context)
-        networkRepository = container.asteroidNetworkRepository
+        val baseUrl = "https://api.nasa.gov/"
+
+        val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true }
+
+        val retrofit: Retrofit = Retrofit.Builder()
+            .addConverterFactory(json.asConverterFactory(contentType))
+            .baseUrl(baseUrl)
+            .build()
+        service = retrofit.create(NeoApiService::class.java)
     }
 
     @Test
     fun testGetNearEarthObjects(): Unit = runBlocking {
-        val calendar = Calendar.getInstance()
-        val todayString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+        val todayString = DateUtils().presentDateString()
+        val endDateString = DateUtils().getFutureDateString(DateUtils.NUMBER_OF_DAYS)
 
-        calendar.add(Calendar.DAY_OF_YEAR, FetchAsteroidsUseCase.NUMBER_OF_DAYS)
-        val endDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
-
-        val response = networkRepository.fetchNearEarthObjects(todayString, endDateString)
-
-        Log.i("NeoApiServiceInstrumentedTest", "getNearEarthObjects(): $response")
-        response.onSuccess { asteroidsNetwork ->
-            assert(asteroidsNetwork.asteroids.isNotEmpty())
-        }.onFailure {
-            fail("HTTP error: ${it.message}")
+        try {
+            val nearEarthObjects = service.getNearEarthObjects(todayString, endDateString)
+            assert(nearEarthObjects.asteroids.isNotEmpty())
+        } catch(e: Exception) {
+            fail("error fetching nearEarthObjects: ${e.localizedMessage}")
         }
     }
 
     @Test
-    fun testGetNearEarthObjectsNetworkRequest(): Unit = runBlocking {
-        val response = networkRepository.fetchPictureOfTheDay()
-        response.onSuccess {
-            assert(it.url.isNotEmpty())
-        }.onFailure {
-            fail("Unexpected error: ${it.localizedMessage}")
+    fun testGetPictureOfTheDay(): Unit = runBlocking {
+        try {
+            val pictureOfTheDayNetwork = service.getPictureOfTheDay()
+            assert(pictureOfTheDayNetwork.url.isNotEmpty())
+        } catch(e: Exception) {
+            fail("error fetching pictureOfTheDayNetwork: ${e.localizedMessage}")
         }
     }
 }

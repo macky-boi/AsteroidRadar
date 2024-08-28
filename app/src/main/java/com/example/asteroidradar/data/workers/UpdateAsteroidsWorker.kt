@@ -10,28 +10,26 @@ private const val TAG = "UpdateAsteroidsWorker"
 
 class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     private val appContext = applicationContext as AsteroidRadarApplication
-    private val databaseRepository = appContext.container.asteroidDatabaseRepository
-    private val fetchAsteroidsUseCase = appContext.container.fetchAsteroidsUseCase
+    private val asteroidRadarRepository = appContext.container.asteroidRadarRepository
 
     override suspend fun doWork(): Result {
         Log.i("UpdateAsteroidsWorker", "doWork")
 
-        databaseRepository.deleteAllAsteroidsFromThePast()
-
-        lateinit var result: Result
-
-        val fetchedDataResponse = fetchAsteroidsUseCase()
-        fetchedDataResponse.onSuccess { asteroidsNetwork ->
-            val asteroidsEntity = asteroidsNetwork.toEntity()
-            asteroidsEntity.forEach { (_, asteroid) ->
-                databaseRepository.insertAsteroids(asteroid)
-            }
-            result = Result.success()
-        }.onFailure {
-            result = Result.failure()
+        try {
+            asteroidRadarRepository.initializeAsteroids()
+        } catch (e: Exception) {
+            Log.e(TAG, "error initializing asteroids: $e")
+            Result.failure()
         }
 
-        return result
+        try {
+            asteroidRadarRepository.initializePictureOfTheDay()
+        } catch (e: Exception) {
+            Log.e(TAG, "error initializing pictureOfTheDay: $e")
+            Result.failure()
+        }
+
+        return Result.success()
     }
 
 

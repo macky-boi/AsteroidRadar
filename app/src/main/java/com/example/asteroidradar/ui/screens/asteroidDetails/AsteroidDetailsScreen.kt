@@ -35,9 +35,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
+import com.example.asteroidradar.sampleAsteroids
 import com.example.asteroidradar.ui.AsteroidTopAppBar
 import com.example.asteroidradar.ui.navigation.NavigationDestination
-import com.example.asteroidradar.ui.sampleAsteroids
 
 
 object AsteroidDetailsDestination: NavigationDestination {

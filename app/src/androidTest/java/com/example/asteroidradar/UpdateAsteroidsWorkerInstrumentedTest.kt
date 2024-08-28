@@ -33,7 +33,6 @@ class UpdateAsteroidsWorkerInstrumentedTest {
         workManager = WorkManager.getInstance(context)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testPeriodicallyUpdateAsteroids() {
 

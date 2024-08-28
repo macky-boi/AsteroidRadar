@@ -9,10 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
-import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
-import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import com.example.asteroidradar.data.repository.PictureOfTheDayRepository
-import com.example.asteroidradar.domain.FetchAsteroidsUseCase
+import com.example.asteroidradar.data.repository.AsteroidRadarRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,10 +25,7 @@ data class AsteroidsUiState (
 private const val TAG = "AsteroidsViewModel"
 
 class AsteroidsViewModel(
-    private val databaseRepository: AsteroidDatabaseRepository,
-    private val networkRepository: AsteroidNetworkRepository,
-    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase,
-    private val pictureOfTheDayRepository: PictureOfTheDayRepository
+    private val asteroidRadarRepository: AsteroidRadarRepository
 
 ) : ViewModel() {
 
@@ -40,68 +34,22 @@ class AsteroidsViewModel(
 
     init {
         Log.i(TAG, "init")
-        initializeAsteroids()
-//        initializePictureOfTheDay()
-    }
-
-    private fun initializeAsteroids() {
-        Log.i(TAG, "initializeData")
-
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                databaseRepository.deleteAllAsteroidsFromThePast()
-                fetchAndSaveAsteroidsIfDatabaseIsEmpty()
-
-                databaseRepository.getAllAsteroids().collect { asteroids ->
-                    _uiState.value = AsteroidsUiState(
-                        asteroids = asteroids)
-                }
+                asteroidRadarRepository.initializePictureOfTheDay()
+                asteroidRadarRepository.initializeAsteroids()
             }
-        }
-    }
 
-//    private fun initializePictureOfTheDay() {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                var pictureOfTheDay = pictureOfTheDayRepository.getPictureOfTheDay()
-//
-//                if (pictureOfTheDay.first.isNullOrEmpty()) {
-//                    val fetchPictureOfTheDayResponse = networkRepository.fetchPictureOfTheDay()
-//
-//                    fetchPictureOfTheDayResponse.onSuccess {
-//                        pictureOfTheDayRepository.savePictureOfTheDay(it.url, it.date)
-//                    }.onFailure { e ->
-//                        Log.e(TAG, e.localizedMessage ?: "Failed to fetch pictureOfTheDay")
-//                    }
-//
-//                    pictureOfTheDay =  pictureOfTheDayRepository.getPictureOfTheDay()
-//                }
-//
-//                val url = pictureOfTheDay.first
-//                val date = pictureOfTheDay.second
-//
-//                _uiState.value = _uiState.value.copy(pictureOfTheDay = AstronomyPictureOfTheDay(date, url))
-//            }
-//        }
-//    }
-
-    private suspend fun fetchAndSaveAsteroidsIfDatabaseIsEmpty() {
-        Log.i(TAG, "fetchAndSaveAsteroidsIfDatabaseIsEmpty")
-
-        if (databaseRepository.isDatabaseEmpty()) {
-            Log.i(TAG, "database is empty")
-            val networkAsteroidsResponse = fetchAsteroidsUseCase()
-            networkAsteroidsResponse.onSuccess { asteroidsNetwork ->
-                Log.i(TAG, "asteroidsNetwork: $asteroidsNetwork")
-                asteroidsNetwork.toEntity().forEach { (_, asteroid) ->
-                    Log.i(TAG, "inserting asteroids: ${asteroidsNetwork.asteroids}")
-                    databaseRepository.insertAsteroids(asteroid)
-                }
-            }.onFailure { exception ->
-                Log.e(TAG, exception.localizedMessage ?: "Failed to fetch asteroids")
+            val asteroids = asteroidRadarRepository.getAllAsteroids()
+            asteroids.collect {
+                _uiState.value = _uiState.value.copy(asteroids = it)
             }
-        } else {
-            Log.i(TAG, "database IS NOT empty")
+
+            val pictureOfTheDay = asteroidRadarRepository.getPictureOfTheDay()
+            pictureOfTheDay.collect {
+                _uiState.value = _uiState.value.copy(pictureOfTheDay = it)
+            }
+            Log.i(TAG, "uiState: $uiState")
         }
     }
 
@@ -111,11 +59,8 @@ class AsteroidsViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
-                val networkRepository = application.container.asteroidNetworkRepository
-                val databaseRepository = application.container.asteroidDatabaseRepository
-                val fetchAsteroidsUseCase = application.container.fetchAsteroidsUseCase
-                val pictureOfTheDayRepository = application.container.pictureOfTheDayRepository
-                AsteroidsViewModel(databaseRepository, networkRepository, fetchAsteroidsUseCase, pictureOfTheDayRepository)
+                val asteroidRadarRepository = application.container.asteroidRadarRepository
+                AsteroidsViewModel(asteroidRadarRepository)
             }
         }
     }

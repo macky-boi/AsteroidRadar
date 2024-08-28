@@ -9,7 +9,7 @@ interface NeoApiService {
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String = "DEMO_KEY"
-    ): AsteroidsNetwork
+    ): NearEarthObjects
 
     @GET("/planetary/apod")
     suspend fun getPictureOfTheDay(

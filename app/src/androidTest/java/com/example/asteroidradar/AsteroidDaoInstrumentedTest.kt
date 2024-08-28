@@ -5,7 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 import com.example.asteroidradar.data.local.AsteroidRadarDatabase
-import com.example.asteroidradar.ui.sampleAsteroids
+import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.utils.DateUtils
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -85,7 +86,7 @@ class AsteroidDaoInstrumentedTest {
         asteroidDao.insertAsteroids(sampleAsteroids)
 
         val latestDate = asteroidDao.getLatestDate()!!
-        val latestDateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(latestDate)
+        val latestDateString = DateUtils().dateToString(latestDate)
 
         assertEquals(sampleAsteroids[0].date,  latestDateString)
     }

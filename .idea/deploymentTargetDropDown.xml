@@ -8,16 +8,16 @@
       <entry key="testClearPictures()">
         <State />
       </entry>
-      <entry key="testDeleteAsteroidsFromThePast()">
-        <State />
-      </entry>
       <entry key="testDeletePicturesFrom()">
         <State />
       </entry>
-      <entry key="testGetCount()">
+      <entry key="testGetCount() (1)">
         <State />
       </entry>
-      <entry key="testGetCount() (1)">
+      <entry key="testGetNearEarthObjects()">
+        <State />
+      </entry>
+      <entry key="testPeriodicallyUpdateAsteroids()">
         <State />
       </entry>
     </value>

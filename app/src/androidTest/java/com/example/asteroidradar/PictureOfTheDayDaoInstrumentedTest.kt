@@ -8,7 +8,7 @@ import com.example.asteroidradar.data.local.AsteroidRadarDatabase
 import com.example.asteroidradar.data.local.Converters
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDayDao
-import com.example.asteroidradar.ui.sampleAsteroids
+import com.example.asteroidradar.utils.DateUtils
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
@@ -86,7 +86,7 @@ class PictureOfTheDayDaoInstrumentedTest {
         pictureOfTheDayDao.insertPicture(pastPicture)
 
         val currentDate = Date()
-        val currentDateString = Converters().dateToString(currentDate)
+        val currentDateString = DateUtils().dateToString(currentDate)
 
         val presentPicture = PictureOfTheDay(
             date = currentDateString,

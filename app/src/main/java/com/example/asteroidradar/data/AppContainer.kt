@@ -5,25 +5,18 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.asteroidradar.data.local.AsteroidRadarDatabase
 import com.example.asteroidradar.data.remote.NeoApiService
-import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
-import com.example.asteroidradar.data.repository.AsteroidDatabaseRepositoryImpl
-import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
-import com.example.asteroidradar.data.repository.AsteroidNetworkRepositoryImpl
-import com.example.asteroidradar.data.repository.PictureOfTheDayRepository
+import com.example.asteroidradar.data.repository.AsteroidRadarRepository
+import com.example.asteroidradar.data.repository.AsteroidRadarRepositoryImpl
 import com.example.asteroidradar.data.repository.WorkManagerRepository
 import com.example.asteroidradar.data.repository.WorkManagerRepositoryImpl
-import com.example.asteroidradar.domain.FetchAsteroidsUseCase
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
 interface AppContainer {
-    val asteroidDatabaseRepository: AsteroidDatabaseRepository
-    val asteroidNetworkRepository: AsteroidNetworkRepository
     val workManagerRepository: WorkManagerRepository
-    val fetchAsteroidsUseCase: FetchAsteroidsUseCase
-    val pictureOfTheDayRepository: PictureOfTheDayRepository
+    val asteroidRadarRepository: AsteroidRadarRepository
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -44,24 +37,14 @@ class DefaultAppContainer(context: Context): AppContainer {
     }
 
     private val asteroidDao = AsteroidRadarDatabase.getDatabase(context).asteroidDao()
+    private val pictureOfTheDayDao = AsteroidRadarDatabase.getDatabase(context).pictureOfTheDayDao()
 
-    override val asteroidDatabaseRepository: AsteroidDatabaseRepository by lazy {
-        AsteroidDatabaseRepositoryImpl(asteroidDao)
-    }
-
-    override val asteroidNetworkRepository: AsteroidNetworkRepository by lazy {
-        AsteroidNetworkRepositoryImpl(service)
+    override val asteroidRadarRepository: AsteroidRadarRepository by lazy {
+        AsteroidRadarRepositoryImpl(asteroidDao, pictureOfTheDayDao, service)
     }
 
     override val workManagerRepository: WorkManagerRepository by lazy {
         WorkManagerRepositoryImpl(context)
     }
 
-    override val fetchAsteroidsUseCase: FetchAsteroidsUseCase by lazy {
-       FetchAsteroidsUseCase(asteroidNetworkRepository, asteroidDatabaseRepository)
-    }
-
-    override val pictureOfTheDayRepository: PictureOfTheDayRepository by lazy {
-        PictureOfTheDayRepository(context.getSharedPreferences("PictureOfTheDayPreference", Context.MODE_PRIVATE))
-    }
 }

@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.asteroid.Asteroid
-import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
+import com.example.asteroidradar.data.repository.AsteroidRadarRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -33,13 +33,13 @@ data class AsteroidDetailsUiState(
 
 class AsteroidDetailsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val databaseRepository: AsteroidDatabaseRepository
+    private val asteroidRadarRepository: AsteroidRadarRepository
 ): ViewModel() {
 
     private val asteroidId: String = checkNotNull(savedStateHandle[AsteroidDetailsDestination.ASTEROID_ID_ARG])
 
     val uiState: StateFlow<AsteroidDetailsUiState> =
-        databaseRepository.getAsteroid(asteroidId)
+        asteroidRadarRepository.getAsteroid(asteroidId)
             .filterNotNull()
             .map {
                 AsteroidDetailsUiState(asteroid = it)
@@ -55,10 +55,10 @@ class AsteroidDetailsViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AsteroidRadarApplication)
-                val databaseRepository = application.container.asteroidDatabaseRepository
+                val asteroidRadarRepository = application.container.asteroidRadarRepository
                 AsteroidDetailsViewModel(
                     savedStateHandle = this.createSavedStateHandle(),
-                    databaseRepository = databaseRepository
+                    asteroidRadarRepository
                 )
             }
         }

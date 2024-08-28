@@ -36,9 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
 import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
+import com.example.asteroidradar.sampleAsteroids
 import com.example.asteroidradar.ui.AsteroidTopAppBar
 import com.example.asteroidradar.ui.navigation.NavigationDestination
-import com.example.asteroidradar.ui.sampleAsteroids
 
 object AsteroidsScreenDestination: NavigationDestination {
     override val route = "asteroid_screen"
@@ -70,7 +71,18 @@ fun AsteroidsScreen(
             asteroids = uiState.asteroids
         )
     }
+}
 
+@Composable
+private fun PictureOfTheDay(
+    pictureOfTheDay: PictureOfTheDay,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+    ) {
+
+    }
 }
 
 @Composable
@@ -117,7 +129,7 @@ private fun AsteroidsItem(
         ) {
             AsteroidItemImage(
                 isHazardous = item.isHazardous,
-                modifier = modifier.size(dimensionResource(id = R.dimen.image_height))
+                modifier = Modifier.size(dimensionResource(id = R.dimen.image_height))
             )
             Column(
                 modifier = Modifier
@@ -149,7 +161,7 @@ fun KeyValueText(
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
         )
-        Spacer(modifier = modifier.width(dimensionResource(id = R.dimen.padding_small)))
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_small)))
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge,
