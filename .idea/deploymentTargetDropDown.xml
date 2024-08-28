@@ -5,19 +5,19 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="testClearPictures()">
+        <State />
+      </entry>
       <entry key="testDeleteAsteroidsFromThePast()">
+        <State />
+      </entry>
+      <entry key="testDeletePicturesFrom()">
         <State />
       </entry>
       <entry key="testGetCount()">
         <State />
       </entry>
-      <entry key="testGetLatestDate()">
-        <State />
-      </entry>
-      <entry key="testGetNearEarthObjects()">
-        <State />
-      </entry>
-      <entry key="testPeriodicallyUpdateAsteroids() (1)">
+      <entry key="testGetCount() (1)">
         <State />
       </entry>
     </value>

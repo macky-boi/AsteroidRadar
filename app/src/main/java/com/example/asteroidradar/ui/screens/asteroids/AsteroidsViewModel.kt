@@ -7,23 +7,22 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
+import com.example.asteroidradar.data.repository.PictureOfTheDayRepository
 import com.example.asteroidradar.domain.FetchAsteroidsUseCase
-import com.example.asteroidradar.ui.model.AstronomyPictureOfTheDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 data class AsteroidsUiState (
     val asteroids: List<Asteroid> = listOf(),
-    val pictureOfTheDay: AstronomyPictureOfTheDay? = null
+    val pictureOfTheDay: PictureOfTheDay? = null
 )
 
 private const val TAG = "AsteroidsViewModel"
@@ -31,7 +30,9 @@ private const val TAG = "AsteroidsViewModel"
 class AsteroidsViewModel(
     private val databaseRepository: AsteroidDatabaseRepository,
     private val networkRepository: AsteroidNetworkRepository,
-    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase
+    private val fetchAsteroidsUseCase: FetchAsteroidsUseCase,
+    private val pictureOfTheDayRepository: PictureOfTheDayRepository
+
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AsteroidsUiState())
@@ -39,17 +40,17 @@ class AsteroidsViewModel(
 
     init {
         Log.i(TAG, "init")
-        initializeData()
+        initializeAsteroids()
+//        initializePictureOfTheDay()
     }
 
-    private fun initializeData() {
+    private fun initializeAsteroids() {
         Log.i(TAG, "initializeData")
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 databaseRepository.deleteAllAsteroidsFromThePast()
                 fetchAndSaveAsteroidsIfDatabaseIsEmpty()
-
 
                 databaseRepository.getAllAsteroids().collect { asteroids ->
                     _uiState.value = AsteroidsUiState(
@@ -58,6 +59,31 @@ class AsteroidsViewModel(
             }
         }
     }
+
+//    private fun initializePictureOfTheDay() {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                var pictureOfTheDay = pictureOfTheDayRepository.getPictureOfTheDay()
+//
+//                if (pictureOfTheDay.first.isNullOrEmpty()) {
+//                    val fetchPictureOfTheDayResponse = networkRepository.fetchPictureOfTheDay()
+//
+//                    fetchPictureOfTheDayResponse.onSuccess {
+//                        pictureOfTheDayRepository.savePictureOfTheDay(it.url, it.date)
+//                    }.onFailure { e ->
+//                        Log.e(TAG, e.localizedMessage ?: "Failed to fetch pictureOfTheDay")
+//                    }
+//
+//                    pictureOfTheDay =  pictureOfTheDayRepository.getPictureOfTheDay()
+//                }
+//
+//                val url = pictureOfTheDay.first
+//                val date = pictureOfTheDay.second
+//
+//                _uiState.value = _uiState.value.copy(pictureOfTheDay = AstronomyPictureOfTheDay(date, url))
+//            }
+//        }
+//    }
 
     private suspend fun fetchAndSaveAsteroidsIfDatabaseIsEmpty() {
         Log.i(TAG, "fetchAndSaveAsteroidsIfDatabaseIsEmpty")
@@ -88,7 +114,8 @@ class AsteroidsViewModel(
                 val networkRepository = application.container.asteroidNetworkRepository
                 val databaseRepository = application.container.asteroidDatabaseRepository
                 val fetchAsteroidsUseCase = application.container.fetchAsteroidsUseCase
-                AsteroidsViewModel(databaseRepository, networkRepository, fetchAsteroidsUseCase)
+                val pictureOfTheDayRepository = application.container.pictureOfTheDayRepository
+                AsteroidsViewModel(databaseRepository, networkRepository, fetchAsteroidsUseCase, pictureOfTheDayRepository)
             }
         }
     }

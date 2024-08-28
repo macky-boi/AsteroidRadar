@@ -48,15 +48,12 @@ class ApiServiceInstrumentedTest {
     }
 
     @Test
-    fun testGetNearEarthObjectsNetworkRequest() = runBlocking {
-        try {
-            val response = networkRepository.fetchPictureOfTheDay()
-            Log.i("NeoApiServiceInstrumentedTest", "getPictureOfTheDay(): $response")
-            assert(response.title.isNotEmpty())
-        } catch (e: HttpException) {
-            fail("HTTP error: ${e.message}")
-        } catch (e: Exception) {
-            fail("Unexpected error: ${e.message}")
+    fun testGetNearEarthObjectsNetworkRequest(): Unit = runBlocking {
+        val response = networkRepository.fetchPictureOfTheDay()
+        response.onSuccess {
+            assert(it.url.isNotEmpty())
+        }.onFailure {
+            fail("Unexpected error: ${it.localizedMessage}")
         }
     }
 }

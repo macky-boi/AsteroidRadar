@@ -1,7 +1,7 @@
 package com.example.asteroidradar.data.remote
 
 
-import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.asteroid.Asteroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

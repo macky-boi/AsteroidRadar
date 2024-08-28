@@ -1,7 +1,7 @@
 package com.example.asteroidradar.data.repository
 
-import com.example.asteroidradar.data.local.Asteroid
-import com.example.asteroidradar.data.local.AsteroidDao
+import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
@@ -39,4 +39,6 @@ class AsteroidDatabaseRepositoryImpl  (
     override suspend fun getCount(): Int  = asteroidDao.getCount()
 
     override suspend fun getLatestDate(): Date? = asteroidDao.getLatestDate()
+
+
 }

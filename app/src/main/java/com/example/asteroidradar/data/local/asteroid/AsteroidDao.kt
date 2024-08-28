@@ -1,4 +1,4 @@
-package com.example.asteroidradar.data.local
+package com.example.asteroidradar.data.local.asteroid
 
 import androidx.room.Dao
 import androidx.room.Insert

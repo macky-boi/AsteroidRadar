@@ -8,13 +8,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
-import com.example.asteroidradar.ui.screens.asteroids.AsteroidsUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn

@@ -1,6 +1,6 @@
 package com.example.asteroidradar.ui
 
-import com.example.asteroidradar.data.local.Asteroid
+import com.example.asteroidradar.data.local.asteroid.Asteroid
 
 
 val sampleAsteroids = listOf(

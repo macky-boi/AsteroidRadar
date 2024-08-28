@@ -3,9 +3,8 @@ package com.example.asteroidradar
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.asteroidradar.data.local.Asteroid
-import com.example.asteroidradar.data.local.AsteroidDao
-import com.example.asteroidradar.data.local.AsteroidDatabase
+import com.example.asteroidradar.data.local.asteroid.AsteroidDao
+import com.example.asteroidradar.data.local.AsteroidRadarDatabase
 import com.example.asteroidradar.ui.sampleAsteroids
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
@@ -18,10 +17,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class DaoInstrumentedTest {
+class AsteroidDaoInstrumentedTest {
 
     private lateinit var asteroidDao: AsteroidDao
-    private lateinit var asteroidDatabase: AsteroidDatabase
+    private lateinit var asteroidRadarDatabase: AsteroidRadarDatabase
 
     @Before
     fun createDB() {
@@ -29,17 +28,17 @@ class DaoInstrumentedTest {
 
         // Using an in-memory database because the information stored here disappears when the
         // process is killed.
-        asteroidDatabase = Room.inMemoryDatabaseBuilder(context, AsteroidDatabase::class.java)
+        asteroidRadarDatabase = Room.inMemoryDatabaseBuilder(context, AsteroidRadarDatabase::class.java)
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
-        asteroidDao = asteroidDatabase.asteroidDao()
+        asteroidDao = asteroidRadarDatabase.asteroidDao()
     }
 
     @After
     @Throws(IOException::class)
     fun closeDb() {
-        asteroidDatabase.close()
+        asteroidRadarDatabase.close()
     }
 
     @Test

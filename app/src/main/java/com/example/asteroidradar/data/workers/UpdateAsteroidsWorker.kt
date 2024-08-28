@@ -1,24 +1,10 @@
 package com.example.asteroidradar.data.workers
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.work.CoroutineWorker
-import androidx.work.ListenableWorker
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import androidx.work.await
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.FETCH_ASTEROIDS_WORK_NAME
-import com.example.asteroidradar.FILTER_ASTEROIDS_WORK_NAME
-import com.example.asteroidradar.SAVE_ASTEROIDS_WORK_NAME
-import com.example.asteroidradar.data.remote.AsteroidNetwork
-import com.example.asteroidradar.data.remote.AsteroidsNetwork
-import retrofit2.HttpException
-import java.io.IOException
 
 private const val TAG = "UpdateAsteroidsWorker"
 

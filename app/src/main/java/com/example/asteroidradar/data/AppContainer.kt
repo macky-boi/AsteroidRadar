@@ -3,12 +3,13 @@ package com.example.asteroidradar.data
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.asteroidradar.data.local.AsteroidDatabase
+import com.example.asteroidradar.data.local.AsteroidRadarDatabase
 import com.example.asteroidradar.data.remote.NeoApiService
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepository
 import com.example.asteroidradar.data.repository.AsteroidDatabaseRepositoryImpl
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepository
 import com.example.asteroidradar.data.repository.AsteroidNetworkRepositoryImpl
+import com.example.asteroidradar.data.repository.PictureOfTheDayRepository
 import com.example.asteroidradar.data.repository.WorkManagerRepository
 import com.example.asteroidradar.data.repository.WorkManagerRepositoryImpl
 import com.example.asteroidradar.domain.FetchAsteroidsUseCase
@@ -22,6 +23,7 @@ interface AppContainer {
     val asteroidNetworkRepository: AsteroidNetworkRepository
     val workManagerRepository: WorkManagerRepository
     val fetchAsteroidsUseCase: FetchAsteroidsUseCase
+    val pictureOfTheDayRepository: PictureOfTheDayRepository
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -41,7 +43,7 @@ class DefaultAppContainer(context: Context): AppContainer {
         retrofit.create(NeoApiService::class.java)
     }
 
-    private val asteroidDao = AsteroidDatabase.getDatabase(context).asteroidDao()
+    private val asteroidDao = AsteroidRadarDatabase.getDatabase(context).asteroidDao()
 
     override val asteroidDatabaseRepository: AsteroidDatabaseRepository by lazy {
         AsteroidDatabaseRepositoryImpl(asteroidDao)
@@ -57,5 +59,9 @@ class DefaultAppContainer(context: Context): AppContainer {
 
     override val fetchAsteroidsUseCase: FetchAsteroidsUseCase by lazy {
        FetchAsteroidsUseCase(asteroidNetworkRepository, asteroidDatabaseRepository)
+    }
+
+    override val pictureOfTheDayRepository: PictureOfTheDayRepository by lazy {
+        PictureOfTheDayRepository(context.getSharedPreferences("PictureOfTheDayPreference", Context.MODE_PRIVATE))
     }
 }
