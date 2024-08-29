@@ -85,26 +85,33 @@ class AsteroidRadarRepositoryImpl(
     }
 
     override suspend fun initializeAsteroids() {
+        Log.i(TAG, "initializeAsteroids")
         deleteAsteroidsFromThePast()
 
-        val startDate = if (isAsteroidsEmpty()) {
+        val latestDate = if (isAsteroidsEmpty()) {
+            Log.i(TAG, "asteroid database is empty")
             DateUtils().presentDateString()
         } else {
+            Log.i(TAG, "asteroid database is not empty")
             val latestDate = asteroidDao.getLatestDate()!!
             DateUtils().dateToString(latestDate)
         }
+        Log.i(TAG, "startDate: $latestDate")
 
         val endDate = DateUtils().getFutureDateString(NUMBER_OF_DAYS)
+        Log.i(TAG, "endDate: $endDate")
 
-        val nearEarthObjectsResult = fetchNearEarthObjects(startDate, endDate)
-        nearEarthObjectsResult.onSuccess { nearEarthObjects ->
-            nearEarthObjects.toEntity().forEach { (_, asteroid) ->
-                Log.i(TAG, "inserting asteroids: $asteroid")
-                asteroidDao.insertAsteroids(asteroid)
+        if (latestDate != endDate) {
+            val nearEarthObjectsResult = fetchNearEarthObjects(latestDate, endDate)
+            nearEarthObjectsResult.onSuccess { nearEarthObjects ->
+                nearEarthObjects.toEntity().forEach { (_, asteroid) ->
+                    Log.i(TAG, "inserting asteroids: $asteroid")
+                    asteroidDao.insertAsteroids(asteroid)
+                }
+            }.onFailure {e ->
+                Log.e(TAG, e.localizedMessage ?: "Failed to fetch nearEarthObjects")
+                throw e
             }
-        }.onFailure {e ->
-            Log.e(TAG, e.localizedMessage ?: "Failed to fetch nearEarthObjects")
-            throw e
         }
     }
 
