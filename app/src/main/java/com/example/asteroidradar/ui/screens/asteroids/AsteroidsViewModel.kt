@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -40,16 +41,23 @@ class AsteroidsViewModel(
                 asteroidRadarRepository.initializeAsteroids()
             }
 
-            val asteroids = asteroidRadarRepository.getAllAsteroids()
-            asteroids.collect {
-                _uiState.value = _uiState.value.copy(asteroids = it)
+            launch {
+                val asteroids = asteroidRadarRepository.getAllAsteroids()
+                Log.i(TAG, "asteroids: ${asteroids.first()}")
+                asteroids.collect {
+                    Log.i(TAG, "collecting asteroids: $it")
+                    _uiState.value = _uiState.value.copy(asteroids = it)
+                }
             }
 
-            val pictureOfTheDay = asteroidRadarRepository.getPictureOfTheDay()
-            pictureOfTheDay.collect {
-                _uiState.value = _uiState.value.copy(pictureOfTheDay = it)
+            launch {
+                val pictureOfTheDay = asteroidRadarRepository.getPictureOfTheDay()
+                Log.i(TAG, "pictureOfTheDay: ${pictureOfTheDay.first()}")
+                pictureOfTheDay.collect {
+                    Log.i(TAG, "collecting pictureOfTheDay: $it")
+                    _uiState.value = _uiState.value.copy(pictureOfTheDay = it)
+                }
             }
-            Log.i(TAG, "uiState: $uiState")
         }
     }
 

@@ -55,14 +55,17 @@ class AsteroidRadarRepositoryImpl(
     }
 
     override suspend fun initializePictureOfTheDay() {
+        Log.i(TAG, "initializePictureOfTheDay")
         val today = Date()
 
         pictureOfTheDayDao.deletePictureFrom(today)
 
         val pictureOfTheDay = pictureOfTheDayDao.getPictureByDate(today)
+        Log.i(TAG, "pictureOfTheDay: ${pictureOfTheDay.first()}")
 
         if (pictureOfTheDay.first() == null) {
             fetchPictureOfTheDayNetwork().onSuccess {
+                Log.i(TAG, "inserting pictureOfTheDay: $it")
                 pictureOfTheDayDao.insertPicture(it.toEntity())
             }.onFailure { e ->
                 Log.e(TAG, e.localizedMessage ?: "Failed to fetch pictureOfTheDay")

@@ -5,6 +5,13 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 android {
     namespace = "com.example.asteroidradar"
     compileSdk = 34
@@ -89,4 +96,6 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.navigation.compose)
+    // coil
+    implementation(libs.coil.compose)
 }
