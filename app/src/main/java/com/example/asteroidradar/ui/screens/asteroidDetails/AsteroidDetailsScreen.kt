@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,18 +34,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
 import com.example.asteroidradar.sampleAsteroids
 import com.example.asteroidradar.ui.AsteroidTopAppBar
 import com.example.asteroidradar.ui.navigation.NavigationDestination
+import com.example.asteroidradar.utils.AsteroidsContentType
 
 
 object AsteroidDetailsDestination: NavigationDestination {
     override val route = "asteroid_details"
     override val titleRes: Int = R.string.asteroid_detail_title
-    const val ASTEROID_ID_ARG = "asteroidId"
-    val routeWithArgs = "$route/{$ASTEROID_ID_ARG}"
+    const val ASTEROID_ID_KEY = "asteroidId"
+    val routeWithArgs = "$route/{$ASTEROID_ID_KEY}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +55,7 @@ object AsteroidDetailsDestination: NavigationDestination {
 fun AsteroidDetailScreen(
     modifier: Modifier = Modifier,
     navigateBack: () -> Unit,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     viewModel: AsteroidDetailsViewModel = viewModel(factory = AsteroidDetailsViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()

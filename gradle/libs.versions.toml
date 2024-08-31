@@ -20,6 +20,7 @@ kotlinxCoroutinesTest = "1.6.4"
 lifecycleViewModel = "2.6.2"
 navigation = "2.7.5"
 coil = "2.6.0"
+windowSizeClass = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +67,8 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 # coil
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
 
+# windowSizeClass
+androidx-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "windowSizeClass"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,10 +20,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.asteroidradar.ui.screens.asteroids.AsteroidsScreen
 import com.example.asteroidradar.ui.navigation.AsteroidNavHost
+import com.example.asteroidradar.utils.AsteroidsContentType
 
 @Composable
-fun AsteroidApp(navController: NavHostController = rememberNavController()) {
-    AsteroidNavHost(navController = navController)
+fun AsteroidApp(
+    windowSize: WindowWidthSizeClass,
+    navController: NavHostController = rememberNavController()
+) {
+    AsteroidNavHost(windowSize = windowSize, navController = navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
