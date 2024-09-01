@@ -96,6 +96,7 @@ private fun PictureOfTheDayCard(
     title: String,
     modifier: Modifier = Modifier
 ) {
+    Log.i(TAG, "PictureOfTheDayCard | imgUrl: $imgUrl")
     Box(
         modifier = modifier
             .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
@@ -117,7 +118,8 @@ private fun PictureOfTheDayCard(
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(id = R.string.picture_of_the_day),
-                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center,
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth())
         }
         Text(
@@ -160,7 +162,9 @@ private fun AsteroidsBody(
                     .padding(
                         vertical = dimensionResource(id = R.dimen.padding_small)
                     )
-                    .clickable { onItemClick(asteroid) }
+                    .clickable(
+                        onClickLabel = stringResource(id = R.string.action_view_asteroid)
+                    ) { onItemClick(asteroid) }
             )
         }
     }
@@ -237,8 +241,7 @@ private fun AsteroidItemImage(isHazardous: Boolean, modifier: Modifier = Modifie
                     R.mipmap.hazardous_comet_img_foreground else  R.mipmap.safe_comet_img_foreground
             ),
             contentDescription = null,
-            alignment = Alignment.TopCenter,
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.Fit
         )
     }
 }

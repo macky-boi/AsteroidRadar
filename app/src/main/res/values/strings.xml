@@ -10,4 +10,6 @@
     <string name="miss_distance_astronomical_label">miss distance (AU)</string>
     <string name="relative_velocity_label">relative velocity (km/s)</string>
     <string name="picture_of_the_day">Picture of the Day</string>
+
+    <string name="action_view_asteroid">view asteroid</string>
 </resources>
