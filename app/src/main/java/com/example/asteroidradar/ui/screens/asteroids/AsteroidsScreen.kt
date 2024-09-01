@@ -24,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,10 +46,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.asteroidradar.R
 import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.sampleAsteroids
 import com.example.asteroidradar.samplePictureOfTheDay
 import com.example.asteroidradar.ui.AsteroidTopAppBar
 import com.example.asteroidradar.ui.navigation.NavigationDestination
+import com.example.asteroidradar.ui.screens.asteroidDetails.AsteroidDetailScreen
+import com.example.asteroidradar.utils.AsteroidsContentType
 
 object AsteroidsScreenDestination: NavigationDestination {
     override val route = "asteroid_screen"
@@ -61,12 +65,20 @@ private const val TAG = "AsteroidsScreen"
 @Composable
 fun AsteroidsScreen(
     modifier: Modifier = Modifier,
-    navigateToAsteroidDetails: (String) -> Unit,
+    windowSize: WindowWidthSizeClass,
+    onAsteroidItemPressed: (String) -> Unit,
     viewModel: AsteroidsViewModel = viewModel(factory = AsteroidsViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Log.i(TAG, "asteroids: ${uiState.asteroids} \npictureOfTheDay: ${uiState.pictureOfTheDay}")
 
+    val contentType = when (windowSize) {
+        WindowWidthSizeClass.Compact,
+        WindowWidthSizeClass.Medium -> AsteroidsContentType.ListOnly
+
+        WindowWidthSizeClass.Expanded -> AsteroidsContentType.ListAndDetail
+        else -> AsteroidsContentType.ListOnly
+    }
 
     Scaffold (
         modifier,
@@ -78,15 +90,56 @@ fun AsteroidsScreen(
         }
     ) { innerPadding ->
         Column {
-            AsteroidsBody(
-                imgUrl = uiState.pictureOfTheDay?.url,
-                title = uiState.pictureOfTheDay?.title,
-                onItemClick = { navigateToAsteroidDetails(it.id)},
-                modifier = modifier.fillMaxSize(),
-                contentPadding = innerPadding,
-                asteroids = uiState.asteroids
-            )
+            if (contentType == AsteroidsContentType.ListAndDetail) {
+                AsteroidsList(
+                    pictureOfTheDay = uiState.pictureOfTheDay,
+                    onItemClick = onAsteroidItemPressed,
+                    modifier = modifier.fillMaxSize(),
+                    contentPadding = innerPadding,
+                    asteroids = uiState.asteroids
+                )
+            } else {
+                AsteroidsListAndDetails(uiState = uiState, onAsteroidItemPressed = onAsteroidItemPressed) {
+
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun AsteroidsListAndDetails(
+    modifier: Modifier = Modifier,
+    uiState: AsteroidsUiState,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    onAsteroidItemPressed: (String) -> Unit,
+    onBackPressed: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+    ){
+        AsteroidsList(
+            pictureOfTheDay = uiState.pictureOfTheDay,
+            asteroids = uiState.asteroids,
+            onItemClick = onAsteroidItemPressed,
+            contentPadding = PaddingValues(
+                top = contentPadding.calculateTopPadding(),
+            ),
+            modifier = Modifier
+                .weight(2f)
+                .padding(horizontal = dimensionResource(R.dimen.padding_medium))
+        )
+
+        AsteroidDetailScreen(
+            navigateBack = onBackPressed,
+            contentPadding =
+            PaddingValues(
+                top = contentPadding.calculateTopPadding(),
+            ),
+            modifier = Modifier
+                .weight(3f)
+                .padding(end = 16.dp)
+        )
     }
 }
 
@@ -139,11 +192,10 @@ private fun PictureOfTheDayCard(
 }
 
 @Composable
-private fun AsteroidsBody(
-    imgUrl: String?,
-    title: String?,
+private fun AsteroidsList(
+    pictureOfTheDay: PictureOfTheDay?,
     asteroids: List<Asteroid>,
-    onItemClick: (Asteroid) -> Unit,
+    onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -153,7 +205,7 @@ private fun AsteroidsBody(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
         modifier = modifier
     ) {
-        item { PictureOfTheDayCard(imgUrl = imgUrl, title = title ?: "") }
+        item { PictureOfTheDayCard(imgUrl = pictureOfTheDay?.url, title = pictureOfTheDay?.title ?: "") }
         items(asteroids, key = { asteroid -> asteroid.id }) {
             asteroid ->
             AsteroidsItem(
@@ -164,7 +216,8 @@ private fun AsteroidsBody(
                     )
                     .clickable(
                         onClickLabel = stringResource(id = R.string.action_view_asteroid)
-                    ) { onItemClick(asteroid) }
+                    ) { onItemClick(asteroid.id) }
+                    .clickable { onItemClick(asteroid.id) }
             )
         }
     }
@@ -255,7 +308,7 @@ private fun PictureOfTheDayCardPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun AsteroidsListPreview() {
-    AsteroidsBody(asteroids = sampleAsteroids, imgUrl = samplePictureOfTheDay.url, title = samplePictureOfTheDay.title, onItemClick = {})
+    AsteroidsList(pictureOfTheDay = samplePictureOfTheDay, asteroids = sampleAsteroids, onItemClick = {})
 }
 
 @Preview(showBackground = true)

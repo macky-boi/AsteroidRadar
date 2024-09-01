@@ -98,4 +98,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // coil
     implementation(libs.coil.compose)
+    // windowSizeClass
+    implementation(libs.androidx.material3.windowSizeClass)
 }
