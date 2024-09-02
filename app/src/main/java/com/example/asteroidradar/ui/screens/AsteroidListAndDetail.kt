@@ -1,4 +1,4 @@
-package com.example.asteroidradar.ui.screens.asteroidListAndDetail
+package com.example.asteroidradar.ui.screens
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
-import com.example.asteroidradar.ui.screens.asteroidDetails.AsteroidDetail
-import com.example.asteroidradar.ui.screens.asteroidList.AsteroidsList
+import com.example.asteroidradar.R
+import com.example.asteroidradar.ui.screens.AsteroidDetail
+import com.example.asteroidradar.ui.screens.AsteroidsList
 
 
 @Composable
@@ -42,8 +44,7 @@ fun AsteroidsListAndDetails(
 
         AsteroidDetail(
             modifier = Modifier
-                .weight(3f)
-                .padding(end = 16.dp),
+                .weight(3f),
             asteroid = currentAsteroid
         )
     }

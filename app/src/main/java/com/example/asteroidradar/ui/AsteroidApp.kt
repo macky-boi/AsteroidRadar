@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -14,21 +13,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
-import com.example.asteroidradar.ui.screens.asteroidDetails.AsteroidDetail
-import com.example.asteroidradar.ui.screens.asteroidList.AsteroidsList
-import com.example.asteroidradar.ui.screens.asteroidListAndDetail.AsteroidsListAndDetails
+import com.example.asteroidradar.ui.screens.AsteroidDetail
+import com.example.asteroidradar.ui.screens.AsteroidsList
+import com.example.asteroidradar.ui.screens.AsteroidsListAndDetails
 import com.example.asteroidradar.utils.AsteroidsContentType
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +35,7 @@ fun AsteroidApp(
     viewModel: AsteroidAppViewModel = viewModel(factory = AsteroidAppViewModel.Factory),
     windowSize: WindowWidthSizeClass,
 ) {
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val contentType = when (windowSize) {
         WindowWidthSizeClass.Compact,
@@ -47,14 +45,14 @@ fun AsteroidApp(
         else -> AsteroidsContentType.ListOnly
     }
 
-    val isShowingDetailsPage = !uiState.value.isShowingListPage
+    viewModel.updateContentType(contentType)
 
     Scaffold (
         topBar = {
             if (contentType != AsteroidsContentType.ListAndDetail)
                 AsteroidTopAppBar(
-                    canNavigateBack = isShowingDetailsPage,
-                    title = if (uiState.value.isShowingListPage)
+                    canNavigateBack = uiState.isShowingDetailPage,
+                    title = if (uiState.isShowingListPage)
                         stringResource(id = R.string.app_name)
                     else 
                         stringResource(id = R.string.asteroid_detail_title),
@@ -65,20 +63,20 @@ fun AsteroidApp(
         Column {
             if (contentType == AsteroidsContentType.ListAndDetail) {
                 AsteroidsListAndDetails(
-                    asteroids = uiState.value.asteroids,
-                    currentAsteroid = uiState.value.currentAsteroid,
-                    pictureOfTheDay = uiState.value.pictureOfTheDay,
+                    asteroids = uiState.asteroids,
+                    currentAsteroid = uiState.currentAsteroid,
+                    pictureOfTheDay = uiState.pictureOfTheDay,
                     onChangeCurrentAsteroid = { asteroid -> viewModel.updateCurrentAsteroid(asteroid) },
                     contentPadding = innerPadding
                 )
             } else {
                 Log.i("AsteroidApp", "not ListAndDetail")
-                if (uiState.value.isShowingListPage) {
+                if (uiState.isShowingListPage) {
                     Log.i("AsteroidApp", "isShowingListPage")
                     AsteroidsList(
-                        asteroids = uiState.value.asteroids,
-                        pictureOfTheDay = uiState.value.pictureOfTheDay,
-                        currentAsteroid = uiState.value.currentAsteroid,
+                        asteroids = uiState.asteroids,
+                        pictureOfTheDay = uiState.pictureOfTheDay,
+                        currentAsteroid = uiState.currentAsteroid,
                         onAsteroidClicked = {
                             viewModel.updateCurrentAsteroid(it)
                             viewModel.navigateToDetailPage()},
@@ -87,7 +85,7 @@ fun AsteroidApp(
                 } else {
                     Log.i("AsteroidApp", "NotShowingListPage")
                     AsteroidDetail(
-                        asteroid = uiState.value.currentAsteroid,
+                        asteroid = uiState.currentAsteroid,
                         navigateBack = { viewModel.navigateToListPage() },
                         contentPadding = PaddingValues(
                             top = innerPadding.calculateTopPadding(),

@@ -1,6 +1,7 @@
 package com.example.asteroidradar.ui
 
 import android.util.Log
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
@@ -11,7 +12,7 @@ import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
-import com.example.asteroidradar.ui.screens.asteroidList.AsteroidListViewModel
+import com.example.asteroidradar.utils.AsteroidsContentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,20 +34,26 @@ val emptyAsteroid = Asteroid(
 )
 
 data class AsteroidUiState (
-    val currentAsteroid: Asteroid = emptyAsteroid,
     val asteroids: List<Asteroid> = listOf(),
+    val currentAsteroid: Asteroid = emptyAsteroid,
     val isShowingListPage: Boolean = true,
-    val pictureOfTheDay: PictureOfTheDay? = null
-)
+    val pictureOfTheDay: PictureOfTheDay? = null,
+    val contentType: AsteroidsContentType = AsteroidsContentType.ListOnly
+) {
+    val isShowingDetailPage: Boolean
+        get() = !isShowingListPage
+}
 
 private const val TAG = "AsteroidsViewModel"
 
 class AsteroidAppViewModel(
-    private val asteroidRadarRepository: AsteroidRadarRepository,
+    private val asteroidRadarRepository: AsteroidRadarRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AsteroidUiState())
     val uiState: StateFlow<AsteroidUiState> = _uiState.asStateFlow()
+
+
 
     init {
         Log.i(TAG, "init")
@@ -61,7 +68,11 @@ class AsteroidAppViewModel(
                 Log.i(TAG, "asteroids: ${asteroids.first()}")
                 asteroids.collect {
                     Log.i(TAG, "collecting asteroids: $it")
-                    _uiState.value = _uiState.value.copy(asteroids = it, currentAsteroid = it.first())
+                    if (uiState.value.contentType == AsteroidsContentType.ListAndDetail)
+                        _uiState.value = _uiState.value
+                            .copy(asteroids = it, currentAsteroid = it.first())
+                    else
+                        _uiState.value = _uiState.value.copy(asteroids = it)
                 }
             }
 
@@ -73,6 +84,12 @@ class AsteroidAppViewModel(
                     _uiState.value = _uiState.value.copy(pictureOfTheDay = it)
                 }
             }
+        }
+    }
+
+    fun updateContentType(contentType: AsteroidsContentType) {
+        _uiState.update {
+            it.copy(contentType = contentType)
         }
     }
 
