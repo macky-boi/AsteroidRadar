@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,6 +35,11 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -161,6 +167,10 @@ private fun AsteroidsItem(
                     else
                         Color.Unspecified
                 )
+                .semantics(mergeDescendants = true) {
+                    contentDescription = "Asteroid."
+                    selected = isCurrentAsteroid
+                }
                 .fillMaxWidth()
         ) {
             AsteroidItemImage(
@@ -182,6 +192,7 @@ private fun AsteroidsItem(
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun KeyValueText(
     key: String,
@@ -190,12 +201,14 @@ fun KeyValueText(
 ) {
     Row (
         verticalAlignment = Alignment.Bottom,
-        modifier = modifier
+        modifier = modifier.semantics { contentDescription = "" }
     ){
         Text(
             text = "$key:",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.card_text_vertical_space))
+                .semantics {
+                }
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.padding_small)))
         Text(

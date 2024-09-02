@@ -11,5 +11,9 @@
     <string name="relative_velocity_label">relative velocity (km/s)</string>
     <string name="picture_of_the_day">Picture of the Day</string>
 
-    <string name="action_view_asteroid">view asteroid</string>
+    <string name="action_view_asteroid">view asteroid details</string>
+
+    <string name="hazardousComet_image">hazardous comet</string>
+    <string name="safeComet_image">none hazardous comet</string>
+    <string name="navigate_to_asteroid_list">navigate to asteroid list</string>
 </resources>

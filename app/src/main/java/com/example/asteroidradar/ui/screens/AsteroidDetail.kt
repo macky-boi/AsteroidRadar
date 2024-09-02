@@ -4,8 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -124,7 +123,12 @@ private fun AsteroidDetailImage(isHazardous: Boolean, modifier: Modifier = Modif
                     R.mipmap.hazardous_comet_img_foreground else  R.mipmap.safe_comet_img_foreground
             ),
             modifier = Modifier.size(dimensionResource(id = R.dimen.image_size_large)),
-            contentDescription = null,
+            contentDescription = stringResource(id =
+                if (isHazardous)
+                    R.string.hazardousComet_image
+                else
+                    R.string.safeComet_image,
+            ),
             alignment = Alignment.Center,
             contentScale = ContentScale.FillWidth
         )
@@ -142,6 +146,7 @@ private fun AsteroidDetailsRow(
             .padding(
                 horizontal = dimensionResource(id = R.dimen.padding_small)
             )
+            .semantics(mergeDescendants = true) {}
     ) {
         Text(text = stringResource(id = labelResId), style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.weight(1f))

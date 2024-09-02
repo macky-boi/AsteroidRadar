@@ -53,8 +53,6 @@ class AsteroidAppViewModel(
     private val _uiState = MutableStateFlow(AsteroidUiState())
     val uiState: StateFlow<AsteroidUiState> = _uiState.asStateFlow()
 
-
-
     init {
         Log.i(TAG, "init")
         viewModelScope.launch {

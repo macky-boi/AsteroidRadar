@@ -22,6 +22,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.asteroidradar.R
 import com.example.asteroidradar.ui.screens.AsteroidDetail
@@ -117,10 +120,13 @@ fun AsteroidTopAppBar(
             )},
         navigationIcon = if (canNavigateBack) {
             {
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    onClick = navigateUp,
+                    modifier = Modifier
+                ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "back button"
+                        contentDescription = stringResource(id = R.string.navigate_to_asteroid_list)
                     )
                 }
             }
