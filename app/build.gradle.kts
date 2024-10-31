@@ -101,4 +101,6 @@ dependencies {
     implementation(libs.coil.compose)
     // windowSizeClass
     implementation(libs.androidx.material3.windowSizeClass)
+    // constraint layout
+    implementation(libs.androidx.constraintlayout)
 }
