@@ -23,6 +23,10 @@ coil = "2.6.0"
 windowSizeClass = "1.1.1"
 fragment = "1.8.5"
 constraintlayout = "2.1.4"
+recyclerview = "1.3.2"
+appcompat = "1.7.0"
+activity = "1.8.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +79,16 @@ androidx-fragment = { group = "androidx.fragment", name = "fragment", version.re
 
 # constraint-layout
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+
+# appcompat
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
+# activity
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+# material
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

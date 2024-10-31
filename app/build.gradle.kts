@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.work.testing)
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -103,4 +104,10 @@ dependencies {
     implementation(libs.androidx.material3.windowSizeClass)
     // constraint layout
     implementation(libs.androidx.constraintlayout)
+    // appcompat
+    implementation(libs.androidx.appcompat)
+    // activity
+    implementation(libs.androidx.activity)
+    // material
+    implementation(libs.material)
 }
