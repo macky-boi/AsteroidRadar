@@ -1,32 +1,38 @@
 package com.example.asteroidradar
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import androidx.databinding.DataBindingUtil
+import com.example.asteroidradar.databinding.ActivityMainBinding
 import com.example.asteroidradar.ui.AsteroidApp
 import com.example.asteroidradar.ui.theme.AsteroidRadarTheme
 
-class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            AsteroidRadarTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val windowSize = calculateWindowSizeClass(this)
-                    AsteroidApp(windowSize = windowSize.widthSizeClass)
-                }
-            }
-        }
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
+
+    private fun isDarkTheme(): Boolean {
+        // Check the system theme or your app's theme settings
+        return (resources.configuration.uiMode and
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
 }

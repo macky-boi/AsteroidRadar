@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.asteroidradar.databinding.FragmentListBinding
 
 class ListFragment: Fragment() {
 
@@ -23,6 +24,8 @@ class ListFragment: Fragment() {
     ): View? {
         Log.i("ListingFragment", "onCreateView")
 
-        val binding = FragmentListingBinding.inflate(inflater)
+        val binding = FragmentListBinding.inflate(inflater)
+
+        return binding.root
     }
 }

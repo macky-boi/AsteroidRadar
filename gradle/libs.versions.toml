@@ -27,6 +27,7 @@ recyclerview = "1.3.2"
 appcompat = "1.7.0"
 activity = "1.8.0"
 material = "1.12.0"
+navigationFragment = "2.8.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -89,6 +90,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 
 # material
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -97,3 +99,6 @@ jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization
 
 #Room
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+
+# data binding
+kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }

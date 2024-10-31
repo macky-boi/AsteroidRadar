@@ -6,12 +6,11 @@
 
     <fragment
         android:id="@+id/list"
-        android:name="com.example.shoesin.login.LoginFragment"
-        android:label="Login"
+        android:name="com.example.asteroidradar.list.ListFragment"
         >
-        <action
-            android:id="@+id/action_login_to_welcome"
-            app:destination="@id/welcome" />
+<!--        <action-->
+<!--            android:id="@+id/action_login_to_welcome"-->
+<!--            app:destination="@id/welcome" />-->
     </fragment>
 
 </navigation>
