@@ -17,7 +17,6 @@ interface WorkManagerRepository {
 
 class WorkManagerRepositoryImpl(context: Context): WorkManagerRepository {
     private val workManager = WorkManager.getInstance(context)
-
     override fun periodicallyUpdateAsteroids() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)

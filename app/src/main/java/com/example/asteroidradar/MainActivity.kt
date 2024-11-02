@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import com.example.asteroidradar.databinding.ActivityMainBinding
-import com.example.asteroidradar.ui.AsteroidApp
 import com.example.asteroidradar.ui.theme.AsteroidRadarTheme
 
 class MainActivity : AppCompatActivity() {

@@ -45,14 +45,14 @@ class AsteroidDaoInstrumentedTest {
     @Test
     fun testInsertAsteroids() = runBlocking {
         asteroidDao.insertAsteroids(sampleAsteroids)
-        val allAsteroids = asteroidDao.getAllAsteroids().first()
+        val allAsteroids = asteroidDao.getAllAsteroids().value!!
         assertEquals(allAsteroids[0], sampleAsteroids[0])
     }
 
     @Test
     fun testGetAllAsteroids() = runBlocking {
         asteroidDao.insertAsteroids(sampleAsteroids)
-        val allAsteroids = asteroidDao.getAllAsteroids().first()
+        val allAsteroids = asteroidDao.getAllAsteroids().value!!
         assertEquals(allAsteroids[0], sampleAsteroids[0])
         assertEquals(allAsteroids[1], sampleAsteroids[1])
         assertEquals(allAsteroids.size, sampleAsteroids.size)
@@ -61,7 +61,7 @@ class AsteroidDaoInstrumentedTest {
     @Test
     fun testGetAsteroid() = runBlocking {
         asteroidDao.insertAsteroids(sampleAsteroids)
-        val asteroid = asteroidDao.getAsteroid("2024CD2").first()
+        val asteroid = asteroidDao.getAsteroid("2024CD2").value!!
         assertEquals(asteroid, sampleAsteroids[1])
     }
 
@@ -72,7 +72,7 @@ class AsteroidDaoInstrumentedTest {
         val currentDate = Date()
         asteroidDao.deleteAsteroidsFrom(currentDate)
 
-        val allAsteroids = asteroidDao.getAllAsteroids().first()
+        val allAsteroids = asteroidDao.getAllAsteroids().value!!
         assertEquals(0, allAsteroids.size)
     }
 

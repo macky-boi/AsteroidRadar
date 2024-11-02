@@ -1,5 +1,6 @@
 package com.example.asteroidradar.data.local.pictureOfTheDay
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,7 +14,7 @@ interface PictureOfTheDayDao {
     suspend fun insertPicture(picture: PictureOfTheDay)
 
     @Query("SELECT * FROM pictureOfTheDay WHERE date = :date")
-    fun getPictureByDate(date: Date): Flow<PictureOfTheDay?>
+    fun getPictureByDate(date: Date): LiveData<PictureOfTheDay?>
 
     @Query("DELETE from pictureOfTheDay WHERE date < :dateToday")
     suspend fun deletePictureFrom(dateToday: Date)

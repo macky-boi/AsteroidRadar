@@ -1,5 +1,6 @@
 package com.example.asteroidradar.data.local.asteroid
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,10 +11,10 @@ import java.util.Date
 @Dao
 interface AsteroidDao {
     @Query(value = "SELECT * from asteroid WHERE id = :id")
-    fun getAsteroid(id: String): Flow<Asteroid>
+    fun getAsteroid(id: String): LiveData<Asteroid>
 
     @Query("SELECT * from asteroid")
-    fun getAllAsteroids(): Flow<List<Asteroid>>
+    fun getAllAsteroids(): LiveData<List<Asteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAsteroids(asteroidEntities: List<Asteroid>)

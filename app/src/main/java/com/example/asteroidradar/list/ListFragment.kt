@@ -5,16 +5,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.asteroidradar.databinding.FragmentListBinding
+import com.example.asteroidradar.ui.AsteroidAppViewModel
 
 class ListFragment: Fragment() {
 
-//    private val viewModel: ListingViewModel by activityViewModels()
+    private lateinit var viewModel: AsteroidAppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("ListingFragment", "onCreate")
+
+        viewModel = ViewModelProvider(this, AsteroidAppViewModel.Factory
+        )[AsteroidAppViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -25,6 +34,18 @@ class ListFragment: Fragment() {
         Log.i("ListingFragment", "onCreateView")
 
         val binding = FragmentListBinding.inflate(inflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        val adapter = ListAdapter()
+        binding.asteroidList.adapter = adapter
+
+        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
+            Log.i("ListingFragment", "asteroids: $asteroids")
+            asteroids?.let {
+                adapter.submitList(asteroids)
+            }
+        })
 
         return binding.root
     }

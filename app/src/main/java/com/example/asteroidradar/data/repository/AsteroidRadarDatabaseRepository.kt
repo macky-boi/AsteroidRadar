@@ -1,6 +1,7 @@
 package com.example.asteroidradar.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
@@ -20,9 +21,9 @@ private const val NUMBER_OF_DAYS = 7
 interface AsteroidRadarRepository {
     suspend fun initializePictureOfTheDay()
     suspend fun initializeAsteroids()
-    fun getAllAsteroids(): Flow<List<Asteroid>>
-    fun getPictureOfTheDay(): Flow<PictureOfTheDay?>
-    fun getAsteroid(id: String): Flow<Asteroid>
+    fun getAllAsteroids(): LiveData<List<Asteroid>>
+    fun getPictureOfTheDay(): LiveData<PictureOfTheDay?>
+    fun getAsteroid(id: String): LiveData<Asteroid>
 }
 
 class AsteroidRadarRepositoryImpl(
@@ -41,7 +42,7 @@ class AsteroidRadarRepositoryImpl(
         }
     }
 
-    override fun getAsteroid(id: String): Flow<Asteroid> = asteroidDao.getAsteroid(id)
+    override fun getAsteroid(id: String): LiveData<Asteroid> = asteroidDao.getAsteroid(id)
 
     private suspend fun fetchNearEarthObjects(startDate: String, endDate: String): Result<NearEarthObjects> {
         return try {
@@ -61,9 +62,9 @@ class AsteroidRadarRepositoryImpl(
         pictureOfTheDayDao.deletePictureFrom(today)
 
         val pictureOfTheDay = pictureOfTheDayDao.getPictureByDate(today)
-        Log.i(TAG, "pictureOfTheDay: ${pictureOfTheDay.first()}")
+        Log.i(TAG, "pictureOfTheDay: ${pictureOfTheDay.value}")
 
-        if (pictureOfTheDay.first() == null) {
+        if (pictureOfTheDay.value == null) {
             fetchPictureOfTheDayNetwork().onSuccess {
                 Log.i(TAG, "inserting pictureOfTheDay: $it")
                 pictureOfTheDayDao.insertPicture(it.toEntity())
@@ -76,7 +77,7 @@ class AsteroidRadarRepositoryImpl(
 
     override fun getAllAsteroids() = asteroidDao.getAllAsteroids()
 
-    override fun getPictureOfTheDay() = pictureOfTheDayDao.getPictureByDate(Date())
+    override fun getPictureOfTheDay(): LiveData<PictureOfTheDay?> = pictureOfTheDayDao.getPictureByDate(Date())
 
     private suspend fun deleteAsteroidsFromThePast() = asteroidDao.deleteAsteroidsFrom(Date())
 

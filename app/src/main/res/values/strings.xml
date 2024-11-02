@@ -16,4 +16,5 @@
     <string name="hazardousComet_image">hazardous comet</string>
     <string name="safeComet_image">none hazardous comet</string>
     <string name="navigate_to_asteroid_list">navigate to asteroid list</string>
+    <string name="name_description">name:</string>
 </resources>
