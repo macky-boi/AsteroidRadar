@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.asteroidradar.databinding.FragmentListBinding
 import com.example.asteroidradar.ui.AsteroidAppViewModel
 
@@ -37,13 +38,17 @@ class ListFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val adapter = ListAdapter()
+        val adapter = ListAdapter(AsteroidListener { asteroid ->
+            viewModel.updateCurrentAsteroid(asteroid)
+            viewModel.navigateToDetailPage()
+        })
+
         binding.asteroidList.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
-            Log.i("ListingFragment", "asteroids: $asteroids")
-            asteroids?.let {
-                adapter.submitList(asteroids)
+        viewModel.isShowingListPage.observe(viewLifecycleOwner, Observer { isShowingListPage ->
+            if (!isShowingListPage) {
+                val navController = binding.root.findNavController()
+                navController.navigate(ListFragmentDirections.actionListToDetailFragment())
             }
         })
 

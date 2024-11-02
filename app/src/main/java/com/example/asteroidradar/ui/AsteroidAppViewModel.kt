@@ -67,8 +67,12 @@ class AsteroidAppViewModel(
         }
     }
 
-    fun updateCurrentAsteroid(selectedAsteroid: Asteroid) {
-        _currentAsteroid.value = selectedAsteroid
+    fun updateCurrentAsteroid(asteroid: Asteroid) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _currentAsteroid.value = asteroid
+            }
+        }
     }
 
     fun navigateToListPage() {

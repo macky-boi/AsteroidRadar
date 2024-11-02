@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.androidxNavigationSafeArgs)
 }
 
 buildscript {
@@ -102,8 +103,7 @@ dependencies {
     // lifecycle-viewmodel
     implementation(libs.androidx.lifecycle.viewmodel)
     // navigation
-    implementation(libs.androidx.navigation)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.fragment)
     // coil
     implementation(libs.coil.compose)
     // windowSizeClass

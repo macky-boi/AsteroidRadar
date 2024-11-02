@@ -8,9 +8,9 @@
             name="asteroid"
             type="com.example.asteroidradar.data.local.asteroid.Asteroid" />
 
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="com.example.android.trackmysleepquality.sleeptracker.SleepNightListener" />-->
+        <variable
+            name="clickListener"
+            type="com.example.asteroidradar.list.AsteroidListener" />
     </data>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

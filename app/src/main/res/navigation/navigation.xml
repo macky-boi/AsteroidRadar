@@ -11,6 +11,13 @@
 <!--        <action-->
 <!--            android:id="@+id/action_login_to_welcome"-->
 <!--            app:destination="@id/welcome" />-->
+        <action
+            android:id="@+id/action_list_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.asteroidradar.detail.DetailFragment"
+        android:label="DetailFragment" />
 
 </navigation>
