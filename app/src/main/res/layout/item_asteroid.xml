@@ -35,7 +35,7 @@
                 android:src="@mipmap/hazardous_comet_img_foreground"/>
 
             <TextView
-                android:id="@+id/texView_name"
+                android:id="@+id/name_description"
                 style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,15 +46,37 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/texView_name_asteroid"
+                android:id="@+id/name_asteroid"
                 style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:text="@{asteroid.name}"
-                app:layout_constraintBottom_toBottomOf="@+id/texView_name"
-                app:layout_constraintStart_toEndOf="@+id/texView_name"
+                app:layout_constraintBottom_toBottomOf="@+id/name_description"
+                app:layout_constraintStart_toEndOf="@+id/name_description"
                 tools:text="ASDASDASLKDJ" />
+
+            <TextView
+                android:id="@+id/distance_descrpition"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/distance_description"
+                app:layout_constraintStart_toStartOf="@+id/name_description"
+                app:layout_constraintTop_toBottomOf="@+id/name_description" />
+
+            <TextView
+                android:id="@+id/distance_asteroid"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@{asteroid.missDistanceAstronomical}"
+                tools:text="09809801231"
+                app:layout_constraintStart_toEndOf="@+id/distance_descrpition"
+                app:layout_constraintBottom_toBottomOf="@+id/distance_descrpition" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
