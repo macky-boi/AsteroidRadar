@@ -116,4 +116,7 @@ dependencies {
     implementation(libs.androidx.activity)
     // material
     implementation(libs.material)
+    //glide
+    implementation(libs.glide)
+    implementation(libs.glide.compiler)
 }
