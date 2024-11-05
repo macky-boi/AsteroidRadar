@@ -118,5 +118,5 @@ dependencies {
     implementation(libs.material)
     //glide
     implementation(libs.glide)
-    implementation(libs.glide.compiler)
+//    implementation(libs.glide.compiler)
 }

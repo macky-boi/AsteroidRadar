@@ -32,14 +32,14 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/picture_of_the_day"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pictureOfTheDay_card_height"
                 android:scaleType="centerCrop"
                 app:layout_constraintTop_toBottomOf="@+id/topAppBar"
                 app:layout_constraintBottom_toTopOf="@+id/asteroid_list"
-                android:src="@{viewModel.pictureOfTheDay}"/>
+                app:imageUrl="@{viewModel.pictureOfTheDay}" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/asteroid_list"
