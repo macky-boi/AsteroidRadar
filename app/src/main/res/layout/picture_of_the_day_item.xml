@@ -1,0 +1,17 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="pictureOfTheDay"
+            type="com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay" />
+    </data>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pictureOfTheDay_card_height"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/picture_of_the_day"
+        app:imageUrl="@{pictureOfTheDay}" />
+</layout>

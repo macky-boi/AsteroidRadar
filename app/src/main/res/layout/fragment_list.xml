@@ -32,15 +32,6 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <ImageView
-                android:id="@+id/picture_of_the_day"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/pictureOfTheDay_card_height"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toBottomOf="@+id/topAppBar"
-                app:layout_constraintBottom_toTopOf="@+id/asteroid_list"
-                app:imageUrl="@{viewModel.pictureOfTheDay}" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/asteroid_list"
                 android:layout_width="0dp"
@@ -48,7 +39,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/picture_of_the_day"
+                app:layout_constraintTop_toBottomOf="@+id/topAppBar"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

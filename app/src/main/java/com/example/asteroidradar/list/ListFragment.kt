@@ -41,7 +41,8 @@ class ListFragment: Fragment() {
         val adapter = ListAdapter(AsteroidListener { asteroid ->
             viewModel.updateCurrentAsteroid(asteroid)
             viewModel.navigateToDetailPage()
-        })
+        },
+            viewModel.pictureOfTheDay)
 
         binding.asteroidList.adapter = adapter
 
@@ -55,6 +56,8 @@ class ListFragment: Fragment() {
                 navController.navigate(ListFragmentDirections.actionListToDetailFragment())
             }
         })
+
+        adapter.notifyItemChanged(0)
 
         return binding.root
     }
