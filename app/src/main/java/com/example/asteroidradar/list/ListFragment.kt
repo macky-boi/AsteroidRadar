@@ -45,6 +45,10 @@ class ListFragment: Fragment() {
 
         binding.asteroidList.adapter = adapter
 
+        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
+            adapter.submitList(asteroids)
+        })
+
         viewModel.isShowingListPage.observe(viewLifecycleOwner, Observer { isShowingListPage ->
             if (!isShowingListPage) {
                 val navController = binding.root.findNavController()

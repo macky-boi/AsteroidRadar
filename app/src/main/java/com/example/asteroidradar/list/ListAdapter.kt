@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.asteroidradar.data.local.asteroid.Asteroid
 import com.example.asteroidradar.databinding.ItemAsteroidBinding
 
-class ListAdapter(val clickListener: AsteroidListener) : ListAdapter<Asteroid,
+class ListAdapter(private val clickListener: AsteroidListener) : ListAdapter<Asteroid,
         com.example.asteroidradar.list.ListAdapter.ViewHolder>(ListDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

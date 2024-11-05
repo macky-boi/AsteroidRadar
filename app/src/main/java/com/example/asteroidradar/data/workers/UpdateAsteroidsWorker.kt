@@ -22,13 +22,6 @@ class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineW
             Result.failure()
         }
 
-        try {
-            asteroidRadarRepository.initializePictureOfTheDay()
-        } catch (e: Exception) {
-            Log.e(TAG, "error initializing pictureOfTheDay: $e")
-            Result.failure()
-        }
-
         return Result.success()
     }
 
