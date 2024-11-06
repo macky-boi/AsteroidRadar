@@ -57,6 +57,12 @@ class AsteroidAppViewModel(
     private val _isShowingListPage = MutableLiveData<Boolean>(true)
     val isShowingListPage: LiveData<Boolean> = _isShowingListPage
 
+    private val _navigateToDetail = MutableLiveData<Boolean>(true)
+    val navigateToDetail: LiveData<Boolean> = _navigateToDetail
+
+    private val _navigateToList = MutableLiveData<Boolean>(true)
+    val navigateToList: LiveData<Boolean> = _navigateToList
+
     init {
         Log.i(TAG, "init")
         viewModelScope.launch {
@@ -68,18 +74,24 @@ class AsteroidAppViewModel(
 
     fun updateCurrentAsteroid(asteroid: Asteroid) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _currentAsteroid.value = asteroid
-            }
+            _currentAsteroid.value = asteroid
         }
     }
 
     fun navigateToListPage() {
-        _isShowingListPage.value = true
+        _navigateToList.value = true
+    }
+
+    fun navigatedToListPage() {
+        _navigateToList.value = false
     }
 
     fun navigateToDetailPage() {
-        _isShowingListPage.value = false
+        _navigateToDetail.value = true
+    }
+
+    fun navigatedToDetailPage() {
+        _navigateToDetail.value = false
     }
 
 

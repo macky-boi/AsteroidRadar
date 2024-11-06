@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.asteroidradar.databinding.FragmentDetailBinding
 import com.example.asteroidradar.databinding.FragmentListBinding
@@ -13,14 +14,12 @@ import com.example.asteroidradar.ui.AsteroidAppViewModel
 
 class DetailFragment: Fragment() {
 
-//    private lateinit var viewModel: AsteroidAppViewModel
+    private val viewModel: AsteroidAppViewModel by activityViewModels { AsteroidAppViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("DetailFragment", "onCreate")
-
-//        viewModel = ViewModelProvider(this, AsteroidAppViewModel.Factory
-//        )[AsteroidAppViewModel::class.java]
+        Log.i("DetailFragment", "currentAsteroid: ${viewModel.currentAsteroid.value}")
     }
 
     override fun onCreateView(

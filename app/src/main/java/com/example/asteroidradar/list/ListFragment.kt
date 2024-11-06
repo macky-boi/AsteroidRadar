@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -20,14 +21,11 @@ import kotlinx.coroutines.withContext
 
 class ListFragment: Fragment() {
 
-    private lateinit var viewModel: AsteroidAppViewModel
+    private val viewModel: AsteroidAppViewModel by activityViewModels { AsteroidAppViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("ListingFragment", "onCreate")
-
-        viewModel = ViewModelProvider(this, AsteroidAppViewModel.Factory
-        )[AsteroidAppViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -52,10 +50,11 @@ class ListFragment: Fragment() {
             adapter.submitList(asteroids)
         })
 
-        viewModel.isShowingListPage.observe(viewLifecycleOwner, Observer { isShowingListPage ->
-            if (!isShowingListPage) {
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer { shouldNavigate ->
+            if (shouldNavigate) {
                 val navController = binding.root.findNavController()
                 navController.navigate(ListFragmentDirections.actionListToDetailFragment())
+                viewModel.navigatedToDetailPage()
             }
         })
 
