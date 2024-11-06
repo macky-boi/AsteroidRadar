@@ -19,4 +19,8 @@
 
     <string name="name_description">name:</string>
     <string name="distance_description">description:</string>
+    <string name="is_hazardous_key">is hazardous:</string>
+    <string name="close_approach_date_key">close approach date:</string>
+    <string name="miss_distance_key">miss distance:</string>
+    <string name="relative_velocity_key">relative velocity:</string>
 </resources>

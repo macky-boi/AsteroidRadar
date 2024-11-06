@@ -1,10 +1,10 @@
 package com.example.asteroidradar
 
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 
-val sampleAsteroids = listOf(
-    Asteroid(
+val sampleAsteroidEntities = listOf(
+    AsteroidEntity(
         id = "2024AB1",
         name = "10115 (1992 SK)",
         date = "2024-08-08",
@@ -14,7 +14,7 @@ val sampleAsteroids = listOf(
         missDistanceAstronomical = "0.3978248012",
         relativeVelocityKilometersPerSecond = "13.2766885381"
     ),
-    Asteroid(
+    AsteroidEntity(
         id = "2024CD2",
         name = "2005 QQ87",
         date = "2024-08-01",
@@ -24,7 +24,7 @@ val sampleAsteroids = listOf(
         missDistanceAstronomical = "1.2345678901",
         relativeVelocityKilometersPerSecond = "5.6789012345"
     ),
-    Asteroid(
+    AsteroidEntity(
         id = "2024EF3",
         name = "2009 EP2",
         date = "2024-08-07",

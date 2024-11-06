@@ -33,8 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.asteroidradar.R
-import com.example.asteroidradar.data.local.asteroid.Asteroid
-import com.example.asteroidradar.sampleAsteroids
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
+import com.example.asteroidradar.sampleAsteroidEntities
 
 
 
@@ -42,7 +42,7 @@ import com.example.asteroidradar.sampleAsteroids
 fun AsteroidDetail(
     modifier: Modifier = Modifier,
     navigateBack: () -> Unit = {},
-    asteroid: Asteroid,
+    asteroidEntity: AsteroidEntity,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
 
@@ -60,10 +60,10 @@ fun AsteroidDetail(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsteroidDetailImage(
-            isHazardous = asteroid.isHazardous,
+            isHazardous = asteroidEntity.isHazardous,
             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium))
         )
-        AsteroidDetailCardDescription(asteroid = asteroid,
+        AsteroidDetailCardDescription(asteroidEntity = asteroidEntity,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
         )
     }
@@ -72,7 +72,7 @@ fun AsteroidDetail(
 @Composable
 private fun AsteroidDetailCardDescription(
     modifier: Modifier = Modifier,
-    asteroid: Asteroid
+    asteroidEntity: AsteroidEntity
 ) {
     Card(modifier = modifier) {
         Column(
@@ -83,27 +83,27 @@ private fun AsteroidDetailCardDescription(
         ) {
             AsteroidDetailsRow(
                 labelResId = R.string.name_label,
-                detail = asteroid.name
+                detail = asteroidEntity.name
             )
             AsteroidDetailsRow(
                 labelResId = R.string.is_hazardous_label,
-                detail = asteroid.isHazardous.toString()
+                detail = asteroidEntity.isHazardous.toString()
             )
             AsteroidDetailsRow(
                 labelResId = R.string.close_approachDate_label,
-                detail = asteroid.closeApproachDate
+                detail = asteroidEntity.closeApproachDate
             )
             AsteroidDetailsRow(
                 labelResId = R.string.miss_distance_astronomical_label,
-                detail = asteroid.missDistanceAstronomical
+                detail = asteroidEntity.missDistanceAstronomical
             )
             AsteroidDetailsRow(
                 labelResId = R.string.relative_velocity_label,
-                detail = asteroid.relativeVelocityKilometersPerSecond,
+                detail = asteroidEntity.relativeVelocityKilometersPerSecond,
             )
             AsteroidDetailsRow(
                 labelResId = R.string.absolute_magnitude_label,
-                detail = asteroid.absoluteMagnitude.toString()
+                detail = asteroidEntity.absoluteMagnitude.toString()
             )
         }
     }
@@ -158,6 +158,6 @@ private fun AsteroidDetailsRow(
 @Composable
 fun AsteroidDetailBodyPreview() {
     AsteroidDetail(
-        asteroid = sampleAsteroids[0]
+        asteroidEntity = sampleAsteroidEntities[0]
     )
 }

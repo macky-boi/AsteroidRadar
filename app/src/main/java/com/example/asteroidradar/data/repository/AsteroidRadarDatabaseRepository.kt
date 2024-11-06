@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDayDao
@@ -12,10 +12,7 @@ import com.example.asteroidradar.data.remote.NearEarthObjects
 import com.example.asteroidradar.data.remote.NeoApiService
 import com.example.asteroidradar.data.remote.PictureOfTheDayNetwork
 import com.example.asteroidradar.utils.DateUtilities
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
-import java.util.Date
 
 private const val TAG = "AsteroidRadarRepository"
 private const val NUMBER_OF_DAYS = 7
@@ -23,9 +20,9 @@ private const val NUMBER_OF_DAYS = 7
 interface AsteroidRadarRepository {
 //    suspend fun initializePictureOfTheDay()
     suspend fun initializeAsteroids()
-    fun getAllAsteroids(): LiveData<List<Asteroid>>
+    fun getAllAsteroids(): LiveData<List<AsteroidEntity>>
     suspend fun getPictureOfTheDay(): PictureOfTheDay?
-    fun getAsteroid(id: String): LiveData<Asteroid>
+    fun getAsteroid(id: String): LiveData<AsteroidEntity>
 }
 
 class AsteroidRadarRepositoryImpl(
@@ -45,7 +42,7 @@ class AsteroidRadarRepositoryImpl(
         }
     }
 
-    override fun getAsteroid(id: String): LiveData<Asteroid> = asteroidDao.getAsteroid(id)
+    override fun getAsteroid(id: String): LiveData<AsteroidEntity> = asteroidDao.getAsteroid(id)
 
     private suspend fun fetchNearEarthObjects(startDate: String, endDate: String): Result<NearEarthObjects> {
         return try {

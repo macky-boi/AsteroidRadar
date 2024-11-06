@@ -1,25 +1,20 @@
 package com.example.asteroidradar.list
 
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.example.asteroidradar.R
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.databinding.ItemAsteroidBinding
 import com.example.asteroidradar.databinding.PictureOfTheDayItemBinding
 
-class ListAdapter(private val clickListener: AsteroidListener) : ListAdapter<Asteroid,
+class ListAdapter(private val clickListener: AsteroidListener) : ListAdapter<AsteroidEntity,
         RecyclerView.ViewHolder>(ListDiffCallback()) {
 
     var pictureOfTheDay: PictureOfTheDay? = null
@@ -66,7 +61,7 @@ class ListAdapter(private val clickListener: AsteroidListener) : ListAdapter<Ast
     class AsteroidViewHolder private constructor(private val binding: ItemAsteroidBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(clickListener: AsteroidListener, item: Asteroid) {
+        fun bind(clickListener: AsteroidListener, item: AsteroidEntity) {
             binding.asteroid = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -120,16 +115,16 @@ class ListAdapter(private val clickListener: AsteroidListener) : ListAdapter<Ast
  * Used by ListAdapter to calculate the minumum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class ListDiffCallback : DiffUtil.ItemCallback<Asteroid>() {
-    override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+class ListDiffCallback : DiffUtil.ItemCallback<AsteroidEntity>() {
+    override fun areItemsTheSame(oldItem: AsteroidEntity, newItem: AsteroidEntity): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+    override fun areContentsTheSame(oldItem: AsteroidEntity, newItem: AsteroidEntity): Boolean {
         return oldItem == newItem
     }
 }
 
-class AsteroidListener(val clickListener: (asteroid: Asteroid) -> Unit) {
-    fun onClick(asteroid: Asteroid) = clickListener(asteroid)
+class AsteroidListener(val clickListener: (asteroidEntity: AsteroidEntity) -> Unit) {
+    fun onClick(asteroidEntity: AsteroidEntity) = clickListener(asteroidEntity)
 }

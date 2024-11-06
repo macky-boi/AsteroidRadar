@@ -9,15 +9,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.AsteroidRadarApplication
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
 import com.example.asteroidradar.utils.AsteroidsContentType
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-val emptyAsteroid = Asteroid(
+val emptyAsteroidEntity = AsteroidEntity(
     id = "",
     name = "",
     date = "",
@@ -29,8 +27,8 @@ val emptyAsteroid = Asteroid(
 )
 
 data class AsteroidUiState (
-    val asteroids: List<Asteroid> = listOf(),
-    val currentAsteroid: Asteroid = emptyAsteroid,
+    val asteroidEntities: List<AsteroidEntity> = listOf(),
+    val currentAsteroidEntity: AsteroidEntity = emptyAsteroidEntity,
     val isShowingListPage: Boolean = true,
     val pictureOfTheDay: PictureOfTheDay? = null,
     val contentType: AsteroidsContentType = AsteroidsContentType.ListOnly
@@ -46,13 +44,13 @@ class AsteroidAppViewModel(
 ) : ViewModel() {
 
     private val _asteroids = asteroidRadarRepository.getAllAsteroids()
-    val asteroids: LiveData<List<Asteroid>> = _asteroids
+    val asteroids: LiveData<List<AsteroidEntity>> = _asteroids
 
     private var _pictureOfTheDay = MutableLiveData<PictureOfTheDay?>(null)
     val pictureOfTheDay = _pictureOfTheDay
 
-    private val _currentAsteroid = MutableLiveData<Asteroid?>(null)
-    val currentAsteroid: LiveData<Asteroid?> = _currentAsteroid
+    private val _currentAsteroidEntity = MutableLiveData<AsteroidEntity?>(null)
+    val currentAsteroidEntity: LiveData<AsteroidEntity?> = _currentAsteroidEntity
 
     private val _isShowingListPage = MutableLiveData<Boolean>(true)
     val isShowingListPage: LiveData<Boolean> = _isShowingListPage
@@ -72,9 +70,9 @@ class AsteroidAppViewModel(
         }
     }
 
-    fun updateCurrentAsteroid(asteroid: Asteroid) {
+    fun updateCurrentAsteroid(asteroidEntity: AsteroidEntity) {
         viewModelScope.launch {
-            _currentAsteroid.value = asteroid
+            _currentAsteroidEntity.value = asteroidEntity
         }
     }
 

@@ -2,6 +2,13 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="asteroid"
+            type="com.example.asteroidradar.model.Asteroid" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,11 +18,153 @@
             android:layout_width="@dimen/image_size_large"
             android:layout_height="@dimen/image_size_large"
             android:scaleType="centerCrop"
-            android:src="@mipmap/safe_comet_img"
+            android:src="@mipmap/safe_comet_img_foreground"
             android:layout_marginTop="@dimen/spacing_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/spacing_medium"
+                android:paddingEnd="@dimen/spacing_medium"
+                android:paddingTop="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_medium" >
+
+                <TextView
+                    android:id="@+id/name_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_description"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/name_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.name}"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    app:layout_constraintTop_toTopOf="@+id/name_key"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/is_hazardous_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_hazardous_key"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/name_key"
+                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+
+                <TextView
+                    android:id="@+id/is_hazardous_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.hazardous}"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/name_key"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/close_approachDate_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/close_approach_date_key"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/is_hazardous_key"
+                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+
+                <TextView
+                    android:id="@+id/close_approachDate_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.closeApproachDate}"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/is_hazardous_value"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/miss_distance_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/miss_distance_key"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/close_approachDate_key"
+                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+
+                <TextView
+                    android:id="@+id/miss_distance_key_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.missDistanceAstronomical}"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/close_approachDate_value"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/relative_velocity_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/relative_velocity_key"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/miss_distance_key"
+                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+
+                <TextView
+                    android:id="@+id/relative_velocity_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.relativeVelocityKilometersPerSecond}"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/miss_distance_key_value"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/absolute_magnitude_key"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/miss_distance_key"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/relative_velocity_key"
+                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+
+                <TextView
+                    android:id="@+id/absolute_magnitude_value"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{asteroid.absoluteMagnitude}"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintTop_toBottomOf="@+id/relative_velocity_value"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

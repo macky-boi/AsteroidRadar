@@ -36,19 +36,17 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.asteroidradar.R
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
-import com.example.asteroidradar.sampleAsteroids
+import com.example.asteroidradar.sampleAsteroidEntities
 import com.example.asteroidradar.samplePictureOfTheDay
 
 private const val TAG = "AsteroidsScreen"
@@ -58,9 +56,9 @@ private const val TAG = "AsteroidsScreen"
 @Composable
 fun AsteroidsList(
     modifier: Modifier = Modifier,
-    asteroids: List<Asteroid>,
-    currentAsteroid: Asteroid,
-    onAsteroidClicked: (Asteroid) -> Unit,
+    asteroidEntities: List<AsteroidEntity>,
+    currentAsteroidEntity: AsteroidEntity,
+    onAsteroidClicked: (AsteroidEntity) -> Unit,
     pictureOfTheDay: PictureOfTheDay?,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -77,12 +75,12 @@ fun AsteroidsList(
             )
         }
         items(
-            asteroids,
+            asteroidEntities,
             key = { asteroid -> asteroid.id }
         ) { asteroid ->
             AsteroidsItem(
-                asteroid = asteroid,
-                isCurrentAsteroid = currentAsteroid == asteroid,
+                asteroidEntity = asteroid,
+                isCurrentAsteroid = currentAsteroidEntity == asteroid,
                 modifier = Modifier
                     .padding(
                         vertical = dimensionResource(id = R.dimen.padding_small)
@@ -145,9 +143,9 @@ private fun PictureOfTheDayCard(
 @Composable
 private fun AsteroidsItem(
     modifier: Modifier = Modifier,
-    asteroid: Asteroid,
+    asteroidEntity: AsteroidEntity,
     isCurrentAsteroid: Boolean = false,
-    onClick: (Asteroid) -> Unit = {}
+    onClick: (AsteroidEntity) -> Unit = {}
 ) {
     Card(
         elevation = CardDefaults.cardElevation(),
@@ -158,7 +156,7 @@ private fun AsteroidsItem(
             modifier = Modifier
                 .clickable(
                     onClickLabel = stringResource(id = R.string.action_view_asteroid)
-                ) { onClick(asteroid) }
+                ) { onClick(asteroidEntity) }
                 .background(
                     color = if (isCurrentAsteroid)
                         MaterialTheme.colorScheme.primaryContainer
@@ -172,7 +170,7 @@ private fun AsteroidsItem(
                 .fillMaxWidth()
         ) {
             AsteroidItemImage(
-                isHazardous = asteroid.isHazardous,
+                isHazardous = asteroidEntity.isHazardous,
                 modifier = Modifier.size(dimensionResource(id = R.dimen.image_height))
             )
             Column(
@@ -182,8 +180,8 @@ private fun AsteroidsItem(
                         horizontal = dimensionResource(id = R.dimen.padding_medium)
                     )
             ) {
-                KeyValueText(key = "name", value = asteroid.name)
-                KeyValueText(key = "distance", value = asteroid.missDistanceAstronomical)
+                KeyValueText(key = "name", value = asteroidEntity.name)
+                KeyValueText(key = "distance", value = asteroidEntity.missDistanceAstronomical)
             }
         }
     }
@@ -255,6 +253,6 @@ private fun AsteroidItemImagePreview() {
 @Preview(showBackground = true)
 @Composable
 private fun AsteroidsListItemPreview() {
-    AsteroidsItem(asteroid = sampleAsteroids[0])
+    AsteroidsItem(asteroidEntity = sampleAsteroidEntities[0])
 }
 

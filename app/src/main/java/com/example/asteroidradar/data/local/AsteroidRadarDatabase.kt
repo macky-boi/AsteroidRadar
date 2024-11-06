@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.asteroidradar.data.local.asteroid.Asteroid
+import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDayDao
 
-@Database(entities = [Asteroid::class, PictureOfTheDay::class], version = 2, exportSchema = false)
+@Database(entities = [AsteroidEntity::class, PictureOfTheDay::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AsteroidRadarDatabase : RoomDatabase() {
 
