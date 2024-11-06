@@ -14,6 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.asteroidradar.databinding.FragmentListBinding
 import com.example.asteroidradar.ui.AsteroidAppViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListFragment: Fragment() {
 
@@ -41,8 +44,7 @@ class ListFragment: Fragment() {
         val adapter = ListAdapter(AsteroidListener { asteroid ->
             viewModel.updateCurrentAsteroid(asteroid)
             viewModel.navigateToDetailPage()
-        },
-            viewModel.pictureOfTheDay)
+        })
 
         binding.asteroidList.adapter = adapter
 
@@ -57,7 +59,10 @@ class ListFragment: Fragment() {
             }
         })
 
-        adapter.notifyItemChanged(0)
+        viewModel.pictureOfTheDay.observe(viewLifecycleOwner, Observer { pictureOfTheDay ->
+            Log.i("ListingFragment", "setting adapter pictureOfTheDay: $pictureOfTheDay")
+            adapter.pictureOfTheDay = pictureOfTheDay
+        })
 
         return binding.root
     }

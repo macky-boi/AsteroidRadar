@@ -48,7 +48,7 @@ class AsteroidAppViewModel(
     private val _asteroids = asteroidRadarRepository.getAllAsteroids()
     val asteroids: LiveData<List<Asteroid>> = _asteroids
 
-    private var _pictureOfTheDay: PictureOfTheDay? = null
+    private var _pictureOfTheDay = MutableLiveData<PictureOfTheDay?>(null)
     val pictureOfTheDay = _pictureOfTheDay
 
     private val _currentAsteroid = MutableLiveData<Asteroid?>(null)
@@ -60,11 +60,9 @@ class AsteroidAppViewModel(
     init {
         Log.i(TAG, "init")
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _pictureOfTheDay = asteroidRadarRepository.getPictureOfTheDay()
-                Log.i(TAG, "_pictureOfTheDay: $_pictureOfTheDay")
-                asteroidRadarRepository.initializeAsteroids()
-            }
+            _pictureOfTheDay.value = asteroidRadarRepository.getPictureOfTheDay()
+            Log.i(TAG, "_pictureOfTheDay: ${_pictureOfTheDay.value}")
+            asteroidRadarRepository.initializeAsteroids()
         }
     }
 
