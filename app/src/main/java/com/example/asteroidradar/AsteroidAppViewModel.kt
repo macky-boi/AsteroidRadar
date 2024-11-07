@@ -39,13 +39,11 @@ class AsteroidAppViewModel(
     private val _currentAsteroidEntity = MutableLiveData<AsteroidEntity?>(null)
     val currentAsteroidEntity: LiveData<AsteroidEntity?> = _currentAsteroidEntity
 
-    private val _isShowingListPage = MutableLiveData<Boolean>(true)
-    val isShowingListPage: LiveData<Boolean> = _isShowingListPage
 
-    private val _navigateToDetail = MutableLiveData<Boolean>(true)
+    private val _navigateToDetail = MutableLiveData<Boolean>(false)
     val navigateToDetail: LiveData<Boolean> = _navigateToDetail
 
-    private val _navigateToList = MutableLiveData<Boolean>(true)
+    private val _navigateToList = MutableLiveData<Boolean>(false)
     val navigateToList: LiveData<Boolean> = _navigateToList
 
     init {
@@ -63,7 +61,9 @@ class AsteroidAppViewModel(
         }
     }
 
+
     fun navigateToListPage() {
+        Log.i(TAG, "navigateToListPage")
         _navigateToList.value = true
     }
 

@@ -5,12 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.asteroidradar.databinding.FragmentDetailBinding
 import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.AsteroidAppViewModel
+import com.example.asteroidradar.list.ListFragmentDirections
 
 class DetailFragment: Fragment() {
 
@@ -30,6 +33,7 @@ class DetailFragment: Fragment() {
         Log.i("DetailFragment", "onCreateView")
 
         val binding = FragmentDetailBinding.inflate(inflater)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         val emptyAsteroid = Asteroid(
@@ -47,6 +51,15 @@ class DetailFragment: Fragment() {
             Log.i("DetailFragment", "asteroid: $asteroid")
             binding.asteroid = asteroid?.toModel() ?: emptyAsteroid
             binding.executePendingBindings()
+        })
+
+        viewModel.navigateToList.observe(viewLifecycleOwner, Observer { shouldNavigate ->
+            Log.i("DetailFragment", "navigateToList changed | vaue: $shouldNavigate")
+            if (shouldNavigate) {
+                val navController = binding.root.findNavController()
+                navController.navigate(DetailFragmentDirections.actionDetailFragmentToList())
+                viewModel.navigatedToListPage()
+            }
         })
 
         return binding.root
