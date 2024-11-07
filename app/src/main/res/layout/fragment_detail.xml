@@ -32,7 +32,8 @@
                 app:navigationIcon="@drawable/arrow_back"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="@{() -> viewModel.navigateToListPage() }"/>
+                android:onClick="@{() -> viewModel.navigateToListPage() }"
+                android:contentDescription="@string/navigate_to_asteroid_list"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -44,7 +45,8 @@
             android:layout_marginTop="@dimen/spacing_large"
             app:layout_constraintTop_toBottomOf="@+id/topAppBar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/asteroid_image"/>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

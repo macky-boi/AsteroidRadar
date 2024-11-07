@@ -20,6 +20,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:clickable="true"
         android:focusable="true"
+        android:contentDescription='@{"asteroid " + asteroid.name + ", distance " + asteroid.missDistanceAstronomical}'
         android:onClick="@{() -> clickListener.onClick(asteroid)}">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,7 +34,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@mipmap/hazardous_comet_img_foreground"/>
+                android:src="@mipmap/hazardous_comet_img_foreground"
+                android:importantForAccessibility="no"/>
 
             <TextView
                 android:id="@+id/name_description"
@@ -44,7 +46,8 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/name_description"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:importantForAccessibility="no"/>
 
             <TextView
                 android:id="@+id/name_asteroid"
@@ -55,7 +58,8 @@
                 android:text="@{asteroid.name}"
                 app:layout_constraintBottom_toBottomOf="@+id/name_description"
                 app:layout_constraintStart_toEndOf="@+id/name_description"
-                tools:text="ASDASDASLKDJ" />
+                tools:text="ASDASDASLKDJ"
+                android:importantForAccessibility="no"/>
 
             <TextView
                 android:id="@+id/distance_descrpition"
@@ -77,7 +81,8 @@
                 android:text="@{asteroid.missDistanceAstronomical}"
                 tools:text="09809801231"
                 app:layout_constraintStart_toEndOf="@+id/distance_descrpition"
-                app:layout_constraintBottom_toBottomOf="@+id/distance_descrpition" />
+                app:layout_constraintBottom_toBottomOf="@+id/distance_descrpition"
+                android:importantForAccessibility="no"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
