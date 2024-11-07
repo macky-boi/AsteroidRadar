@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.asteroidradar.databinding.FragmentDetailBinding
 import com.example.asteroidradar.model.Asteroid
-import com.example.asteroidradar.ui.AsteroidAppViewModel
+import com.example.asteroidradar.AsteroidAppViewModel
 
 class DetailFragment: Fragment() {
 

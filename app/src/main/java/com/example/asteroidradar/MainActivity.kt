@@ -32,5 +32,4 @@ class MainActivity : AppCompatActivity() {
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
                 android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
-
 }

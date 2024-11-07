@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi
 import com.example.asteroidradar.data.AppContainer
 import com.example.asteroidradar.data.DefaultAppContainer
 
-const val TAG = "AsteroidRadarApplication"
+private const val TAG = "AsteroidRadarApplication"
 
 class AsteroidRadarApplication: Application() {
     lateinit var container: AppContainer

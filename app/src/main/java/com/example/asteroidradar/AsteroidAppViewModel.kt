@@ -1,4 +1,4 @@
-package com.example.asteroidradar.ui
+package com.example.asteroidradar
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,11 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.asteroidradar.AsteroidRadarApplication
 import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
-import com.example.asteroidradar.utils.AsteroidsContentType
 import kotlinx.coroutines.launch
 
 val emptyAsteroidEntity = AsteroidEntity(
@@ -25,17 +23,6 @@ val emptyAsteroidEntity = AsteroidEntity(
     missDistanceAstronomical = "",
     relativeVelocityKilometersPerSecond = ""
 )
-
-data class AsteroidUiState (
-    val asteroidEntities: List<AsteroidEntity> = listOf(),
-    val currentAsteroidEntity: AsteroidEntity = emptyAsteroidEntity,
-    val isShowingListPage: Boolean = true,
-    val pictureOfTheDay: PictureOfTheDay? = null,
-    val contentType: AsteroidsContentType = AsteroidsContentType.ListOnly
-) {
-    val isShowingDetailPage: Boolean
-        get() = !isShowingListPage
-}
 
 private const val TAG = "AsteroidsViewModel"
 

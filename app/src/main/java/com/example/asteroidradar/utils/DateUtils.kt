@@ -48,8 +48,6 @@ object DateUtilities {
         return Date.from(instant)
     }
 
-    const val NUMBER_OF_DAYS = 7
-
 }
 
 

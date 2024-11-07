@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.asteroidradar.ui.AsteroidAppViewModel" />
+            type="com.example.asteroidradar.AsteroidAppViewModel" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
