@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.asteroidradar.data.local.AsteroidRadarDatabase
 import com.example.asteroidradar.data.remote.NeoApiService
+import com.example.asteroidradar.data.remote.NetworkModule
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
 import com.example.asteroidradar.data.repository.AsteroidRadarRepositoryImpl
 import com.example.asteroidradar.data.repository.WorkManagerRepository
@@ -22,26 +23,18 @@ interface AppContainer {
 @RequiresApi(Build.VERSION_CODES.O)
 class DefaultAppContainer(context: Context): AppContainer {
 
-    private val baseUrl = "https://api.nasa.gov/"
+    private val networkModule = NetworkModule()
 
-    private val contentType = "application/json".toMediaType()
-    private val json = Json { ignoreUnknownKeys = true }
-
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(json.asConverterFactory(contentType))
-        .baseUrl(baseUrl)
-        .build()
-
-    private val service: NeoApiService by lazy {
-        retrofit.create(NeoApiService::class.java)
+    private val database: AsteroidRadarDatabase by lazy {
+        AsteroidRadarDatabase.getDatabase(context)
     }
-
-    private val asteroidDao = AsteroidRadarDatabase.getDatabase(context).asteroidDao()
-    private val pictureOfTheDayDao = AsteroidRadarDatabase.getDatabase(context).pictureOfTheDayDao()
+    private val asteroidDao = database.asteroidDao()
+    private val pictureOfTheDayDao = database.pictureOfTheDayDao()
 
     override val asteroidRadarRepository: AsteroidRadarRepository by lazy {
-        AsteroidRadarRepositoryImpl(asteroidDao, pictureOfTheDayDao, service)
+        AsteroidRadarRepositoryImpl(asteroidDao, pictureOfTheDayDao, networkModule.service)
     }
+
 
     override val workManagerRepository: WorkManagerRepository by lazy {
         WorkManagerRepositoryImpl(context)

@@ -103,7 +103,7 @@ jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 
 # data binding
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
 # safeArgs
 androidxNavigationSafeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }

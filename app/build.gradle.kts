@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinSerialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlinKapt)
+//    alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.androidxNavigationSafeArgs)
 }
 
