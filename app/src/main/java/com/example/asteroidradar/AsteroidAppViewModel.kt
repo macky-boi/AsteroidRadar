@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
+import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
@@ -20,6 +21,17 @@ val emptyAsteroidEntity = AsteroidEntity(
     date = "",
     isHazardous = false,
     absoluteMagnitude = 0.0,
+    closeApproachDate = "",
+    missDistanceAstronomical = "",
+    relativeVelocityKilometersPerSecond = ""
+)
+
+private val emptyAsteroid = Asteroid(
+    id = "",
+    name = "",
+    date = "",
+    isHazardous = "",
+    absoluteMagnitude = "",
     closeApproachDate = "",
     missDistanceAstronomical = "",
     relativeVelocityKilometersPerSecond = ""
@@ -37,15 +49,14 @@ class AsteroidAppViewModel(
     private var _pictureOfTheDay = MutableLiveData<PictureOfTheDay?>(null)
     val pictureOfTheDay = _pictureOfTheDay
 
-    private val _currentAsteroidEntity = MutableLiveData<AsteroidEntity?>(null)
-    val currentAsteroidEntity: LiveData<AsteroidEntity?> = _currentAsteroidEntity
-
+    private val _currentAsteroidEntity = MutableLiveData(emptyAsteroid)
+    val currentAsteroidEntity: LiveData<Asteroid> = _currentAsteroidEntity
 
     private val _navigateToDetail = SingleLiveEvent<Unit>()
     val navigateToDetail: LiveData<Unit> = _navigateToDetail
 
-    private val _navigateToList = MutableLiveData<Boolean>(false)
-    val navigateToList: LiveData<Boolean> = _navigateToList
+    private val _navigateToList = SingleLiveEvent<Unit>()
+    val navigateToList: LiveData<Unit> = _navigateToList
 
     init {
         Log.i(TAG, "init")
@@ -56,20 +67,14 @@ class AsteroidAppViewModel(
         }
     }
 
-    fun updateCurrentAsteroid(asteroidEntity: AsteroidEntity) {
+    fun updateCurrentAsteroid(asteroidEntity: Asteroid) {
         viewModelScope.launch {
             _currentAsteroidEntity.value = asteroidEntity
         }
     }
 
-
     fun navigateToListPage() {
-        Log.i(TAG, "navigateToListPage")
-        _navigateToList.value = true
-    }
-
-    fun navigatedToListPage() {
-        _navigateToList.value = false
+        _navigateToList.call()
     }
 
     fun navigateToDetailPage() {

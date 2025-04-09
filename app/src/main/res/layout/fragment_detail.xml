@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="viewModelBinding"
             type="com.example.asteroidradar.AsteroidAppViewModel" />
 
         <variable
@@ -32,7 +32,7 @@
                 app:navigationIcon="@drawable/arrow_back"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="@{() -> viewModel.navigateToListPage() }"
+                android:onClick="@{() -> viewModelBinding.navigateToListPage() }"
                 android:contentDescription="@string/navigate_to_asteroid_list"/>
         </com.google.android.material.appbar.AppBarLayout>
 

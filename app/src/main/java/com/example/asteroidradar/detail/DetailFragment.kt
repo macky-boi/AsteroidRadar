@@ -18,50 +18,34 @@ import com.example.asteroidradar.list.ListFragmentDirections
 class DetailFragment: Fragment() {
 
     private val viewModel: AsteroidAppViewModel by activityViewModels { AsteroidAppViewModel.Factory }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("DetailFragment", "onCreate")
-        Log.i("DetailFragment", "currentAsteroid: ${viewModel.currentAsteroidEntity.value}")
-    }
+    private lateinit var binding: FragmentDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        Log.i("DetailFragment", "onCreateView")
-
-        val binding = FragmentDetailBinding.inflate(inflater)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        val emptyAsteroid = Asteroid(
-            id = "",
-            name = "",
-            date = "",
-            isHazardous = "",
-            absoluteMagnitude = "",
-            closeApproachDate = "",
-            missDistanceAstronomical = "",
-            relativeVelocityKilometersPerSecond = ""
-        )
-
-        viewModel.currentAsteroidEntity.observe(viewLifecycleOwner, Observer { asteroid ->
-            Log.i("DetailFragment", "asteroid: $asteroid")
-            binding.asteroid = asteroid?.toModel() ?: emptyAsteroid
-            binding.executePendingBindings()
-        })
-
-        viewModel.navigateToList.observe(viewLifecycleOwner, Observer { shouldNavigate ->
-            Log.i("DetailFragment", "navigateToList changed | vaue: $shouldNavigate")
-            if (shouldNavigate) {
-                val navController = binding.root.findNavController()
-                navController.navigate(DetailFragmentDirections.actionDetailFragmentToList())
-                viewModel.navigatedToListPage()
-            }
-        })
-
+    ): View {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navController = binding.root.findNavController()
+
+        binding.apply {
+            viewModelBinding = viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+
+        viewModel.currentAsteroidEntity.observe(viewLifecycleOwner) { asteroid ->
+            binding.asteroid = asteroid
+            binding.executePendingBindings()
+        }
+
+        viewModel.navigateToList.observe(viewLifecycleOwner) {
+            navController.navigate(DetailFragmentDirections.actionDetailFragmentToList())
+        }
     }
 }

@@ -46,7 +46,7 @@ class ListFragment: Fragment() {
 
     private fun setupRecyclerView() {
         val adapter = ListAdapter(AsteroidListener { asteroid ->
-            viewModel.updateCurrentAsteroid(asteroid)
+            viewModel.updateCurrentAsteroid(asteroid.toModel())
             viewModel.navigateToDetailPage()
         })
         binding.asteroidList.adapter = adapter
