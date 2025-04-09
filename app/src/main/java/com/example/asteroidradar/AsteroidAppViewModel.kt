@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
+import com.example.asteroidradar.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 val emptyAsteroidEntity = AsteroidEntity(
@@ -40,8 +41,8 @@ class AsteroidAppViewModel(
     val currentAsteroidEntity: LiveData<AsteroidEntity?> = _currentAsteroidEntity
 
 
-    private val _navigateToDetail = MutableLiveData<Boolean>(false)
-    val navigateToDetail: LiveData<Boolean> = _navigateToDetail
+    private val _navigateToDetail = SingleLiveEvent<Unit>()
+    val navigateToDetail: LiveData<Unit> = _navigateToDetail
 
     private val _navigateToList = MutableLiveData<Boolean>(false)
     val navigateToList: LiveData<Boolean> = _navigateToList
@@ -72,13 +73,8 @@ class AsteroidAppViewModel(
     }
 
     fun navigateToDetailPage() {
-        _navigateToDetail.value = true
+        _navigateToDetail.call()
     }
-
-    fun navigatedToDetailPage() {
-        _navigateToDetail.value = false
-    }
-
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L

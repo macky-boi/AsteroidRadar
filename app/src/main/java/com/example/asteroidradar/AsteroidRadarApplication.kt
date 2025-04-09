@@ -4,8 +4,6 @@ import android.app.Application
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.asteroidradar.data.AppContainer
-import com.example.asteroidradar.data.DefaultAppContainer
 
 private const val TAG = "AsteroidRadarApplication"
 

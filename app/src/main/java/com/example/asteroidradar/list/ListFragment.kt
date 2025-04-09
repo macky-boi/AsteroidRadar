@@ -15,47 +15,47 @@ import com.example.asteroidradar.AsteroidAppViewModel
 class ListFragment: Fragment() {
 
     private val viewModel: AsteroidAppViewModel by activityViewModels { AsteroidAppViewModel.Factory }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("ListingFragment", "onCreate")
-    }
+    private lateinit var binding: FragmentListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        Log.i("ListingFragment", "onCreateView")
+    ): View {
+        binding = FragmentListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val binding = FragmentListBinding.inflate(inflater)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        val navController = binding.root.findNavController()
+
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModelBinding = viewModel
+        }
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner) {
+            navController.navigate(ListFragmentDirections.actionListToDetailFragment())
+        }
+
+        setupRecyclerView()
+
+    }
+
+    private fun setupRecyclerView() {
         val adapter = ListAdapter(AsteroidListener { asteroid ->
             viewModel.updateCurrentAsteroid(asteroid)
             viewModel.navigateToDetailPage()
         })
-
         binding.asteroidList.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
-            adapter.submitList(asteroids)
-        })
-
-        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer { shouldNavigate ->
-            if (shouldNavigate) {
-                val navController = binding.root.findNavController()
-                navController.navigate(ListFragmentDirections.actionListToDetailFragment())
-                viewModel.navigatedToDetailPage()
-            }
-        })
-
-        viewModel.pictureOfTheDay.observe(viewLifecycleOwner, Observer { pictureOfTheDay ->
-            Log.i("ListingFragment", "setting adapter pictureOfTheDay: $pictureOfTheDay")
-            adapter.pictureOfTheDay = pictureOfTheDay
-        })
-
-        return binding.root
+        viewModel.asteroids.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+        viewModel.pictureOfTheDay.observe(viewLifecycleOwner) {
+            adapter.pictureOfTheDay = it
+        }
     }
 }

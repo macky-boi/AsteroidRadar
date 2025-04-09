@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="viewModelBinding"
             type="com.example.asteroidradar.AsteroidAppViewModel" />
     </data>
 
