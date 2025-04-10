@@ -13,17 +13,14 @@ class UpdateAsteroidsWorker(ctx: Context, params: WorkerParameters) : CoroutineW
     private val asteroidRadarRepository = appContext.container.asteroidRadarRepository
 
     override suspend fun doWork(): Result {
-        Log.i("UpdateAsteroidsWorker", "doWork")
 
         try {
             asteroidRadarRepository.initializeAsteroids()
         } catch (e: Exception) {
-            Log.e(TAG, "error initializing asteroids: $e")
-            Result.failure()
+            Log.e(TAG, "UpdateAsteroidsWorker | Error initializing asteroids", e)
+            return Result.failure()
         }
 
         return Result.success()
     }
-
-
 }
