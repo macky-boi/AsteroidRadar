@@ -1,6 +1,7 @@
 package com.example.asteroidradar.data.repository
 
 import android.os.Build
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
@@ -10,6 +11,9 @@ import com.example.asteroidradar.data.remote.NearEarthObjects
 import com.example.asteroidradar.data.remote.NeoApiService
 import com.example.asteroidradar.data.remote.PictureOfTheDay
 import com.example.asteroidradar.utils.DateUtilities
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 
 private const val TAG = "AsteroidRadarRepository"
 private const val NUMBER_OF_DAYS = 7
@@ -26,9 +30,11 @@ class AsteroidRadarRepositoryImpl(
     private val neoApiService: NeoApiService,
 ): AsteroidRadarRepository {
 
-    private suspend fun fetchNearEarthObjects(startDate: String, endDate: String): Result<NearEarthObjects> =
-        runCatching { neoApiService.getNearEarthObjects(startDate, endDate) }
-
+    private suspend fun fetchNearEarthObjects(startDate: Date, endDate: Date): Result<NearEarthObjects> {
+        val startDateStr = DateUtilities.dateToString(startDate)
+        val endDateStr = DateUtilities.dateToString(endDate)
+        return runCatching { neoApiService.getNearEarthObjects(startDateStr, endDateStr) }
+    }
 
     override fun getAllAsteroids() = asteroidDao.getAllAsteroids()
 
@@ -58,10 +64,10 @@ class AsteroidRadarRepositoryImpl(
         deleteAsteroidsFromThePast()
 
         val latestDbDate = asteroidDao.getLatestDate()
-        val latestDate = latestDbDate?.let { DateUtilities.dateToString(it) }
-            ?: DateUtilities.presentDateString()
+        val today = Date()
+        val latestDate = latestDbDate ?: today
 
-        val endDate = DateUtilities.getFutureDateString(NUMBER_OF_DAYS)
+        val endDate = DateUtilities.getFutureDate(NUMBER_OF_DAYS)
 
         if (latestDate == endDate) return
 

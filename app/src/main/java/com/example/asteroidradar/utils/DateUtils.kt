@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -27,15 +28,13 @@ object DateUtilities {
         return format.format(date)
     }
 
-    fun getFutureDateString(daysFromToday: Int): String {
-        val today = Calendar.getInstance()
-        today.add(Calendar.DAY_OF_YEAR, daysFromToday)
-        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(today.time)
-    }
-
-    fun presentDateString(): String {
-        val today = Calendar.getInstance()
-        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(today.time)
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getFutureDate(daysAhead: Int): Date {
+        val zoneId = ZoneId.systemDefault()
+        return  Date.from(
+            LocalDate.now().plusDays(daysAhead.toLong())
+            .atStartOfDay(zoneId)
+            .toInstant())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
