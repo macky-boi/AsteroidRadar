@@ -15,41 +15,16 @@ import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
-val emptyAsteroidEntity = AsteroidEntity(
-    id = "",
-    name = "",
-    date = "",
-    isHazardous = false,
-    absoluteMagnitude = 0.0,
-    closeApproachDate = "",
-    missDistanceAstronomical = "",
-    relativeVelocityKilometersPerSecond = ""
-)
-
-private val emptyAsteroid = Asteroid(
-    id = "",
-    name = "",
-    date = "",
-    isHazardous = "",
-    absoluteMagnitude = "",
-    closeApproachDate = "",
-    missDistanceAstronomical = "",
-    relativeVelocityKilometersPerSecond = ""
-)
-
-private const val TAG = "AsteroidsViewModel"
-
 class AsteroidAppViewModel(
     private val asteroidRadarRepository: AsteroidRadarRepository
 ) : ViewModel() {
 
-    private val _asteroids = asteroidRadarRepository.getAllAsteroids()
-    val asteroids: LiveData<List<AsteroidEntity>> = _asteroids
+    val asteroids: LiveData<List<AsteroidEntity>> = asteroidRadarRepository.getAllAsteroids()
 
     private var _pictureOfTheDay = MutableLiveData<PictureOfTheDay?>(null)
     val pictureOfTheDay = _pictureOfTheDay
 
-    private val _currentAsteroidEntity = MutableLiveData(emptyAsteroid)
+    private val _currentAsteroidEntity = MutableLiveData(EMPTY_ASTEROID)
     val currentAsteroidEntity: LiveData<Asteroid> = _currentAsteroidEntity
 
     private val _navigateToDetail = SingleLiveEvent<Unit>()
@@ -58,19 +33,20 @@ class AsteroidAppViewModel(
     private val _navigateToList = SingleLiveEvent<Unit>()
     val navigateToList: LiveData<Unit> = _navigateToList
 
+
     init {
-        Log.i(TAG, "init")
+        refreshData()
+    }
+
+    private fun refreshData() {
         viewModelScope.launch {
             _pictureOfTheDay.value = asteroidRadarRepository.getPictureOfTheDay()
-            Log.i(TAG, "_pictureOfTheDay: ${_pictureOfTheDay.value}")
             asteroidRadarRepository.initializeAsteroids()
         }
     }
 
     fun updateCurrentAsteroid(asteroidEntity: Asteroid) {
-        viewModelScope.launch {
-            _currentAsteroidEntity.value = asteroidEntity
-        }
+        _currentAsteroidEntity.value = asteroidEntity
     }
 
     fun navigateToListPage() {
@@ -82,7 +58,16 @@ class AsteroidAppViewModel(
     }
 
     companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
+        private val EMPTY_ASTEROID = Asteroid(
+            id = "",
+            name = "",
+            date = "",
+            isHazardous = "",
+            absoluteMagnitude = "",
+            closeApproachDate = "",
+            missDistanceAstronomical = "",
+            relativeVelocityKilometersPerSecond = ""
+        )
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
