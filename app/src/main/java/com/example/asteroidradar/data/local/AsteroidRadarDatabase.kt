@@ -9,7 +9,7 @@ import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
 import com.example.asteroidradar.data.local.asteroid.AsteroidDao
 
 
-@Database(entities = [AsteroidEntity::class], version = 2, exportSchema = false)
+@Database(entities = [AsteroidEntity::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AsteroidRadarDatabase : RoomDatabase() {
 
@@ -23,6 +23,7 @@ abstract class AsteroidRadarDatabase : RoomDatabase() {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, AsteroidRadarDatabase::class.java, "asteroid_database")
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }

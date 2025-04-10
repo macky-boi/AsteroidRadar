@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
-import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
+import com.example.asteroidradar.data.remote.PictureOfTheDay
 import com.example.asteroidradar.data.repository.AsteroidRadarRepository
 import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.utils.SingleLiveEvent

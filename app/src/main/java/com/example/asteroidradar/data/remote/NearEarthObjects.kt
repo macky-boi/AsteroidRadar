@@ -11,19 +11,12 @@ import kotlinx.serialization.json.Json
 data class NearEarthObjects(
     @SerialName("near_earth_objects") val asteroids: Map<String, List<AsteroidNetwork>>
 ) {
-
     fun toEntity(): Map<String, List<AsteroidEntity>> {
         return this.asteroids.mapValues { (date, networkList) ->
             networkList.map { it.toEntity(date) }
         }
     }
 }
-
-fun String.toAsteroidsNetwork(): NearEarthObjects {
-    return Json.decodeFromString(this)
-}
-
-
 
 @Serializable
 data class AsteroidNetwork(

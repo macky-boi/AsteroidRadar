@@ -24,10 +24,9 @@ class DefaultAppContainer(context: Context): AppContainer {
         AsteroidRadarDatabase.getDatabase(context)
     }
     private val asteroidDao = database.asteroidDao()
-    private val pictureOfTheDayDao = database.pictureOfTheDayDao()
 
     override val asteroidRadarRepository: AsteroidRadarRepository by lazy {
-        AsteroidRadarRepositoryImpl(asteroidDao, pictureOfTheDayDao, networkModule.service)
+        AsteroidRadarRepositoryImpl(asteroidDao, networkModule.service)
     }
 
 

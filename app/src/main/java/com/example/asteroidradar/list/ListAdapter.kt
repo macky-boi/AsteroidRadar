@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.asteroidradar.R
 import com.example.asteroidradar.data.local.asteroid.AsteroidEntity
-import com.example.asteroidradar.data.local.pictureOfTheDay.PictureOfTheDay
+import com.example.asteroidradar.data.remote.PictureOfTheDay
+
 import com.example.asteroidradar.databinding.ItemAsteroidBinding
 import com.example.asteroidradar.databinding.PictureOfTheDayItemBinding
 

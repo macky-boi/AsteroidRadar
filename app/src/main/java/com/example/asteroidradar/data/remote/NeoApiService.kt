@@ -15,5 +15,5 @@ interface NeoApiService {
     suspend fun getPictureOfTheDay(
         @Query("thumbs") thumbs: Boolean = true,
         @Query("api_key") apiKey: String = "DEMO_KEY"
-    ): PictureOfTheDayNetwork
+    ): PictureOfTheDay
 }
