@@ -6,7 +6,7 @@
     <data>
         <variable
             name="asteroid"
-            type="com.example.asteroidradar.data.local.asteroid.AsteroidEntity" />
+            type="com.example.asteroidradar.model.Asteroid" />
 
         <variable
             name="clickListener"
