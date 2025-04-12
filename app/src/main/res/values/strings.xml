@@ -25,4 +25,7 @@
     <string name="relative_velocity_key">relative velocity:</string>
     <string name="asteroid_image">asteroid image</string>
     <string name="no_internet_description">\"No internet connection. Unable to load image.</string>
+    <string name="au_info_message">The astronomical unit (au) is a unit of length,
+    roughly the distance from Earth to the Sun and equal to about 150 million kilometers (93 million miles)</string>
+    <string name="au_info_btn_description">Information on astronomical unit</string>
 </resources>

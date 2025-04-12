@@ -13,7 +13,9 @@ import androidx.navigation.findNavController
 import com.example.asteroidradar.databinding.FragmentDetailBinding
 import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.AsteroidAppViewModel
+import com.example.asteroidradar.R
 import com.example.asteroidradar.list.ListFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DetailFragment: Fragment() {
 
@@ -37,6 +39,9 @@ class DetailFragment: Fragment() {
         binding.apply {
             viewModelBinding = viewModel
             lifecycleOwner = viewLifecycleOwner
+            astronomicalUnitInfoBtn.setOnClickListener {
+                showAlertDialog()
+            }
         }
 
         viewModel.currentAsteroidEntity.observe(viewLifecycleOwner) { asteroid ->
@@ -47,5 +52,14 @@ class DetailFragment: Fragment() {
         viewModel.navigateToList.observe(viewLifecycleOwner) {
             navController.navigate(DetailFragmentDirections.actionDetailFragmentToList())
         }
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.au_info_message))
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

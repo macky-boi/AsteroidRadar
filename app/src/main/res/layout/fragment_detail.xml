@@ -228,10 +228,9 @@
                 </LinearLayout>
 
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/magnitude_field"
                     android:layout_width="0dp"
-                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
                     android:contentDescription='@{"magnitude." + asteroid.absoluteMagnitude}'
                     android:layout_marginTop="@dimen/spacing_small"
@@ -241,24 +240,38 @@
                     <TextView
                         android:id="@+id/absolute_magnitude_key"
                         style="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_width="wrap_content"
                         android:importantForAccessibility="no"
                         android:layout_height="wrap_content"
                         android:text="@string/absolute_magnitude_label" />
 
-                    <Space
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"/>
-
                     <TextView
                         android:id="@+id/absolute_magnitude_value"
                         style="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/astronomical_unit_info_btn"
                         android:importantForAccessibility="no"
                         android:layout_height="wrap_content"
-                        android:text="@{asteroid.absoluteMagnitude}" />
-                </LinearLayout>
+                        android:layout_marginEnd="@dimen/padding_small"
+                        tools:text="23.3"
+                        app:flow_horizontalBias="1"
+                        android:text='@{asteroid.absoluteMagnitude + " au"}'/>
+
+                    <ImageView
+                        android:id="@+id/astronomical_unit_info_btn"
+                        android:layout_width="24dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="24dp"
+                        android:src="@drawable/info_24dp"
+                        android:contentDescription="@string/au_info_btn_description" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
