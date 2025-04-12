@@ -1,20 +1,15 @@
 package com.example.asteroidradar.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.asteroidradar.databinding.FragmentDetailBinding
-import com.example.asteroidradar.model.Asteroid
 import com.example.asteroidradar.AsteroidAppViewModel
 import com.example.asteroidradar.R
-import com.example.asteroidradar.list.ListFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DetailFragment: Fragment() {
@@ -42,9 +37,18 @@ class DetailFragment: Fragment() {
             astronomicalUnitInfoBtn.setOnClickListener {
                 showAlertDialog()
             }
+            imageView.apply {
+                if (viewModel.isCurrentAsteroidHazardous()) {
+                    setImageResource(R.mipmap.hazardous_comet_img_foreground)
+                    contentDescription = getString(R.string.hazardousComet_image_desc)
+                } else {
+                    setImageResource(R.mipmap.safe_comet_img_foreground)
+                    contentDescription = getString(R.string.safeComet_image_desc)
+                }
+            }
         }
 
-        viewModel.currentAsteroidEntity.observe(viewLifecycleOwner) { asteroid ->
+        viewModel.currentAsteroid.observe(viewLifecycleOwner) { asteroid ->
             binding.asteroid = asteroid
             binding.executePendingBindings()
         }

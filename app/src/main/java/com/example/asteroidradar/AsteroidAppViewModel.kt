@@ -1,11 +1,9 @@
 package com.example.asteroidradar
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -25,8 +23,8 @@ class AsteroidAppViewModel(
     private var _pictureOfTheDay = MutableLiveData<PictureOfTheDay?>(null)
     val pictureOfTheDay = _pictureOfTheDay
 
-    private val _currentAsteroidEntity = MutableLiveData(EMPTY_ASTEROID)
-    val currentAsteroidEntity: LiveData<Asteroid> = _currentAsteroidEntity
+    private val _currentAsteroid = MutableLiveData(EMPTY_ASTEROID)
+    val currentAsteroid: LiveData<Asteroid> = _currentAsteroid
 
     private val _navigateToDetail = SingleLiveEvent<Unit>()
     val navigateToDetail: LiveData<Unit> = _navigateToDetail
@@ -47,7 +45,7 @@ class AsteroidAppViewModel(
     }
 
     fun updateCurrentAsteroid(asteroidEntity: Asteroid) {
-        _currentAsteroidEntity.value = asteroidEntity
+        _currentAsteroid.value = asteroidEntity
     }
 
     fun navigateToListPage() {
@@ -56,6 +54,10 @@ class AsteroidAppViewModel(
 
     fun navigateToDetailPage() {
         _navigateToDetail.call()
+    }
+
+    fun isCurrentAsteroidHazardous(): Boolean {
+        return currentAsteroid.value?.isHazardous.toBoolean()
     }
 
     companion object {

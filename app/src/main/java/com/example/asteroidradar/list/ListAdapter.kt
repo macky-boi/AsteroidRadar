@@ -3,6 +3,7 @@ package com.example.asteroidradar.list
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -76,10 +77,24 @@ class AsteroidViewHolder private constructor(private val binding: ItemAsteroidBi
     : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(clickListener: AsteroidListener, item: AsteroidEntity) {
-        binding.asteroid = item.toModel()
+        val asteroid = item.toModel()
+        binding.asteroid = asteroid
         binding.clickListener = clickListener
+
+        binding.imageView.apply {
+            if (item.isHazardous) {
+                setImageResource(R.mipmap.hazardous_comet_img_foreground)
+                contentDescription = context.getString(R.string.hazardousComet_image_desc)
+            } else {
+                setImageResource(R.mipmap.safe_comet_img_foreground)
+                contentDescription = context.getString(R.string.safeComet_image_desc)
+            }
+        }
+
         binding.executePendingBindings()
     }
+
+
 
     companion object {
         fun from(parent: ViewGroup): AsteroidViewHolder {

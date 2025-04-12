@@ -13,9 +13,10 @@
 
     <string name="action_view_asteroid">view asteroid details</string>
 
-    <string name="hazardousComet_image">hazardous comet</string>
-    <string name="safeComet_image">none hazardous comet</string>
+    <string name="hazardousComet_image_desc">a hazardous comet</string>
+    <string name="safeComet_image_desc">a none hazardous comet</string>
     <string name="navigate_to_asteroid_list">navigate to asteroid list</string>
+
 
     <string name="name_description">name:</string>
     <string name="distance_description">description:</string>
