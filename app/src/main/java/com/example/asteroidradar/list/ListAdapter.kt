@@ -97,10 +97,12 @@ class PictureOfTheDayViewHolder private constructor(private val binding: Picture
     : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(pictureOfTheDay: PictureOfTheDay?) {
+        val context = binding.imageView.context
+
         pictureOfTheDay?.let {
             val imgUri = it.url.toUri().buildUpon().scheme("https").build()
 
-            Glide.with(binding.imageView.context)
+            Glide.with(context)
                 .load(imgUri)
                 .into(binding.imageView)
 
@@ -109,6 +111,8 @@ class PictureOfTheDayViewHolder private constructor(private val binding: Picture
                 .load(R.drawable.no_internet_connection)
                 .into(binding.imageView)
         }
+
+        binding.imageView.contentDescription = pictureOfTheDay?.title ?: context.getString(R.string.no_internet_description)
     }
 
     companion object {

@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/topAppBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/asteroid_image"/>
+            android:importantForAccessibility="no"/>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -65,129 +65,201 @@
                 android:paddingTop="@dimen/spacing_medium"
                 android:paddingBottom="@dimen/spacing_medium" >
 
-                <TextView
-                    android:id="@+id/name_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/name_field"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@string/name_description"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription='@{"name. " + asteroid.name}'>
+                    <TextView
+                        android:id="@+id/name_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:text="@string/name_description" />
 
-                <TextView
-                    android:id="@+id/name_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{asteroid.name}"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    app:layout_constraintTop_toTopOf="@+id/name_key"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
 
-                <TextView
-                    android:id="@+id/is_hazardous_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/name_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:text="@{asteroid.name}"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/isHazardous_field"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@string/is_hazardous_key"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/name_key"
-                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+                    app:layout_constraintTop_toBottomOf="@+id/name_field"
+                    android:contentDescription='@{"is hazardous " + asteroid.isHazardous()}'
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <TextView
+                        android:id="@+id/is_hazardous_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@string/is_hazardous_key" />
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
 
-                <TextView
-                    android:id="@+id/is_hazardous_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/is_hazardous_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        tools:text="ALSASKLJDH"
+                        android:text="@{asteroid.hazardous}"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/approachDate_field"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@{asteroid.hazardous}"
+                    android:contentDescription='@{"close approach date. " + asteroid.closeApproachDate}'
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/name_key"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/isHazardous_field"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <TextView
+                        android:id="@+id/close_approachDate_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close_approach_date_key" />
 
-                <TextView
-                    android:id="@+id/close_approachDate_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/close_approachDate_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@{asteroid.closeApproachDate}" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/missDistance_field"
+                    android:layout_width="0dp"
+                    android:contentDescription='@{"miss distance. " + asteroid.missDistanceAstronomical}'
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@string/close_approach_date_key"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/is_hazardous_key"
-                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+                    app:layout_constraintTop_toBottomOf="@+id/approachDate_field"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/close_approachDate_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/miss_distance_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@string/miss_distance_key" />
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/miss_distance_key_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:text="@{asteroid.missDistanceAstronomical}"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/velocity_field"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@{asteroid.closeApproachDate}"
+                    android:contentDescription='@{"relative velocity. " + asteroid.relativeVelocityKilometersPerSecond}'
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/is_hazardous_value"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/missDistance_field"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <TextView
+                        android:id="@+id/relative_velocity_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@string/relative_velocity_key" />
 
-                <TextView
-                    android:id="@+id/miss_distance_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/relative_velocity_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@{asteroid.relativeVelocityKilometersPerSecond}"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/magnitude_field"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
-                    android:text="@string/miss_distance_key"
+                    android:contentDescription='@{"magnitude." + asteroid.absoluteMagnitude}'
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/close_approachDate_key"
-                    app:layout_constraintStart_toStartOf="@+id/name_key" />
+                    app:layout_constraintTop_toBottomOf="@+id/velocity_field"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <TextView
+                        android:id="@+id/absolute_magnitude_key"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@string/absolute_magnitude_label" />
 
-                <TextView
-                    android:id="@+id/miss_distance_key_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{asteroid.missDistanceAstronomical}"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/close_approachDate_value"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
 
-                <TextView
-                    android:id="@+id/relative_velocity_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/relative_velocity_key"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/miss_distance_key"
-                    app:layout_constraintStart_toStartOf="@+id/name_key" />
-
-                <TextView
-                    android:id="@+id/relative_velocity_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{asteroid.relativeVelocityKilometersPerSecond}"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/miss_distance_key_value"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/absolute_magnitude_key"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/miss_distance_key"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/relative_velocity_key"
-                    app:layout_constraintStart_toStartOf="@+id/name_key" />
-
-                <TextView
-                    android:id="@+id/absolute_magnitude_value"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{asteroid.absoluteMagnitude}"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/relative_velocity_value"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-
+                    <TextView
+                        android:id="@+id/absolute_magnitude_value"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:layout_height="wrap_content"
+                        android:text="@{asteroid.absoluteMagnitude}" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

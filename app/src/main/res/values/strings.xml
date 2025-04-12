@@ -24,4 +24,5 @@
     <string name="miss_distance_key">miss distance:</string>
     <string name="relative_velocity_key">relative velocity:</string>
     <string name="asteroid_image">asteroid image</string>
+    <string name="no_internet_description">\"No internet connection. Unable to load image.</string>
 </resources>
